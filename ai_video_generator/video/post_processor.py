@@ -38,7 +38,7 @@ class PostProcessor:
             拼接后的视频路径
         """
         if not video_paths:
-            raise ValueError("视频列表不能为空")
+            raise ValueError("视频列表不能为空，需要至少一个视频片段")
 
         # 创建 FFmpeg concat 文件列表
         list_file = output_path.parent / "concat_list.txt"

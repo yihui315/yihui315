@@ -42,7 +42,9 @@ def parse_json_from_llm(text: str) -> dict | list:
         if end > start:
             return json.loads(text[start : end + 1])
 
-    raise ValueError(f"无法从文本中提取 JSON: {text[:200]}...")
+    preview = text[:200]
+    suffix = "..." if len(text) > 200 else ""
+    raise ValueError(f"无法从文本中提取 JSON: {preview}{suffix}")
 
 
 def sanitize_filename(name: str) -> str:

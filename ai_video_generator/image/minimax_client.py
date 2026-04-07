@@ -53,7 +53,12 @@ class MiniMaxImageClient:
             data = resp.json()
 
         # 解码 base64 图片并保存
-        img_b64 = data["data"]["image"]
+        try:
+            img_b64 = data["data"]["image"]
+        except (KeyError, TypeError) as exc:
+            raise ValueError(
+                f"MiniMax API 返回了意外的响应格式: {data}"
+            ) from exc
         img_bytes = base64.b64decode(img_b64)
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
