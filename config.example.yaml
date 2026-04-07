@@ -1,0 +1,45 @@
+# AI 视频生成器配置文件
+# 复制此文件为 config.yaml 并填入您的 API 密钥
+
+llm:
+  # 首选 LLM 提供商: claude, openai, ollama
+  primary: claude
+  # 降级顺序
+  fallback_order:
+    - claude
+    - openai
+    - ollama
+
+  claude:
+    api_key: "YOUR_CLAUDE_API_KEY"
+    model: "claude-sonnet-4-20250514"
+
+  openai:
+    api_key: "YOUR_OPENAI_API_KEY"
+    model: "gpt-4o"
+
+  ollama:
+    base_url: "http://localhost:11434"
+    model: "qwen:3.6b"
+
+image:
+  minimax:
+    api_key: "YOUR_MINIMAX_API_KEY"
+    group_id: "YOUR_MINIMAX_GROUP_ID"
+    base_url: "https://api.minimax.chat/v1"
+
+video:
+  hailuo:
+    url: "https://hailuoai.video"
+    # 海螺视频网页自动化超时时间（秒）
+    timeout: 300
+    # 生成视频的轮询间隔（秒）
+    poll_interval: 10
+
+output:
+  # 输出目录
+  dir: "./output"
+  # 视频分辨率
+  resolution: "1080x1920"
+  # 目标平台: douyin, kuaishou, bilibili, xiaohongshu
+  platform: "douyin"
