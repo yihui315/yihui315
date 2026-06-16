@@ -11,10 +11,16 @@
 | `Failure_Case_Recorder` | L1 governance | proposed | Codex | Turns blocked attempts into reusable cases |
 | `Review_Packet_Scorer` | L1 governance | proposed | Codex | Adds quantitative scoring to review packets |
 | `Secret_Shape_Scan` | validation helper | proposed | Codex | Scans evidence artifacts for secret-like values |
+| `human-evidence-intake-check` | L1 governance | proposed | Codex | High priority masked evidence intake validator wrapper |
+| `orchestrator-decision-refresh` | L1 governance | proposed | Codex | High priority decision refresh after gate changes |
+| `codex-system-governance-auditor` | existing local skill | observed-local | Codex | L1 description file added under `已有可复用/` |
+| `executor-preflight-check` | existing local skill | observed-local | Codex | L1 description file added under `已有可复用/` |
+| `tianji-revenue-gate` | existing local skill | observed-local | Codex | L1 binding requires reading orchestrator verdict before revenue work |
 
 ## Registration Rules
 
 - `proposed`: documented trigger exists, implementation not yet confirmed.
+- `observed-local`: a local skill file was read and summarized into the L1 registry, but this registry does not by itself prove runtime invocation.
 - `active`: executable skill/script exists and has been verified in the current environment.
 - `deprecated`: no longer used, retained for history.
 

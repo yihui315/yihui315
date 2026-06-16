@@ -14,3 +14,7 @@
 - Integrated ai占卜.ai as the first L1 pilot project with derived current-state files.
 - Recorded missing historical source files for ai占卜.ai instead of fabricating migrated originals.
 - Added first 12D baseline scan report for ai占卜.ai.
+- Added L1 `AGENTS.md` mandatory gate-chain rules.
+- Added high-priority `human-evidence-intake-check` and `orchestrator-decision-refresh` skill definitions.
+- Added L1 reusable descriptions for `codex-system-governance-auditor`, `executor-preflight-check`, and `tianji-revenue-gate`.
+- Bound `tianji-revenue-gate` to the final orchestrator decision before revenue work can proceed.

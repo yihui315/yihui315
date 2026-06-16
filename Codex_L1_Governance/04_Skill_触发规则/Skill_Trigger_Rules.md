@@ -15,6 +15,9 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `Failure_Case_Recorder` | A blocker repeats, a gate cannot advance, or a compliance refusal occurs | incident summary, related files, attempted actions | failure case entry and index update | All gates |
 | `Review_Packet_Scorer` | A review packet is created or refreshed | project review packet, gate decision, 12D scan | quantitative score section and trend notes | All gates |
 | `Secret_Shape_Scan` | Evidence or revenue artifacts are added | target paths and masking policy | secret-shape result with hit count | Evidence, Revenue |
+| `human-evidence-intake-check` | Human Operator masked evidence is submitted or updated | Evidence `.md` file and masked artifact references | validator summary, missing fields, readiness for orchestrator review | Evidence, Revenue |
+| `orchestrator-decision-refresh` | Evidence, Revenue, Approval, Executor, or Environment gate changes | `ORCHESTRATOR_GATE_STATE.json` and validator outputs | refreshed decision JSON and Review Packet note | All gates |
+| `tianji-revenue-gate` | Revenue, payment, checkout, webhook, entitlement, or monetization safety is in scope | final orchestrator decision and masked revenue evidence | Revenue Evidence verdict and missing evidence list | Revenue |
 
 ## Trigger Rules
 
@@ -23,9 +26,13 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 3. Run `Gate_Decision_Refresh` after, not before, validators have produced results.
 4. Run `Failure_Case_Recorder` whenever the correct outcome is blocked because of a compliance boundary.
 5. Do not let a skill mark `go` unless the required gate evidence exists.
+6. Run `human-evidence-intake-check` before any Human Operator evidence affects a gate decision.
+7. Run `orchestrator-decision-refresh` after any gate status changes.
+8. Bind `tianji-revenue-gate` to the final orchestrator decision; revenue work stops when the decision is missing, stale, `no_go`, or `plan-only`.
 
 ## Open Implementation Notes
 
 - These skills are proposed L1 governance skills, not proof that corresponding executable skills already exist.
 - Before installing or invoking external skills, verify current Codex skill/plugin state using local truth sources.
 - Keep installation Codex-first unless another toolchain is explicitly requested.
+- The L1 binding files under `已有可复用/` summarize local skills that were read during integration; they are not a substitute for runtime skill verification.

@@ -87,3 +87,20 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 | Date | Project | Report | Average score | Decision impact |
 | --- | --- | --- | --- | --- |
 | 2026-06-15 baseline, created 2026-06-16 | ai占卜.ai | `01_12维扫描引擎/12维扫描结果归档/2026-06-15_ai占卜.ai_基线扫描报告.md` | 6.2/10 | no gate upgrade; remains `no_go` |
+
+## Skill Integration Record
+
+### 2026-06-16 High Priority L1 Skill Integration
+
+**goal**: Standardize the reusable chain `Human Evidence -> Validator -> State Sync -> Orchestrator Decision -> Review Packet`.
+
+| Skill or rule | Trigger condition | Key files | Compliance boundary |
+| --- | --- | --- | --- |
+| `AGENTS.md` L1 rules | Any L1 gate, skill, revenue, or evidence workflow | `05_Agent_与_Worker_边界/AGENTS.md` | sanitized state only; no raw secrets |
+| `human-evidence-intake-check` | Human Operator masked evidence is submitted or updated | `04_Skill_触发规则/新建高优先级/human-evidence-intake-check.md` | validator wrapper only; no final `real_go` decision |
+| `orchestrator-decision-refresh` | Evidence, Revenue, Approval, Executor, or Environment gate changes | `04_Skill_触发规则/新建高优先级/orchestrator-decision-refresh.md` | consumes validator output only; does not invent evidence |
+| `tianji-revenue-gate` binding | Revenue, payment, checkout, webhook, entitlement, or monetization safety is in scope | `04_Skill_触发规则/已有可复用/tianji-revenue-gate.md` | revenue work proceeds only on bounded `conditional_go` or `execution_go=true` |
+| `codex-system-governance-auditor` description | Governance audit or repeated workflow cleanup | `04_Skill_触发规则/已有可复用/codex-system-governance-auditor.md` | evidence-based asset creation only |
+| `executor-preflight-check` description | ExecutorAnalyze, ExecutorExecute, Autopilot, or weekly executor health check | `04_Skill_触发规则/已有可复用/executor-preflight-check.md` | passing preflight is not Execution Go |
+
+**current decision impact**: none. L1 rules were integrated, but ai占卜.ai remains `no_go`; `submitted_by=todo` and `present=no` rows remain unchanged.
