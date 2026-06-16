@@ -1,0 +1,43 @@
+{
+  "schema_version": "l1-gate-decision-v1",
+  "project_id": "",
+  "project_name": "",
+  "decision_at": "",
+  "decision_owner": "Codex",
+  "overall_decision": "no_go",
+  "execution_go": false,
+  "approved_scope": "plan-only",
+  "blocker_count": 0,
+  "gates": {
+    "evidence": {
+      "status": "blocked",
+      "required_rows": 0,
+      "present_rows": 0,
+      "submitted_by": "todo",
+      "blocked_reason": "Human Operator evidence is missing"
+    },
+    "revenue": {
+      "status": "blocked",
+      "required_categories": [],
+      "passed_categories": [],
+      "blocked_reason": "Masked revenue evidence is missing"
+    },
+    "approval": {
+      "status": "pass",
+      "approved_scope": "plan-only",
+      "approved_by": null,
+      "limits": [
+        "documentation only",
+        "no production execution",
+        "no fabricated evidence"
+      ]
+    }
+  },
+  "validation": {
+    "commands_run": [],
+    "secret_shape_hits": null,
+    "validator_result": null
+  },
+  "next_actions": [],
+  "evidence_limitations": []
+}
