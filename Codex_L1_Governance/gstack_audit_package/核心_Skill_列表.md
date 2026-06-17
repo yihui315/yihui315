@@ -4,6 +4,13 @@
 
 This file summarizes the L1 Skill chain currently documented for audit. Status is intentionally conservative and follows `Skill_Registry.md`.
 
+## Reviewer Checklist
+
+- Check whether each Skill status is supported by evidence, not assumption.
+- Confirm script-backed claims point to an included or referenced script.
+- Confirm `proposed` Skills are not described as runtime-active.
+- Confirm revenue or execution work remains blocked unless final project-level gate evidence exists.
+
 ## High Priority Chain
 
 | Skill | Current status | Maturity | Script support | Audit note |
@@ -29,6 +36,14 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 ## Current Execution Chain
 
 `Human Evidence -> human-evidence-intake-check -> State Sync -> orchestrator-decision-refresh -> round-closeout-validator -> REVIEW_PACKET_Master`
+
+## Script-Backed Evidence
+
+| Evidence | Location | Status |
+| --- | --- | --- |
+| Closeout validation script | `已验证脚本/round-closeout-validator.ps1` | Included in audit package |
+| Closeout validation record | `REVIEW_PACKET_Master.md` in source L1 directory | Recorded as documentation-scope pass |
+| Secret-shape scan result | `REVIEW_PACKET_Master.md` in source L1 directory | Recorded as `secret_shape_hits=0` |
 
 ## Audit Boundaries
 
