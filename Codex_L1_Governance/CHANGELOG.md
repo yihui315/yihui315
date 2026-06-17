@@ -25,3 +25,10 @@
 - Recorded L1 baseline result in `REVIEW_PACKET_Master.md`.
 - Added `INDEX.md` as the main L1 navigation entrypoint.
 - Recorded L1 index creation in `REVIEW_PACKET_Master.md`.
+- Standardized all L1 Skill files with inputs, outputs, error handling, compliance constraints, integration points, and post-run record locations.
+- Added read-only `scripts/round-closeout-validator.ps1` and recorded a passing documentation-scope closeout result.
+- Added L1 Health Dashboard template and latest secret-shape scan result to `REVIEW_PACKET_Master.md`.
+- Updated `Skill_Registry.md` with current maturity and script support columns.
+- Strengthened `AGENTS.md` with automation, validation-loop, and active-skill verification rules.
+- Added 2026-06-17 L1 10/10 push scan report and execution summary.
+- Updated `INDEX.md` and `REVIEW_PACKET_Master.md` with the 8.6/10 estimated maturity score and gstack audit readiness statement.

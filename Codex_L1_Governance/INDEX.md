@@ -58,13 +58,34 @@ Important rules:
 - [12D framework](./01_12维扫描引擎/12维扫描框架_v1.md)
 - [12D baseline template](./01_12维扫描引擎/12维扫描基线模板.md)
 - [Latest L1 baseline report](./01_12维扫描引擎/12维扫描结果归档/2026-06-17_L1_Layer_Baseline_Scan_Report.md)
+- [10/10 push scan report](./01_12维扫描引擎/12维扫描结果归档/2026-06-17_L1_Layer_10_10_Push_Scan_Report.md)
 - [Scan archive](./01_12维扫描引擎/12维扫描结果归档/)
 
 Current L1 baseline:
 
-- score: 7.0/10
+- score: 8.6/10 after the 2026-06-17 10/10 push scan
 - date: 2026-06-17
-- next recommendation: add a read-only round closeout validator script
+- next recommendation: add read-only `governance-artifact-hygiene.ps1`
+
+## Current Maturity
+
+| Area | Current state | Target for 10/10 |
+| --- | --- | --- |
+| Governance structure | Strong, navigable L1 structure with index, gates, skills, and reports | Fully indexed and script-backed |
+| Skill chain | Documented High and Medium skills | Verified executable support for critical skills |
+| Compliance | Strong written boundaries and secret-safety rules | Automated checks recorded after each round |
+| Feedback loop | Review packet, changelog, and scan reports exist | Closeout validator blocks incomplete rounds |
+| Automation | Dry-run and read-only automation planned | Read-only validators implemented and routinely run |
+
+## 10/10 Gap Analysis
+
+| Gap | Current score impact | Required improvement |
+| --- | --- | --- |
+| Runtime skill verification | Skills remain mostly `proposed` or `observed-local` | Add script support and record verification results |
+| Closeout enforcement | Rounds can still be closed manually | Run `round-closeout-validator` every round |
+| Artifact hygiene | Cleanup is planned but not executable | Add dry-run inventory and archive-plan commands |
+| Trend tracking | One L1 baseline exists | Keep multiple scans and compare score deltas |
+| gstack audit readiness | Evidence is organized but not fully scripted | Provide scripts, reports, and clean status evidence |
 
 ## Failure Case Library
 
@@ -94,6 +115,15 @@ Principle: important failures and compliance refusals must be recorded as struct
 4. Each round should end with `round-closeout-validator`.
 5. Artifact cleanup must start with `governance-artifact-hygiene` in dry-run mode.
 
+## Quick Start Guide
+
+1. Read [AGENTS.md](./05_Agent_与_Worker_边界/AGENTS.md) for mandatory rules.
+2. Use [Skill_Trigger_Rules.md](./04_Skill_触发规则/Skill_Trigger_Rules.md) to choose the right skill.
+3. Check [Skill_Registry.md](./04_Skill_触发规则/Skill_Registry.md) before assuming a skill is executable.
+4. For evidence or revenue, start with `human-evidence-intake-check`.
+5. After any decision refresh, run `round-closeout-validator`.
+6. Record durable changes in [REVIEW_PACKET_Master.md](./REVIEW_PACKET_Master.md) and [CHANGELOG.md](./CHANGELOG.md).
+
 ## Maintenance Rules
 
 - When adding or changing a skill, update [Skill_Trigger_Rules.md](./04_Skill_触发规则/Skill_Trigger_Rules.md) and [Skill_Registry.md](./04_Skill_触发规则/Skill_Registry.md).
@@ -103,6 +133,6 @@ Principle: important failures and compliance refusals must be recorded as struct
 
 ## Version Status
 
-- current maturity: L1 baseline score 7.0/10
+- current maturity: L1 10/10 push estimate 8.6/10
 - last updated: 2026-06-17
 - contributors: Codex and Human Operator

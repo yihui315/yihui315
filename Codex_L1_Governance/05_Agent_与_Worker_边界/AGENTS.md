@@ -22,6 +22,11 @@ Use this chain for reusable governance work:
 8. `submitted_by=todo` and `present=no` must remain unchanged until real Human Operator evidence exists.
 9. Do not read, print, copy, stage, or summarize raw secrets, `.env` files, provider/payment keys, webhook secrets, or production credentials.
 10. Use sanitized state files, masked evidence, validator summaries, and decision JSON as the L1 interface.
+11. Any automation or script introduced for L1 must default to read-only or dry-run mode.
+12. Every automation result must be recorded in the relevant Review Packet or L1 report before the round is considered closed.
+13. Every governance round must run `round-closeout-validator` after the final decision refresh and before the next round starts.
+14. A skill cannot be marked `active` in the registry until a script, command, or runtime invocation has been verified and recorded.
+15. Any failed validator, missing artifact, or skipped required record must be preserved as a blocker rather than summarized away.
 
 ## Weekly Health Check Trigger
 

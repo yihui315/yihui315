@@ -2,22 +2,22 @@
 
 ## Registry Status
 
-| Skill | Type | Status | Owner | Notes |
-| --- | --- | --- | --- | --- |
-| `Evidence_Validator` | L1 governance | proposed | Codex | Validates Human Operator evidence rows |
-| `Revenue_Gate_Checker` | L1 governance | proposed | Codex | Validates masked monetization readiness |
-| `Gate_Decision_Refresh` | L1 governance | proposed | Codex | Updates canonical gate decision JSON |
-| `12D_Baseline_Scan` | L1 governance | proposed | Codex | Produces cross-project 12D scorecard |
-| `Failure_Case_Recorder` | L1 governance | proposed | Codex | Turns blocked attempts into reusable cases |
-| `Review_Packet_Scorer` | L1 governance | proposed | Codex | Adds quantitative scoring to review packets |
-| `Secret_Shape_Scan` | validation helper | proposed | Codex | Scans evidence artifacts for secret-like values |
-| `human-evidence-intake-check` | L1 governance | proposed | Codex | High priority masked evidence intake validator wrapper |
-| `orchestrator-decision-refresh` | L1 governance | proposed | Codex | High priority decision refresh after gate changes |
-| `governance-artifact-hygiene` | L1 governance | proposed | Codex | Medium priority artifact archive and hygiene planner |
-| `round-closeout-validator` | L1 governance | proposed | Codex | Medium priority round completion checker |
-| `codex-system-governance-auditor` | existing local skill | observed-local | Codex | L1 description file added under `已有可复用/` |
-| `executor-preflight-check` | existing local skill | observed-local | Codex | L1 description file added under `已有可复用/` |
-| `tianji-revenue-gate` | existing local skill | observed-local | Codex | L1 binding requires reading orchestrator verdict before revenue work |
+| Skill | Type | Status | Current maturity | Script support | Owner | Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| `Evidence_Validator` | L1 governance | proposed | 5/10 | no dedicated script | Codex | Covered by evidence templates and trigger rules |
+| `Revenue_Gate_Checker` | L1 governance | proposed | 5/10 | no dedicated script | Codex | Covered by revenue gate template and tianji binding |
+| `Gate_Decision_Refresh` | L1 governance | proposed | 6/10 | no dedicated script | Codex | Canonical decision schema exists |
+| `12D_Baseline_Scan` | L1 governance | proposed | 7/10 | manual report generation | Codex | Two baseline reports exist |
+| `Failure_Case_Recorder` | L1 governance | proposed | 7/10 | no dedicated script | Codex | Template, index, and first case exist |
+| `Review_Packet_Scorer` | L1 governance | proposed | 6/10 | no dedicated script | Codex | Scoring fields and dashboard template exist |
+| `Secret_Shape_Scan` | validation helper | proposed | 6/10 | command pattern only | Codex | Manual `rg` scan currently used |
+| `human-evidence-intake-check` | L1 governance | proposed | 7/10 | validator reference only | Codex | Standardized definition and post-run record map exist |
+| `orchestrator-decision-refresh` | L1 governance | proposed | 7/10 | no dedicated script | Codex | Auto-closeout rule documented |
+| `governance-artifact-hygiene` | L1 governance | proposed | 7/10 | dry-run command templates | Codex | No archive/delete execution by default |
+| `round-closeout-validator` | L1 governance | proposed | 8/10 | `scripts/round-closeout-validator.ps1` | Codex | Read-only script verified with `closeout_status=pass` |
+| `codex-system-governance-auditor` | existing local skill | observed-local | 8/10 | local skill file observed | Codex | L1 summary and integration points exist |
+| `executor-preflight-check` | existing local skill | observed-local | 7/10 | local skill file observed | Codex | Passing preflight is not Execution Go |
+| `tianji-revenue-gate` | existing local skill | observed-local | 8/10 | local skill file observed | Codex | L1 binding requires reading orchestrator verdict before revenue work |
 
 ## Registration Rules
 

@@ -1,38 +1,86 @@
 # Skill: governance-artifact-hygiene
 
-## 触发条件（Trigger Condition）
+## Priority
 
-- `.ai/artifacts`、screenshots、logs、mcp 等目录下文件数量或体积显著增长时
-- 每周定期触发（建议与 weekly-autopilot-health-check 联动）
-- 手动触发（治理产物整理需求）
+Medium
 
-## 输入（Input）
+## Status And Authority
 
-- 目标目录路径列表（默认包含：artifacts、screenshots、logs、mcp）
-- 当前 `ORCHESTRATOR_GATE_STATE.json`（可选）
+- status: proposed L1 governance skill
+- authority: read-only artifact inventory and archive planning by default
+- not allowed: deleting, moving, or archiving files without explicit approval
 
-## 输出（Output）
+## Trigger Conditions
 
-- Archive Plan：建议归档的目录/文件清单
-- Dry-run 命令：可安全执行的归档/清理命令
-- 保留清单：必须保留的核心治理文件
-- 执行建议：是否需要人工确认后执行
+- `.ai/artifacts`, screenshots, logs, mcp outputs, browser captures, or validator output directories grow significantly.
+- Weekly health check requests artifact hygiene.
+- `round-closeout-validator` finds stale or duplicated governance artifacts.
+- A project handoff cannot identify which artifacts are current.
 
-## 核心职责
+## Inputs
 
-1. 识别治理相关产物中可归档或可清理的内容
-2. 生成安全的归档计划，避免误删重要文件
-3. 输出 dry-run 命令，降低执行风险
-4. 记录本次 hygiene 操作到 `REVIEW_PACKET_Master.md`
+- target directory list
+- optional current `ORCHESTRATOR_GATE_STATE.json`
+- optional Review Packet path
+- optional artifact retention policy
 
-## 合规约束
+## Outputs
 
-- 仅操作治理相关目录，不触碰业务代码、`.env`、secrets
-- 所有归档操作必须先生成 dry-run，确认后再执行
-- 重要文件必须列入保留清单
+- Archive Plan
+- keep list
+- archive candidate list
+- delete candidate list as proposal only
+- dry-run commands
+- manual review notes
 
-## 与现有体系的结合点
+## Dry-Run Command Templates
 
-- 输出结果可直接追加到 `REVIEW_PACKET_Master.md`
-- 可与 `round-closeout-validator` 配合使用
-- 推荐在 `AGENTS.md` 中加入定期执行规则
+Inventory only:
+
+```powershell
+Get-ChildItem -LiteralPath <artifact-dir> -Recurse -File |
+  Select-Object FullName, Length, LastWriteTime |
+  Sort-Object LastWriteTime
+```
+
+Archive candidates older than 90 days:
+
+```powershell
+$cutoff = (Get-Date).AddDays(-90)
+Get-ChildItem -LiteralPath <artifact-dir> -Recurse -File |
+  Where-Object { $_.LastWriteTime -lt $cutoff } |
+  Select-Object FullName, Length, LastWriteTime
+```
+
+Size summary:
+
+```powershell
+Get-ChildItem -LiteralPath <artifact-dir> -Recurse -File |
+  Measure-Object -Property Length -Sum
+```
+
+## Error Handling
+
+- If a target directory is missing, record `missing` and continue.
+- If a path is outside the intended workspace, stop and return `blocked: path_outside_scope`.
+- If a file appears secret-shaped, stop and return `blocked: possible_secret_exposure`.
+- If archive/delete is requested without explicit approval, output a dry-run plan only.
+
+## Compliance Constraints
+
+- Do not read `.env` files or raw secret files.
+- Do not delete, move, compress, or archive files by default.
+- Do not treat cleanup as evidence validation.
+- Keep masked evidence and current gate artifacts available until the relevant gate is closed.
+
+## Integration Points
+
+- `Codex_L1_Governance/05_Agent_与_Worker_边界/AGENTS.md`
+- `Codex_L1_Governance/04_Skill_触发规则/新建高优先级/round-closeout-validator.md`
+- `Codex_L1_Governance/REVIEW_PACKET_Master.md`
+
+## Post-Run Required Records
+
+- Append Archive Plan summary to the relevant Review Packet.
+- If L1-level hygiene rules changed, update `REVIEW_PACKET_Master.md`.
+- Record durable rule/template changes in `CHANGELOG.md`.

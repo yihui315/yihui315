@@ -1,24 +1,24 @@
-# orchestrator-decision-refresh
+# Skill: orchestrator-decision-refresh
 
 ## Priority
 
 High
 
-## Purpose
+## Status And Authority
 
-Refresh the orchestrator decision after a gate state change using only sanitized state and validator outputs.
+- status: proposed L1 governance skill
+- authority: refresh sanitized decision artifacts from validator outputs
+- not allowed: judging raw evidence truth or inventing gate pass states
 
 ## Trigger Conditions
 
-Run this skill when any of these change:
-
-- Evidence Gate
-- Revenue Gate
-- Approval Gate
-- Executor Gate
-- Environment Gate
-- `blocker_count`
-- approved scope
+- Evidence Gate changes.
+- Revenue Gate changes.
+- Approval Gate changes.
+- Executor Gate changes.
+- Environment Gate changes.
+- `blocker_count` changes.
+- approved scope changes.
 
 ## Inputs
 
@@ -31,44 +31,35 @@ Run this skill when any of these change:
 ## Outputs
 
 - refreshed `ORCHESTRATOR_GATE_DECISION.json`
-- brief Review Packet record
 - decision delta summary
+- brief Review Packet record
 - next smallest safe action
+- automatic trigger note for `round-closeout-validator`
 
-## Non-Authority Boundary
+## Error Handling
 
-This skill consumes validator output. It does not judge raw evidence truth, does not inspect raw secrets, and does not upgrade a gate without supporting validator evidence.
+- If gate state is missing, return `blocked: gate_state_missing`.
+- If validator output is missing, do not upgrade any gate.
+- If approval scope is `plan-only`, keep `execution_go=false`.
+- If Evidence or Revenue is incomplete, keep the overall decision `no_go`.
+- If secret-shaped material appears in sanitized inputs, stop and mark `blocked: possible_secret_exposure`.
 
-## Decision Rules
+## Compliance Constraints
 
-| Condition | Decision impact |
-| --- | --- |
-| Evidence missing or `submitted_by=todo` | keep Evidence blocked |
-| Revenue evidence missing | keep Revenue blocked |
-| Approval scope is `plan-only` | keep `execution_go=false` |
-| validator output is missing | do not upgrade gate |
-| any raw secret exposure is detected | set or keep `no_go` |
+- Consume validator outputs only.
+- Do not inspect raw evidence, `.env`, provider keys, payment secrets, or production credentials.
+- Do not convert documentation completeness into execution approval.
+- Do not change `submitted_by` or evidence row truth values.
 
-## Required Review Packet Record
+## Integration Points
 
-```markdown
-### Orchestrator Decision Refresh
-
-- refreshed_at:
-- source_state:
-- validators_consumed:
-- previous_decision:
-- new_decision:
-- execution_go:
-- blocker_count:
-- gate_changes:
-- evidence_limitations:
-- next_action:
-```
-
-## Key Files
-
-- `ORCHESTRATOR_GATE_STATE.json`
-- `ORCHESTRATOR_GATE_DECISION.json`
 - `Codex_L1_Governance/02_Gate_System/Gate_Decision_Canonical.json`
+- `Codex_L1_Governance/04_Skill_触发规则/新建高优先级/human-evidence-intake-check.md`
+- `Codex_L1_Governance/04_Skill_触发规则/新建高优先级/round-closeout-validator.md`
 - `Codex_L1_Governance/REVIEW_PACKET_Master.md`
+
+## Post-Run Required Records
+
+- Update the relevant project Review Packet with the decision delta.
+- Update `CHANGELOG.md` when durable governance files change.
+- After the refresh finishes, run `round-closeout-validator` before starting the next governance round.

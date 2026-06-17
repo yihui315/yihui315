@@ -1,42 +1,70 @@
 # Skill: round-closeout-validator
 
-## 触发条件（Trigger Condition）
+## Priority
 
-- 每轮 `orchestrator-decision-refresh` 执行结束后
-- 手动触发（本轮 Self-Distillation 或治理工作结束时）
-- `AGENTS.md` 中定义的周期性触发
+Medium
 
-## 输入（Input）
+## Status And Authority
 
-- 本轮的 `ORCHESTRATOR_GATE_DECISION.json`
-- `REVIEW_PACKET_Master.md` 最新内容
-- `CHANGELOG.md` 最新内容
-- 本轮产生的失败案例（如果有）
+- status: proposed L1 governance skill with read-only script support
+- authority: closeout completeness validation
+- not allowed: modifying gate state or declaring execution approval
 
-## 输出（Output）
+## Trigger Conditions
 
-- Round Closeout Report，包含：
-  - 本轮关键决策与 Gate 状态总结
-  - Review Packet 是否完整更新
-  - 失败案例是否已沉淀
-  - CHANGELOG 是否已更新
-  - 是否存在未关闭的 blocker
-  - 是否建议进入下一轮（Yes / Conditional / No + 理由）
+- `orchestrator-decision-refresh` completes.
+- Self-Distillation or governance work ends.
+- Review Packet claims a round is complete.
+- `AGENTS.md` weekly or periodic trigger requests closeout validation.
 
-## 核心职责
+## Inputs
 
-1. 验证本轮治理流程是否完整关闭
-2. 检查关键治理文件是否已同步更新
-3. 识别本轮遗留问题或未完成事项
-4. 输出是否可以进入下一轮的明确判断
+- latest Review Packet
+- latest `ORCHESTRATOR_GATE_DECISION.json`
+- latest `ORCHESTRATOR_GATE_STATE.json` when available
+- `CHANGELOG.md`
+- failure case index
+- skill registry
 
-## 合规约束
+## Outputs
 
-- 只做验证和报告，不修改任何 Gate 状态或决策
-- 所有判断必须基于已有文件内容
+- Round Closeout Report
+- required artifact checklist
+- missing closeout item list
+- gate consistency result
+- recommendation: Yes / Conditional / No for entering the next round
 
-## 与现有体系的结合点
+## Script Support
 
-- 输出报告必须追加到 `REVIEW_PACKET_Master.md`
-- 可与 `governance-artifact-hygiene` 配合使用
-- 推荐在 `AGENTS.md` 中定义为每轮结束后的强制执行 Skill
+Read-only script path:
+
+```text
+Codex_L1_Governance/scripts/round-closeout-validator.ps1
+```
+
+## Error Handling
+
+- If a required artifact is missing, return `closeout_status=blocked`.
+- If decision JSON cannot parse, return `closeout_status=blocked`.
+- If Review Packet and decision summary contradict each other, return `closeout_status=conditional`.
+- If no failure-case index exists, return `closeout_status=conditional`.
+
+## Compliance Constraints
+
+- Do not modify gate state.
+- Do not fabricate missing review records.
+- Do not mark execution ready from documentation completeness alone.
+- Do not inspect raw secrets, `.env`, provider keys, payment secrets, or production credentials.
+
+## Integration Points
+
+- `Codex_L1_Governance/scripts/round-closeout-validator.ps1`
+- `Codex_L1_Governance/REVIEW_PACKET_Master.md`
+- `Codex_L1_Governance/CHANGELOG.md`
+- `Codex_L1_Governance/04_Skill_触发规则/Skill_Registry.md`
+
+## Post-Run Required Records
+
+- Append Round Closeout Report to the relevant Review Packet.
+- Update `CHANGELOG.md` only when durable files changed.
+- If closeout is blocked, create or update a failure case when the blocker is repeated or compliance-relevant.

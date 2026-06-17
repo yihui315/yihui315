@@ -34,6 +34,18 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 9. Run `governance-artifact-hygiene` in dry-run mode first; archive or delete actions require explicit approval.
 10. Run `round-closeout-validator` before treating a governance round as complete.
 
+## Post-Run Record Map
+
+| Skill | Required record location | Minimum record |
+| --- | --- | --- |
+| `human-evidence-intake-check` | project Review Packet; L1 Master only if rule/template changed | validator summary, missing fields, secret-safety note |
+| `orchestrator-decision-refresh` | project Review Packet and decision artifact | previous decision, new decision, blocker count, next action |
+| `tianji-revenue-gate` | project Review Packet and revenue evidence report | Revenue Evidence verdict, missing evidence, safety status |
+| `governance-artifact-hygiene` | Review Packet or artifact hygiene report | keep/archive plan, dry-run command, manual approval note |
+| `round-closeout-validator` | Review Packet or closeout report | closeout status, missing records, next-round recommendation |
+| `codex-system-governance-auditor` | `REVIEW_PACKET_Master.md` for L1-level audits | findings, assets updated, validation summary |
+| `executor-preflight-check` | executor health report or Review Packet | executor availability JSON and recommendation |
+
 ## Open Implementation Notes
 
 - These skills are proposed L1 governance skills, not proof that corresponding executable skills already exist.

@@ -46,6 +46,36 @@ This is the L1 master review packet for Codex governance. It summarizes shared g
 - 本轮最大复用资产: Gate templates and Failure Case library
 - 下一步最小安全行动: Have a real Human Operator complete the Evidence Gate submission template for one project
 
+## L1 Health Dashboard Template
+
+Use this section after each major L1 governance round.
+
+| Category | Field | Current value | Evidence |
+| --- | --- | --- | --- |
+| 12D score | latest average | 7.0/10 baseline; new score pending latest scan | `01_12维扫描引擎/12维扫描结果归档/` |
+| Skill execution | High Priority chain | documented; script-backed closeout added | `04_Skill_触发规则/` |
+| Skill execution | Medium Priority hygiene/closeout | documented; closeout script verified read-only | `scripts/round-closeout-validator.ps1` |
+| Compliance | secret-shape scan | must be recorded per round | command output |
+| Compliance | evidence truth | `submitted_by=todo` and `present=no` remain unchanged unless real Human Operator evidence exists | Evidence templates and project records |
+| Gate state | L1 decision impact | governance-only; no execution approval | `Gate_Decision_Canonical.json` |
+| Closeout | round validator | required after final decision refresh | `scripts/round-closeout-validator.ps1` |
+| gstack readiness | audit posture | ready only when working tree is clean, scans are recorded, and validator output is attached | final summary report |
+
+### Latest Closeout Validator Result
+
+- command: `& .\Codex_L1_Governance\scripts\round-closeout-validator.ps1 -Json`
+- result: `pass`
+- decision summary: `overall_decision=no_go`, `execution_go=false`, `approved_scope=plan-only`
+- note: closeout pass is documentation-scope only and does not grant execution approval.
+
+### Latest Secret-Shape Scan
+
+- scan_scope: `Codex_L1_Governance`
+- command: `rg -n "sk_live_[A-Za-z0-9]{10,}|sk_test_[A-Za-z0-9]{10,}|whsec_[A-Za-z0-9]{10,}|eyJ[A-Za-z0-9_-]{20,}|-----BEGIN (RSA |EC |OPENSSH |)PRIVATE KEY-----" Codex_L1_Governance`
+- result: `secret_shape_hits=0`
+- recorded_at: 2026-06-17
+- note: scan result supports documentation safety only; it is not evidence of project execution readiness.
+
 ## Created L1 Artifacts
 
 - `00_Overview/Codex_System_Overview.md`
@@ -136,3 +166,21 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - source recommendation: 2026-06-17 L1 12D baseline scan
 - decision impact: none; navigation only
 - remaining next action: add one read-only round closeout validator script
+
+### 2026-06-17 10/10 Push Governance Hardening
+
+- added standardized Skill sections: trigger conditions, inputs, outputs, error handling, compliance constraints, integration points, and post-run records
+- added read-only script support: `scripts/round-closeout-validator.ps1`
+- added dashboard fields for 12D score, Skill execution, compliance status, closeout status, and gstack readiness
+- updated Skill Registry with `Current maturity` and `Script support`
+- strengthened AGENTS rules for read-only automation, required closeout validation, and active-skill verification
+- compliance scan: `secret_shape_hits=0`
+- decision impact: none; L1 remains governance-only
+
+### 2026-06-17 10/10 Push Final Scan
+
+- report: `01_12维扫描引擎/12维扫描结果归档/2026-06-17_L1_Layer_10_10_Push_Scan_Report.md`
+- execution summary: `L1_10_10_PUSH_EXECUTION_SUMMARY_2026-06-17.md`
+- estimated score: 8.6/10
+- gstack audit status: ready for governance audit
+- remaining gap: more read-only scripts and CI/scheduled enforcement are required before claiming 10/10
