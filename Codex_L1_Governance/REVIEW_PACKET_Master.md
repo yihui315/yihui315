@@ -184,3 +184,14 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - estimated score: 8.6/10
 - gstack audit status: ready for governance audit
 - remaining gap: more read-only scripts and CI/scheduled enforcement are required before claiming 10/10
+
+### 2026-06-17 gstack Audit Package Preparation
+
+- package path: `gstack_audit_package/`
+- entrypoint: `gstack_audit_package/00_审计材料索引.md`
+- copied audit snapshots: `INDEX.md`, `AGENTS.md`, `L1_10_10_PUSH_EXECUTION_SUMMARY_2026-06-17.md`, `2026-06-17_L1_Layer_10_10_Push_Scan_Report.md`
+- included verified script snapshot: `gstack_audit_package/已验证脚本/round-closeout-validator.ps1`
+- added audit-specific documents: `核心_Skill_列表.md`, `L1_层_gstack_审计准备说明.md`
+- readiness statement: ready for gstack governance-system audit
+- explicit boundary: this package does not grant project-level Revenue, Evidence, or Execution Gate readiness
+- decision impact: none; L1 remains governance-only and project gates remain fail-closed until real evidence exists
