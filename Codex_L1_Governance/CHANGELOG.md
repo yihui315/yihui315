@@ -21,3 +21,5 @@
 - Added Medium Priority `governance-artifact-hygiene` and `round-closeout-validator` skill definitions.
 - Updated Skill trigger rules and registry for artifact hygiene and round closeout checks.
 - Updated L1 `AGENTS.md` with periodic triggers for artifact hygiene and round closeout validation.
+- Added L1 layer 12D baseline scan report for 2026-06-17.
+- Recorded L1 baseline result in `REVIEW_PACKET_Master.md`.

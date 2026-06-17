@@ -87,6 +87,7 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 | Date | Project | Report | Average score | Decision impact |
 | --- | --- | --- | --- | --- |
 | 2026-06-15 baseline, created 2026-06-16 | ai占卜.ai | `01_12维扫描引擎/12维扫描结果归档/2026-06-15_ai占卜.ai_基线扫描报告.md` | 6.2/10 | no gate upgrade; remains `no_go` |
+| 2026-06-17 | Codex L1 layer | `01_12维扫描引擎/12维扫描结果归档/2026-06-17_L1_Layer_Baseline_Scan_Report.md` | 7.0/10 | no gate change; L1 remains governance-only |
 
 ## Skill Integration Record
 
@@ -116,3 +117,14 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 | `AGENTS.md` periodic trigger rules | Weekly hygiene or round end is detected | `05_Agent_与_Worker_边界/AGENTS.md` | triggers only; no gate state mutation |
 
 **current decision impact**: none. These skills improve governance hygiene and loop closure, but they do not change Evidence, Revenue, or Approval gate states.
+
+## L1 Layer Baseline Scan Record
+
+### 2026-06-17 L1 12D Baseline
+
+- report: `01_12维扫描引擎/12维扫描结果归档/2026-06-17_L1_Layer_Baseline_Scan_Report.md`
+- average score: 7.0/10
+- strongest areas: compliance boundary clarity, skill-chain coverage, durable review loop
+- main blockers: automation gap, runtime skill verification gap, index and naming drift
+- decision impact: no gate state changed
+- next recommended action: create `Codex_L1_Governance/INDEX.md` and add one read-only round closeout validator script
