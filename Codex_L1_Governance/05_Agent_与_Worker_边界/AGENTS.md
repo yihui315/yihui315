@@ -32,6 +32,8 @@ Run a governance health check when any of these occur:
 - a failure case remains open for more than one review cycle.
 - a proposed skill is used operationally but not promoted in the registry.
 - revenue, executor, or environment gates are mentioned in a handoff.
+- artifact directories such as `.ai/artifacts`, screenshots, logs, or MCP outputs grow significantly; trigger `governance-artifact-hygiene` in dry-run mode.
+- an Orchestrator or Self-Distillation round ends; trigger `round-closeout-validator` before entering the next round.
 
 ## Required Review Packet Update
 

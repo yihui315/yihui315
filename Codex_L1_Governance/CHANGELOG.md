@@ -18,3 +18,6 @@
 - Added high-priority `human-evidence-intake-check` and `orchestrator-decision-refresh` skill definitions.
 - Added L1 reusable descriptions for `codex-system-governance-auditor`, `executor-preflight-check`, and `tianji-revenue-gate`.
 - Bound `tianji-revenue-gate` to the final orchestrator decision before revenue work can proceed.
+- Added Medium Priority `governance-artifact-hygiene` and `round-closeout-validator` skill definitions.
+- Updated Skill trigger rules and registry for artifact hygiene and round closeout checks.
+- Updated L1 `AGENTS.md` with periodic triggers for artifact hygiene and round closeout validation.

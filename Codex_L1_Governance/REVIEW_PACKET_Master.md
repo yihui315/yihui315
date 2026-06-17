@@ -104,3 +104,15 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 | `executor-preflight-check` description | ExecutorAnalyze, ExecutorExecute, Autopilot, or weekly executor health check | `04_Skill_触发规则/已有可复用/executor-preflight-check.md` | passing preflight is not Execution Go |
 
 **current decision impact**: none. L1 rules were integrated, but ai占卜.ai remains `no_go`; `submitted_by=todo` and `present=no` rows remain unchanged.
+
+### 2026-06-17 Medium Priority Skill Creation
+
+**goal**: Extend the L1 governance loop with artifact hygiene and round closeout validation.
+
+| Skill | Trigger condition | Key files | Compliance boundary |
+| --- | --- | --- | --- |
+| `governance-artifact-hygiene` | Artifact directories, screenshots, logs, MCP outputs, or weekly health checks show sprawl | `04_Skill_触发规则/新建高优先级/governance-artifact-hygiene.md` | dry-run first; no archive/delete without explicit approval |
+| `round-closeout-validator` | Orchestrator Decision or Self-Distillation round ends | `04_Skill_触发规则/新建高优先级/round-closeout-validator.md` | closeout completeness is not execution approval |
+| `AGENTS.md` periodic trigger rules | Weekly hygiene or round end is detected | `05_Agent_与_Worker_边界/AGENTS.md` | triggers only; no gate state mutation |
+
+**current decision impact**: none. These skills improve governance hygiene and loop closure, but they do not change Evidence, Revenue, or Approval gate states.

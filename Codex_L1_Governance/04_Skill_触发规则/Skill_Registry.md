@@ -13,6 +13,8 @@
 | `Secret_Shape_Scan` | validation helper | proposed | Codex | Scans evidence artifacts for secret-like values |
 | `human-evidence-intake-check` | L1 governance | proposed | Codex | High priority masked evidence intake validator wrapper |
 | `orchestrator-decision-refresh` | L1 governance | proposed | Codex | High priority decision refresh after gate changes |
+| `governance-artifact-hygiene` | L1 governance | proposed | Codex | Medium priority artifact archive and hygiene planner |
+| `round-closeout-validator` | L1 governance | proposed | Codex | Medium priority round completion checker |
 | `codex-system-governance-auditor` | existing local skill | observed-local | Codex | L1 description file added under `已有可复用/` |
 | `executor-preflight-check` | existing local skill | observed-local | Codex | L1 description file added under `已有可复用/` |
 | `tianji-revenue-gate` | existing local skill | observed-local | Codex | L1 binding requires reading orchestrator verdict before revenue work |

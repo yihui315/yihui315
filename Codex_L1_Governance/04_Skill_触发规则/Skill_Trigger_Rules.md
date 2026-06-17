@@ -18,6 +18,8 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `human-evidence-intake-check` | Human Operator masked evidence is submitted or updated | Evidence `.md` file and masked artifact references | validator summary, missing fields, readiness for orchestrator review | Evidence, Revenue |
 | `orchestrator-decision-refresh` | Evidence, Revenue, Approval, Executor, or Environment gate changes | `ORCHESTRATOR_GATE_STATE.json` and validator outputs | refreshed decision JSON and Review Packet note | All gates |
 | `tianji-revenue-gate` | Revenue, payment, checkout, webhook, entitlement, or monetization safety is in scope | final orchestrator decision and masked revenue evidence | Revenue Evidence verdict and missing evidence list | Revenue |
+| `governance-artifact-hygiene` | Governance artifact directories grow or weekly health check detects sprawl | sanitized artifact listings, file counts, current review packet | keep/archive proposal and dry-run commands | Governance |
+| `round-closeout-validator` | Orchestrator or Self-Distillation round ends | review packet, gate decision, validator summaries, changelog, failure index | round closeout report and next-round readiness | All gates |
 
 ## Trigger Rules
 
@@ -29,6 +31,8 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 6. Run `human-evidence-intake-check` before any Human Operator evidence affects a gate decision.
 7. Run `orchestrator-decision-refresh` after any gate status changes.
 8. Bind `tianji-revenue-gate` to the final orchestrator decision; revenue work stops when the decision is missing, stale, `no_go`, or `plan-only`.
+9. Run `governance-artifact-hygiene` in dry-run mode first; archive or delete actions require explicit approval.
+10. Run `round-closeout-validator` before treating a governance round as complete.
 
 ## Open Implementation Notes
 
