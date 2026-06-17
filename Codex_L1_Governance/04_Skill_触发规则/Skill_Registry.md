@@ -13,7 +13,7 @@
 | `Secret_Shape_Scan` | validation helper | proposed | 6/10 | command pattern only | Codex | Manual `rg` scan currently used |
 | `human-evidence-intake-check` | L1 governance | proposed | 7/10 | validator reference only | Codex | Standardized definition and post-run record map exist |
 | `orchestrator-decision-refresh` | L1 governance | proposed | 7/10 | no dedicated script | Codex | Auto-closeout rule documented |
-| `governance-artifact-hygiene` | L1 governance | proposed | 7/10 | dry-run command templates | Codex | No archive/delete execution by default |
+| `governance-artifact-hygiene` | L1 governance | active | 8/10 | `scripts/governance-artifact-hygiene.ps1` | Codex | Read-only dry-run script verified; no archive/delete execution by default |
 | `round-closeout-validator` | L1 governance | proposed | 8/10 | `scripts/round-closeout-validator.ps1` | Codex | Read-only script verified with `closeout_status=pass` |
 | `codex-system-governance-auditor` | existing local skill | observed-local | 8/10 | local skill file observed | Codex | L1 summary and integration points exist |
 | `executor-preflight-check` | existing local skill | observed-local | 7/10 | local skill file observed | Codex | Passing preflight is not Execution Go |

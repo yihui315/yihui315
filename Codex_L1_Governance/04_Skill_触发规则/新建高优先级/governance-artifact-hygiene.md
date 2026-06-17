@@ -6,9 +6,16 @@ Medium
 
 ## Status And Authority
 
-- status: proposed L1 governance skill
+- status: active L1 governance skill for read-only dry-run planning
 - authority: read-only artifact inventory and archive planning by default
 - not allowed: deleting, moving, or archiving files without explicit approval
+
+## Script Support
+
+- script: `Codex_L1_Governance/scripts/governance-artifact-hygiene.ps1`
+- default mode: dry-run / plan-only
+- output: `artifact_hygiene_reports/Archive_Plan_YYYY-MM-DD.md`
+- verified behavior: generates a Markdown archive plan without moving, deleting, compressing, or archiving files
 
 ## Trigger Conditions
 
@@ -32,6 +39,7 @@ Medium
 - delete candidate list as proposal only
 - dry-run commands
 - manual review notes
+- `Archive_Plan_YYYY-MM-DD.md`
 
 ## Dry-Run Command Templates
 

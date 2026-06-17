@@ -25,6 +25,7 @@ This layer is a governance control plane. It is not a project execution approval
 - Standardized High and Medium Skill definitions.
 - Added mandatory L1 operating rules in `AGENTS.md`.
 - Added a read-only closeout validation script: `已验证脚本/round-closeout-validator.ps1`.
+- Added a read-only artifact hygiene planning script: `已验证脚本/governance-artifact-hygiene.ps1`.
 - Recorded the latest 12D scan and 10/10 push summary.
 - Recorded secret-shape scan result as `secret_shape_hits=0`.
 - Preserved fail-closed behavior for Evidence, Revenue, and Execution gates.
@@ -45,7 +46,7 @@ Implemented or documented control points:
 
 | Gap | Current state | Required improvement |
 | --- | --- | --- |
-| Script coverage | Only closeout has a verified read-only script | Add scripts for artifact hygiene, secret scan, and decision refresh validation |
+| Script coverage | Closeout and artifact hygiene have verified read-only scripts | Add scripts for secret scan and decision refresh validation |
 | CI or scheduled execution | Not yet implemented | Add repeatable local task or CI workflow |
 | Skill promotion | Several Skills remain `proposed` | Run and record promotion checklist |
 | Trend evidence | Latest scan exists | Accumulate multiple scans and deltas |

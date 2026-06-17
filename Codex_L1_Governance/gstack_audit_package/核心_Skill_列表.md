@@ -23,7 +23,7 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 
 | Skill | Current status | Maturity | Script support | Audit note |
 | --- | --- | --- | --- | --- |
-| `governance-artifact-hygiene` | proposed | 7/10 | dry-run command templates | Archive and cleanup work is dry-run first; no delete/archive without explicit approval. |
+| `governance-artifact-hygiene` | active | 8/10 | `scripts/governance-artifact-hygiene.ps1` | Read-only dry-run archive planner verified; no delete/archive execution by default. |
 | `round-closeout-validator` | proposed | 8/10 | `scripts/round-closeout-validator.ps1` | Read-only script verified and included in this package. |
 
 ## Supporting Reusable Skills
@@ -42,6 +42,7 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 | Evidence | Location | Status |
 | --- | --- | --- |
 | Closeout validation script | `已验证脚本/round-closeout-validator.ps1` | Included in audit package |
+| Artifact hygiene script | `已验证脚本/governance-artifact-hygiene.ps1` | Included in audit package |
 | Closeout validation record | `REVIEW_PACKET_Master.md` in source L1 directory | Recorded as documentation-scope pass |
 | Secret-shape scan result | `REVIEW_PACKET_Master.md` in source L1 directory | Recorded as `secret_shape_hits=0` |
 
@@ -55,6 +56,6 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 ## Recommended Next Promotion Steps
 
 1. Promote `round-closeout-validator` only after the active promotion checklist is accepted by the maintainer.
-2. Add `governance-artifact-hygiene.ps1` as a read-only dry-run script.
-3. Add a repeatable local or CI job for secret-shape scan and closeout validation.
+2. Add read-only script support for secret-shape scan and decision refresh validation.
+3. Add a repeatable local or CI job for secret-shape scan, artifact hygiene, and closeout validation.
 4. Record every promotion in `Skill_Registry.md`, `REVIEW_PACKET_Master.md`, and `CHANGELOG.md`.

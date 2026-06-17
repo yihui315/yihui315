@@ -202,3 +202,15 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - review result: package boundary is clear; added version metadata, last-updated field, architecture snapshot, reviewer checklist, and audit readiness verdict
 - validation impact: none; this is package clarity and audit usability work only
 - decision impact: none; no gate state changed
+
+### 2026-06-17 governance-artifact-hygiene Script Support
+
+- script: `scripts/governance-artifact-hygiene.ps1`
+- skill: `governance-artifact-hygiene`
+- mode: read-only dry-run archive planning
+- generated report: `artifact_hygiene_reports/Archive_Plan_2026-06-17.md`
+- verification command: `& .\Codex_L1_Governance\scripts\governance-artifact-hygiene.ps1 -Json`
+- verification result: `status=pass`, `candidate_items=0`, `sensitive_shaped_path_hits=0`, `blocked_targets=0`
+- gstack package sync: copied script snapshot to `gstack_audit_package/已验证脚本/governance-artifact-hygiene.ps1` and updated package metadata to `gstack-audit-package-v1.2`
+- compliance note: no files were moved, deleted, compressed, or archived
+- decision impact: none; this improves L1 automation maturity but does not change project Evidence, Revenue, or Execution Gate status
