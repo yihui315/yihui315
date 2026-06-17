@@ -1,0 +1,108 @@
+# Codex L1 Governance - Navigation Index
+
+> This directory is the shared Codex L1 governance layer. Projects can reference these rules, templates, and skill definitions, but L1 records do not grant project execution approval by themselves.
+
+## Core Entry Points
+
+| File | Purpose | Priority |
+| --- | --- | --- |
+| [AGENTS.md](./05_Agent_与_Worker_边界/AGENTS.md) | Mandatory L1 operating rules | Critical |
+| [REVIEW_PACKET_Master.md](./REVIEW_PACKET_Master.md) | Master governance record and audit log | Critical |
+| [CHANGELOG.md](./CHANGELOG.md) | L1 change history | High |
+| [INDEX.md](./INDEX.md) | This navigation file | High |
+
+## Skill System
+
+### High Priority Skills
+
+| Skill | File | Main role | Trigger |
+| --- | --- | --- | --- |
+| `human-evidence-intake-check` | [definition](./04_Skill_触发规则/新建高优先级/human-evidence-intake-check.md) | Validate Human Operator masked evidence intake | Human Operator submits or updates masked evidence |
+| `orchestrator-decision-refresh` | [definition](./04_Skill_触发规则/新建高优先级/orchestrator-decision-refresh.md) | Refresh decision after gate state changes | Evidence, Revenue, Approval, Executor, or Environment changes |
+| `tianji-revenue-gate` | [binding](./04_Skill_触发规则/已有可复用/tianji-revenue-gate.md) | Revenue safety gate bound to final decision | Revenue-related work |
+
+Core chain:
+
+`Human Evidence -> human-evidence-intake-check -> State Sync -> orchestrator-decision-refresh -> Review Packet`
+
+### Medium Priority Skills
+
+| Skill | File | Main role | Trigger |
+| --- | --- | --- | --- |
+| `governance-artifact-hygiene` | [definition](./04_Skill_触发规则/新建高优先级/governance-artifact-hygiene.md) | Governance artifact archive and cleanup planning | Artifact growth or weekly health check |
+| `round-closeout-validator` | [definition](./04_Skill_触发规则/新建高优先级/round-closeout-validator.md) | Validate round closeout completeness | Decision refresh or Self-Distillation round end |
+
+Supporting files:
+
+- [Skill_Trigger_Rules.md](./04_Skill_触发规则/Skill_Trigger_Rules.md)
+- [Skill_Registry.md](./04_Skill_触发规则/Skill_Registry.md)
+- [High Priority integration report](./04_Skill_触发规则/SKILL_INTEGRATION_REPORT_2026-06-16.md)
+- [Medium Priority integration report](./04_Skill_触发规则/MEDIUM_SKILL_INTEGRATION_REPORT_2026-06-17.md)
+
+## Gate System
+
+- [Canonical gate decision JSON](./02_Gate_System/Gate_Decision_Canonical.json)
+- [Evidence Gate](./02_Gate_System/Evidence_Gate/Evidence_Gate_Template.md)
+- [Human Operator evidence template](./02_Gate_System/Evidence_Gate/Evidence_Human_Operator_填写模板.md)
+- [Revenue Gate](./02_Gate_System/Revenue_Gate/Revenue_Gate_Template.md)
+- [Approval Gate](./02_Gate_System/Approval_Gate/Approval_Gate_Template.md)
+
+Important rules:
+
+- Execution-oriented skills must respect the final `ORCHESTRATOR_GATE_DECISION.json` verdict.
+- Evidence operations must not fabricate `submitted_by` or convert `present=no` to `present=yes`.
+- `plan-only` approval is not execution approval.
+
+## 12D Scans
+
+- [12D framework](./01_12维扫描引擎/12维扫描框架_v1.md)
+- [12D baseline template](./01_12维扫描引擎/12维扫描基线模板.md)
+- [Latest L1 baseline report](./01_12维扫描引擎/12维扫描结果归档/2026-06-17_L1_Layer_Baseline_Scan_Report.md)
+- [Scan archive](./01_12维扫描引擎/12维扫描结果归档/)
+
+Current L1 baseline:
+
+- score: 7.0/10
+- date: 2026-06-17
+- next recommendation: add a read-only round closeout validator script
+
+## Failure Case Library
+
+- [Failure case index](./03_失败案例库/00_案例索引.md)
+- [Failure case template](./03_失败案例库/Failure_Case_Template.md)
+- [Cases directory](./03_失败案例库/Cases/)
+
+Principle: important failures and compliance refusals must be recorded as structured cases.
+
+## Agent And Worker Boundaries
+
+- [Agent collaboration protocol](./05_Agent_与_Worker_边界/Agent_Collaboration_Protocol.md)
+- [Sub-Agent roles](./05_Agent_与_Worker_边界/Sub-Agent_Roles.md)
+- [Worker parallel strategy](./05_Agent_与_Worker_边界/Worker_Parallel_Strategy.md)
+- [Mandatory L1 rules](./05_Agent_与_Worker_边界/AGENTS.md)
+
+## Feedback And Scoring
+
+- [Feedback loop mechanism](./06_反馈闭环_与_评分/Feedback_Loop_机制.md)
+- [Review packet scoring fields](./06_反馈闭环_与_评分/REVIEW_PACKET_量化评分字段.md)
+
+## Usage Guide
+
+1. New projects should first read [AGENTS.md](./05_Agent_与_Worker_边界/AGENTS.md).
+2. Evidence or Revenue flows must go through `human-evidence-intake-check` and `orchestrator-decision-refresh`.
+3. Revenue work must read the final decision before proceeding.
+4. Each round should end with `round-closeout-validator`.
+5. Artifact cleanup must start with `governance-artifact-hygiene` in dry-run mode.
+
+## Maintenance Rules
+
+- When adding or changing a skill, update [Skill_Trigger_Rules.md](./04_Skill_触发规则/Skill_Trigger_Rules.md) and [Skill_Registry.md](./04_Skill_触发规则/Skill_Registry.md).
+- Important L1 changes must update [REVIEW_PACKET_Master.md](./REVIEW_PACKET_Master.md) and [CHANGELOG.md](./CHANGELOG.md).
+- Run a 12D scan after major governance structure changes.
+- Do not treat this index as evidence of project readiness.
+
+## Version Status
+
+- current maturity: L1 baseline score 7.0/10
+- last updated: 2026-06-17
+- contributors: Codex and Human Operator

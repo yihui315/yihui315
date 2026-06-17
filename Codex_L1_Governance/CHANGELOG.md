@@ -23,3 +23,5 @@
 - Updated L1 `AGENTS.md` with periodic triggers for artifact hygiene and round closeout validation.
 - Added L1 layer 12D baseline scan report for 2026-06-17.
 - Recorded L1 baseline result in `REVIEW_PACKET_Master.md`.
+- Added `INDEX.md` as the main L1 navigation entrypoint.
+- Recorded L1 index creation in `REVIEW_PACKET_Master.md`.

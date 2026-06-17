@@ -128,3 +128,11 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - main blockers: automation gap, runtime skill verification gap, index and naming drift
 - decision impact: no gate state changed
 - next recommended action: create `Codex_L1_Governance/INDEX.md` and add one read-only round closeout validator script
+
+### 2026-06-17 L1 Index Creation
+
+- file: `INDEX.md`
+- purpose: create a single navigation entrypoint for core L1 rules, skills, gates, scans, failure cases, and maintenance guidance
+- source recommendation: 2026-06-17 L1 12D baseline scan
+- decision impact: none; navigation only
+- remaining next action: add one read-only round closeout validator script
