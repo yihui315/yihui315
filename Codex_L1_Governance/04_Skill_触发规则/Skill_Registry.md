@@ -11,7 +11,8 @@
 | `Failure_Case_Recorder` | L1 governance | proposed | 7/10 | no dedicated script | Codex | Template, index, and first case exist |
 | `Review_Packet_Scorer` | L1 governance | proposed | 6/10 | no dedicated script | Codex | Scoring fields and dashboard template exist |
 | `Secret_Shape_Scan` | validation helper | proposed | 6/10 | command pattern only | Codex | Manual `rg` scan currently used |
-| `human-evidence-intake-check` | L1 governance | proposed | 7/10 | validator reference only | Codex | Standardized definition and post-run record map exist |
+| `weekly-governance-health-check` | validation helper | active | 8/10 | `scripts/weekly-governance-health-check.ps1` | Codex | Orchestrates closeout, artifact hygiene, and secret-shape scan into a weekly report |
+| `human-evidence-intake-check` | L1 governance | active | 8/10 | `scripts/human-evidence-intake-check.ps1` | Codex | Read-only intake script verified; current ai占卜.ai evidence remains blocked |
 | `orchestrator-decision-refresh` | L1 governance | proposed | 7/10 | no dedicated script | Codex | Auto-closeout rule documented |
 | `governance-artifact-hygiene` | L1 governance | active | 8/10 | `scripts/governance-artifact-hygiene.ps1` | Codex | Read-only dry-run script verified; no archive/delete execution by default |
 | `round-closeout-validator` | L1 governance | proposed | 8/10 | `scripts/round-closeout-validator.ps1` | Codex | Read-only script verified with `closeout_status=pass` |

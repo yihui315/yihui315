@@ -15,6 +15,7 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `Failure_Case_Recorder` | A blocker repeats, a gate cannot advance, or a compliance refusal occurs | incident summary, related files, attempted actions | failure case entry and index update | All gates |
 | `Review_Packet_Scorer` | A review packet is created or refreshed | project review packet, gate decision, 12D scan | quantitative score section and trend notes | All gates |
 | `Secret_Shape_Scan` | Evidence or revenue artifacts are added | target paths and masking policy | secret-shape result with hit count | Evidence, Revenue |
+| `weekly-governance-health-check` | Weekly L1 governance cycle ends or audit readiness is claimed | L1 root, closeout script, artifact hygiene script | Markdown health report with score, closeout status, artifact plan, and secret-shape summary | Governance |
 | `human-evidence-intake-check` | Human Operator masked evidence is submitted or updated | Evidence `.md` file and masked artifact references | validator summary, missing fields, readiness for orchestrator review | Evidence, Revenue |
 | `orchestrator-decision-refresh` | Evidence, Revenue, Approval, Executor, or Environment gate changes | `ORCHESTRATOR_GATE_STATE.json` and validator outputs | refreshed decision JSON and Review Packet note | All gates |
 | `tianji-revenue-gate` | Revenue, payment, checkout, webhook, entitlement, or monetization safety is in scope | final orchestrator decision and masked revenue evidence | Revenue Evidence verdict and missing evidence list | Revenue |
@@ -33,6 +34,7 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 8. Bind `tianji-revenue-gate` to the final orchestrator decision; revenue work stops when the decision is missing, stale, `no_go`, or `plan-only`.
 9. Run `governance-artifact-hygiene` in dry-run mode first; archive or delete actions require explicit approval.
 10. Run `round-closeout-validator` before treating a governance round as complete.
+11. Run `weekly-governance-health-check` before claiming weekly L1 audit readiness.
 
 ## Post-Run Record Map
 
@@ -43,6 +45,7 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `tianji-revenue-gate` | project Review Packet and revenue evidence report | Revenue Evidence verdict, missing evidence, safety status |
 | `governance-artifact-hygiene` | Review Packet or artifact hygiene report | keep/archive plan, dry-run command, manual approval note |
 | `round-closeout-validator` | Review Packet or closeout report | closeout status, missing records, next-round recommendation |
+| `weekly-governance-health-check` | `weekly_health_reports/` and `REVIEW_PACKET_Master.md` | score, closeout status, artifact hygiene result, secret-shape result |
 | `codex-system-governance-auditor` | `REVIEW_PACKET_Master.md` for L1-level audits | findings, assets updated, validation summary |
 | `executor-preflight-check` | executor health report or Review Packet | executor availability JSON and recommendation |
 

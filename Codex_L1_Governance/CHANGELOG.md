@@ -36,3 +36,7 @@
 - Reviewed and refined `gstack_audit_package/` with package version metadata, last-updated scope, a text architecture snapshot, a reviewer checklist, and an explicit audit readiness verdict.
 - Added read-only `scripts/governance-artifact-hygiene.ps1`, generated `artifact_hygiene_reports/Archive_Plan_2026-06-17.md`, and promoted `governance-artifact-hygiene` to script-backed active status.
 - Updated `gstack_audit_package/` to v1.2 with a `governance-artifact-hygiene.ps1` script snapshot and refreshed Skill/script coverage notes.
+- Updated `gstack_audit_package/` to v1.3 with script usage examples, artifact hygiene dry-run guidance, and blocked protection documentation for both verified scripts.
+- Added read-only `scripts/weekly-governance-health-check.ps1`, generated `weekly_health_reports/Weekly_Governance_Health_2026-06-19.md`, updated AGENTS weekly execution rules, and updated `gstack_audit_package/` to v1.4.
+- Added read-only `scripts/human-evidence-intake-check.ps1`, generated `evidence_intake_reports/Evidence_Intake_Report_2026-06-19.md`, and updated `gstack_audit_package/` to v1.5 while preserving ai占卜.ai Evidence Gate as blocked.
+- Added ai占卜.ai L1 pilot rule reference and adoption report, connecting the project to L1 controls while preserving `no_go` and blocked Evidence/Revenue gates.

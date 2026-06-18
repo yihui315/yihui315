@@ -38,3 +38,15 @@ Approval is limited to planning and documentation. Evidence and Revenue remain b
 ## Next Safe Action
 
 Have a real Human Operator fill the Evidence Gate submission template with masked artifacts, then rerun Evidence and Revenue validation before refreshing the canonical gate decision.
+
+## L1 Rule Adoption Update
+
+**updated_at**: 2026-06-19
+
+| L1 control | Latest status | Decision impact |
+| --- | --- | --- |
+| `human-evidence-intake-check` | `blocked` for current evidence file | no change; Evidence Gate remains blocked |
+| `orchestrator-decision-refresh` | rule connected, not executed as a state mutation | no change |
+| `weekly-governance-health-check` | L1 script available and latest L1 run passed | no project gate upgrade |
+
+The L1 adoption report is stored at `L1_试点接入报告_2026-06-19.md`.

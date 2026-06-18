@@ -214,3 +214,38 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - gstack package sync: copied script snapshot to `gstack_audit_package/已验证脚本/governance-artifact-hygiene.ps1` and updated package metadata to `gstack-audit-package-v1.2`
 - compliance note: no files were moved, deleted, compressed, or archived
 - decision impact: none; this improves L1 automation maturity but does not change project Evidence, Revenue, or Execution Gate status
+
+### 2026-06-19 gstack Audit Package v1.3
+
+- package_version: `gstack-audit-package-v1.3`
+- update type: script usage and blocked-protection documentation
+- added: `governance-artifact-hygiene.ps1` dry-run examples
+- added: blocked protection table for `round-closeout-validator.ps1` and `governance-artifact-hygiene.ps1`
+- decision impact: none; package remains governance-audit evidence only
+
+### 2026-06-19 Weekly Governance Health Check
+
+- script: `scripts/weekly-governance-health-check.ps1`
+- generated report: `weekly_health_reports/Weekly_Governance_Health_2026-06-19.md`
+- verification command: `& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -Json`
+- verification result: `status=pass`, `score=100`, `round_closeout.status=pass`, `artifact_hygiene.status=pass`, `secret_shape_hits=0`, `env_like_files=0`
+- gstack package update: `gstack-audit-package-v1.4`
+- decision impact: none; report is L1 governance-only and does not grant project readiness
+
+### 2026-06-19 human-evidence-intake-check Script Support
+
+- script: `scripts/human-evidence-intake-check.ps1`
+- generated report: `evidence_intake_reports/Evidence_Intake_Report_2026-06-19.md`
+- verification command: `& .\Codex_L1_Governance\scripts\human-evidence-intake-check.ps1 -Json`
+- verification result: `status=blocked`, `total_rows=10`, `present_yes=0`, `present_no=10`, `secret_shape_hits=0`
+- missing fields: `submitted_by`, `role`, `submitted_at`, `verified_environment`
+- gstack package update: `gstack-audit-package-v1.5`
+- decision impact: none; ai占卜.ai Evidence Gate remains blocked until real Human Operator evidence exists
+
+### 2026-06-19 ai占卜.ai L1 Pilot Adoption
+
+- added project rule reference: `Projects/ai占卜.ai/当前状态/L1_规则引用.md`
+- added adoption report: `Projects/ai占卜.ai/当前状态/L1_试点接入报告_2026-06-19.md`
+- connected controls: `human-evidence-intake-check`, `orchestrator-decision-refresh` rule, `weekly-governance-health-check`
+- latest evidence intake result: `blocked`
+- decision impact: none; project remains `no_go`, `execution_go=false`

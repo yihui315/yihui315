@@ -15,7 +15,7 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 
 | Skill | Current status | Maturity | Script support | Audit note |
 | --- | --- | --- | --- | --- |
-| `human-evidence-intake-check` | proposed | 7/10 | validator reference only | Human evidence intake path is documented; the Skill itself does not decide `real_go`. |
+| `human-evidence-intake-check` | active | 8/10 | `scripts/human-evidence-intake-check.ps1` | Read-only intake validation verified; current ai占卜.ai evidence correctly remains blocked. |
 | `orchestrator-decision-refresh` | proposed | 7/10 | no dedicated script | Decision refresh contract is documented and now requires round closeout after completion. |
 | `tianji-revenue-gate` | observed-local | 8/10 | local skill file observed | Revenue work must read final orchestrator verdict before proceeding. |
 
@@ -25,6 +25,7 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 | --- | --- | --- | --- | --- |
 | `governance-artifact-hygiene` | active | 8/10 | `scripts/governance-artifact-hygiene.ps1` | Read-only dry-run archive planner verified; no delete/archive execution by default. |
 | `round-closeout-validator` | proposed | 8/10 | `scripts/round-closeout-validator.ps1` | Read-only script verified and included in this package. |
+| `weekly-governance-health-check` | active | 8/10 | `scripts/weekly-governance-health-check.ps1` | Orchestrates closeout, artifact hygiene, and secret-shape scan into a weekly report. |
 
 ## Supporting Reusable Skills
 
@@ -41,8 +42,12 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 
 | Evidence | Location | Status |
 | --- | --- | --- |
+| Human evidence intake script | `已验证脚本/human-evidence-intake-check.ps1` | Included in audit package |
 | Closeout validation script | `已验证脚本/round-closeout-validator.ps1` | Included in audit package |
 | Artifact hygiene script | `已验证脚本/governance-artifact-hygiene.ps1` | Included in audit package |
+| Weekly health script | `已验证脚本/weekly-governance-health-check.ps1` | Included in audit package |
+| Artifact hygiene dry-run example | `00_审计材料索引.md` | Documented in v1.3 package |
+| Blocked protection table | `00_审计材料索引.md` | Documented in v1.3 package |
 | Closeout validation record | `REVIEW_PACKET_Master.md` in source L1 directory | Recorded as documentation-scope pass |
 | Secret-shape scan result | `REVIEW_PACKET_Master.md` in source L1 directory | Recorded as `secret_shape_hits=0` |
 

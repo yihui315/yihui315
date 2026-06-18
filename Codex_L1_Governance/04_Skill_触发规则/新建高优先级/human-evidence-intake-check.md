@@ -6,9 +6,16 @@ High
 
 ## Status And Authority
 
-- status: proposed L1 governance skill
+- status: active L1 governance skill for read-only intake validation
 - authority: intake validation only
 - not allowed: final `real_go` or gate pass decision
+
+## Script Support
+
+- script: `Codex_L1_Governance/scripts/human-evidence-intake-check.ps1`
+- default mode: dry-run / read-only
+- output: `evidence_intake_reports/Evidence_Intake_Report_YYYY-MM-DD.md`
+- verified behavior: detects missing Human Operator fields and preserves blocked evidence state
 
 ## Trigger Conditions
 
@@ -31,6 +38,7 @@ High
 - row completeness summary
 - secret-shape safety note
 - recommendation on whether evidence can enter `orchestrator-decision-refresh`
+- `Evidence_Intake_Report_YYYY-MM-DD.md`
 
 ## Error Handling
 

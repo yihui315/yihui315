@@ -27,6 +27,8 @@ Use this chain for reusable governance work:
 13. Every governance round must run `round-closeout-validator` after the final decision refresh and before the next round starts.
 14. A skill cannot be marked `active` in the registry until a script, command, or runtime invocation has been verified and recorded.
 15. Any failed validator, missing artifact, or skipped required record must be preserved as a blocker rather than summarized away.
+16. The L1 layer must run `weekly-governance-health-check` at least once per calendar week when governance work continues.
+17. Weekly health check output must be recorded before claiming weekly L1 audit readiness.
 
 ## Weekly Health Check Trigger
 
@@ -39,6 +41,7 @@ Run a governance health check when any of these occur:
 - revenue, executor, or environment gates are mentioned in a handoff.
 - artifact directories such as `.ai/artifacts`, screenshots, logs, or MCP outputs grow significantly; trigger `governance-artifact-hygiene` in dry-run mode.
 - an Orchestrator or Self-Distillation round ends; trigger `round-closeout-validator` before entering the next round.
+- each active governance week ends; trigger `weekly-governance-health-check` and store the Markdown report.
 
 ## Required Review Packet Update
 
