@@ -17,6 +17,10 @@ Result:
 - artifact hygiene status: `pass`
 - secret_shape_hits: `0`
 - env_like_files: `0`
+- notification_provider: `slack`
+- notification_status: `dry_run`
+- notification_enabled: `false`
+- webhook_host: `example.com`
 
 Project impact:
 

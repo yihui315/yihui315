@@ -39,6 +39,12 @@ Supporting files:
 - [High Priority integration report](./04_Skill_触发规则/SKILL_INTEGRATION_REPORT_2026-06-16.md)
 - [Medium Priority integration report](./04_Skill_触发规则/MEDIUM_SKILL_INTEGRATION_REPORT_2026-06-17.md)
 
+## Automation Examples
+
+- [Inactive weekly GitHub Actions example](./automation_examples/github-actions-weekly-governance-health.yml)
+- Webhook runtime configuration is documented in the gstack audit package as `webhook_config_example.md`.
+- Automation examples are not active until a maintainer explicitly installs them in a scheduler path.
+
 ## Gate System
 
 - [Canonical gate decision JSON](./02_Gate_System/Gate_Decision_Canonical.json)
@@ -115,6 +121,27 @@ Principle: important failures and compliance refusals must be recorded as struct
 4. Each round should end with `round-closeout-validator`.
 5. Artifact cleanup must start with `governance-artifact-hygiene` in dry-run mode.
 
+## Multi-Project Governance
+
+- [L1_Multi_Project_Governance_Framework.md](./L1_Multi_Project_Governance_Framework.md) defines how projects adopt shared L1 rules.
+- Projects should reference L1 rules rather than copying them into divergent local rule sets.
+- Project-specific Evidence, Revenue, and Execution gates remain fail-closed until real evidence exists.
+- Current pilot: `Projects/ai占卜.ai/当前状态/`, status `connected_with_blockers`.
+
+Additional registration rules:
+
+- Project registration must record inherited L1 controls, local evidence ownership, and the current fail-closed decision before any execution claim.
+- Weekly automation can use the inactive GitHub Actions example, but it is not enabled until moved into an active scheduler path by a maintainer.
+
+Minimum project onboarding files:
+
+1. `L1_规则引用.md`
+2. `当前_Evidence_Gate_状态.md`
+3. `当前_Gate_Decision_摘要.md`
+4. `L1_试点接入报告_YYYY-MM-DD.md`
+5. `Evidence_补齐指南.md`
+6. `Weekly_Health_Check_调用记录.md`
+
 ## Quick Start Guide
 
 1. Read [AGENTS.md](./05_Agent_与_Worker_边界/AGENTS.md) for mandatory rules.
@@ -134,5 +161,6 @@ Principle: important failures and compliance refusals must be recorded as struct
 ## Version Status
 
 - current maturity: L1 10/10 push estimate 8.6/10
-- last updated: 2026-06-17
+- latest gstack package: v1.7
+- last updated: 2026-06-20
 - contributors: Codex and Human Operator

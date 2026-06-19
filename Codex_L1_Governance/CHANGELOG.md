@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-06-20
+
+- Updated `gstack_audit_package/` to v1.7 with a formal material list, gstack checklist, audit simulation Q&A, webhook config example, and inactive GitHub Actions weekly health example.
+- Upgraded `weekly-governance-health-check.ps1` with Slack/generic webhook support, explicit `-EnableNotification`, dry-run default behavior, and host-only reporting.
+- Expanded `L1_Multi_Project_Governance_Framework.md` with project registration flow and rule inheritance boundaries.
+- Updated `AGENTS.md`, `Skill_Registry.md`, `INDEX.md`, and package snapshots for notification, scheduling, and multi-project audit readiness.
+- Recorded ai占卜.ai Human Evidence intake invocation example while preserving `no_go`, `execution_go=false`, and blocked Evidence/Revenue status.
+
 ## 2026-06-16
 
 - Created initial Codex L1 governance directory structure.

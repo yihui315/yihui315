@@ -25,7 +25,7 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 | --- | --- | --- | --- | --- |
 | `governance-artifact-hygiene` | active | 8/10 | `scripts/governance-artifact-hygiene.ps1` | Read-only dry-run archive planner verified; no delete/archive execution by default. |
 | `round-closeout-validator` | proposed | 8/10 | `scripts/round-closeout-validator.ps1` | Read-only script verified and included in this package. |
-| `weekly-governance-health-check` | active | 9/10 | `scripts/weekly-governance-health-check.ps1` | Orchestrates closeout, artifact hygiene, secret-shape scan, and generic webhook dry-run notification. |
+| `weekly-governance-health-check` | active | 9/10 | `scripts/weekly-governance-health-check.ps1` | Orchestrates closeout, artifact hygiene, secret-shape scan, and Slack/generic webhook notification with explicit enable switch. |
 
 ## Supporting Reusable Skills
 
@@ -50,6 +50,13 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 | Blocked protection table | `00_审计材料索引.md` | Documented in v1.3 package |
 | Closeout validation record | `REVIEW_PACKET_Master.md` in source L1 directory | Recorded as documentation-scope pass |
 | Secret-shape scan result | `REVIEW_PACKET_Master.md` in source L1 directory | Recorded as `secret_shape_hits=0` |
+
+## Additional v1.7 Evidence
+
+| Evidence | Location | Status |
+| --- | --- | --- |
+| Webhook config example | `webhook_config_example.md` | Runtime-only URL pattern documented |
+| Inactive schedule example | `automation_examples/github-actions-weekly-governance-health.yml` | Included but not enabled as CI |
 
 ## Audit Boundaries
 

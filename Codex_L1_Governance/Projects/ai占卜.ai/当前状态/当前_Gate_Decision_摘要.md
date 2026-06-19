@@ -59,3 +59,13 @@ The L1 adoption report is stored at `L1_试点接入报告_2026-06-19.md`.
 | `weekly-governance-health-check` | `pass`; score `100` for L1 tooling health | no project gate upgrade |
 
 Current project decision remains `no_go`, with `execution_go=false`.
+
+## Current Evidence Missing Items
+
+- `submitted_by=todo`
+- `role=todo`
+- `submitted_at=todo`
+- `verified_environment=todo`
+- 10 rows remain `present=no`
+
+The invocation example for the evidence checker is stored at `Human_Evidence_Intake_Check_调用示例.md`.

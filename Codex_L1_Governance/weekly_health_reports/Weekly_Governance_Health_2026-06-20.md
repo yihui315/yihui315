@@ -6,7 +6,7 @@
 | --- | --- |
 | status | `pass` |
 | score | `100/100` |
-| generated_at | `2026-06-20T06:11:23` |
+| generated_at | `2026-06-20T06:28:02` |
 | governance_root | `C:\Users\Administrator\Documents\codex进化助手\Codex_L1_Governance` |
 
 ## Round Closeout
@@ -32,7 +32,7 @@
 
 | Field | Value |
 | --- | --- |
-| scanned_files | `74` |
+| scanned_files | `79` |
 | secret_shape_hits | `0` |
 | env_like_files | `0` |
 
@@ -40,7 +40,8 @@
 
 ```powershell
 & .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -Json
-& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -NotifyOn always -NotificationWebhookUrl '<webhook-url>' -NotificationDryRun:$true -Json
+& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -NotifyOn always -NotificationProvider slack -NotificationWebhookUrl '<slack-webhook-url-from-secret-store>' -NotificationDryRun:$true -Json
+& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -EnableNotification -NotifyOn blocked -NotificationProvider slack -NotificationWebhookUrl $env:L1_SLACK_WEBHOOK_URL -NotificationDryRun:$false -Json
 & .\Codex_L1_Governance\scripts\round-closeout-validator.ps1 -Json
 & .\Codex_L1_Governance\scripts\governance-artifact-hygiene.ps1 -TargetDirectories @('artifacts', 'screenshots', 'logs', 'mcp') -OlderThanDays 90 -DryRun:$true -Json
 ```
@@ -55,6 +56,8 @@
 | --- | --- |
 | notify_on | `always` |
 | should_notify | `True` |
+| notification_provider | `slack` |
+| notification_enabled | `False` |
 | notification_status | `dry_run` |
 | notification_dry_run | `True` |
 | webhook_host | `example.com` |

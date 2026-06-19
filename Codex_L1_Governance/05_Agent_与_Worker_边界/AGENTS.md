@@ -29,6 +29,8 @@ Use this chain for reusable governance work:
 15. Any failed validator, missing artifact, or skipped required record must be preserved as a blocker rather than summarized away.
 16. The L1 layer must run `weekly-governance-health-check` at least once per calendar week when governance work continues.
 17. Weekly health check output must be recorded before claiming weekly L1 audit readiness.
+18. Webhook notifications must be disabled or dry-run by default; real delivery requires an explicit enable switch and a runtime URL from an external secret store.
+19. Schedule examples, GitHub Actions examples, or cron examples must not be treated as enabled automation until a maintainer explicitly installs them in the active scheduler location.
 
 ## Weekly Health Check Trigger
 
@@ -42,6 +44,13 @@ Run a governance health check when any of these occur:
 - artifact directories such as `.ai/artifacts`, screenshots, logs, or MCP outputs grow significantly; trigger `governance-artifact-hygiene` in dry-run mode.
 - an Orchestrator or Self-Distillation round ends; trigger `round-closeout-validator` before entering the next round.
 - each active governance week ends; trigger `weekly-governance-health-check` and store the Markdown report.
+
+## Notification And Scheduling Boundary
+
+- Use `-NotificationDryRun:$true` when validating webhook wiring.
+- Use real webhook delivery only with `-EnableNotification`, `-NotificationDryRun:$false`, and a URL supplied at runtime.
+- Never commit full webhook URLs or provider secrets.
+- Keep automation examples outside active scheduler paths unless the maintainer approves activation.
 
 ## Required Review Packet Update
 

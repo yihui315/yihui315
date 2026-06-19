@@ -39,6 +39,12 @@ Supporting files:
 - [High Priority integration report](./04_Skill_触发规则/SKILL_INTEGRATION_REPORT_2026-06-16.md)
 - [Medium Priority integration report](./04_Skill_触发规则/MEDIUM_SKILL_INTEGRATION_REPORT_2026-06-17.md)
 
+## Automation Examples
+
+- [Inactive weekly GitHub Actions example](./automation_examples/github-actions-weekly-governance-health.yml)
+- Webhook runtime configuration is documented in the gstack audit package as `webhook_config_example.md`.
+- Automation examples are not active until a maintainer explicitly installs them in a scheduler path.
+
 ## Gate System
 
 - [Canonical gate decision JSON](./02_Gate_System/Gate_Decision_Canonical.json)
@@ -122,6 +128,11 @@ Principle: important failures and compliance refusals must be recorded as struct
 - Project-specific Evidence, Revenue, and Execution gates remain fail-closed until real evidence exists.
 - Current pilot: `Projects/ai占卜.ai/当前状态/`, status `connected_with_blockers`.
 
+Additional registration rules:
+
+- Project registration must record inherited L1 controls, local evidence ownership, and the current fail-closed decision before any execution claim.
+- Weekly automation can use the inactive GitHub Actions example, but it is not enabled until moved into an active scheduler path by a maintainer.
+
 Minimum project onboarding files:
 
 1. `L1_规则引用.md`
@@ -150,5 +161,6 @@ Minimum project onboarding files:
 ## Version Status
 
 - current maturity: L1 10/10 push estimate 8.6/10
-- last updated: 2026-06-17
+- latest gstack package: v1.7
+- last updated: 2026-06-20
 - contributors: Codex and Human Operator

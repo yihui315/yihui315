@@ -9,7 +9,7 @@ This layer is a governance control plane. It is not a project execution approval
 ## Current Maturity
 
 - current estimated maturity: `8.6/10`
-- audit package version: `gstack-audit-package-v1.6`
+- audit package version: `gstack-audit-package-v1.7`
 - source report: `2026-06-17_L1_Layer_10_10_Push_Scan_Report.md`
 - decision posture: governance audit ready, execution remains gated by project-specific evidence
 
@@ -27,7 +27,9 @@ This layer is a governance control plane. It is not a project execution approval
 - Added mandatory L1 operating rules in `AGENTS.md`.
 - Added read-only script support for evidence intake, closeout validation, artifact hygiene, and weekly health checks.
 - Added L1 overview, core script manual, weekly report guide, and maturity gap analysis for v1.6.
-- Added generic JSON webhook support to the weekly health script, dry-run by default.
+- Added formal audit material list, gstack checklist, and audit simulation Q&A for v1.7.
+- Added Slack and generic webhook support to the weekly health script, disabled or dry-run by default.
+- Added inactive GitHub Actions schedule example for weekly health checks.
 - Added multi-project governance framework and kept ai占卜.ai as a blocked-but-connected pilot.
 - Recorded the latest 12D scan and 10/10 push summary.
 - Recorded secret-shape scan result as `secret_shape_hits=0`.
@@ -40,7 +42,7 @@ This layer is a governance control plane. It is not a project execution approval
 | `human-evidence-intake-check.ps1` | Checks Human Operator fields, row completeness, `present` values, and secret-shape safety | Does not modify evidence or decide final gate pass |
 | `round-closeout-validator.ps1` | Confirms required L1 records are present and the canonical decision JSON parses | Does not make or widen gate decisions |
 | `governance-artifact-hygiene.ps1` | Produces `Archive_Plan_YYYY-MM-DD.md` dry-run plans for governance artifact directories | Does not move, delete, compress, or archive files |
-| `weekly-governance-health-check.ps1` | Combines closeout, artifact hygiene, secret-shape scan, and optional generic webhook notification into `Weekly_Governance_Health_YYYY-MM-DD.md` | Does not mutate gates or change project readiness; webhook is dry-run by default |
+| `weekly-governance-health-check.ps1` | Combines closeout, artifact hygiene, secret-shape scan, and optional Slack/generic webhook notification into `Weekly_Governance_Health_YYYY-MM-DD.md` | Does not mutate gates or change project readiness; real webhook delivery requires an explicit enable switch and runtime URL |
 
 ## Key Governance Chain
 
@@ -60,7 +62,7 @@ Implemented or documented control points:
 | Gap | Current state | Required improvement |
 | --- | --- | --- |
 | Script coverage | Evidence intake, closeout, artifact hygiene, and weekly health have verified read-only scripts | Add scripts for secret scan and decision refresh validation |
-| CI or scheduled execution | Manual weekly script exists, no external scheduler is installed | Add repeatable local task or CI workflow only after approval |
+| CI or scheduled execution | Inactive GitHub Actions example exists, no external scheduler is installed | Move schedule into an active workflow only after maintainer approval |
 | Trend evidence | Latest scan and weekly report exist, limited time series | Accumulate multiple scans and weekly reports |
 | Multi-project governance | ai占卜.ai pilot is connected but blocked | Add multi-project framework and project registry |
 | Project adoption | L1 package is ready | Downstream projects must still submit real evidence |

@@ -15,6 +15,9 @@ param(
   [int]$OlderThanDays = 90,
   [string]$OutputDirectory = "",
   [string]$NotificationWebhookUrl = "",
+  [switch]$EnableNotification,
+  [ValidateSet("generic", "slack")]
+  [string]$NotificationProvider = "generic",
   [ValidateSet("always", "blocked", "conditional", "never")]
   [string]$NotifyOn = "blocked",
   [bool]$NotificationDryRun = $true,
@@ -186,7 +189,9 @@ function Invoke-WebhookNotification {
   param(
     [string]$Url,
     [object]$Payload,
-    [bool]$DryRun
+    [bool]$DryRun,
+    [string]$Provider,
+    [bool]$Enabled
   )
 
   $hostName = Get-WebhookHost -Url $Url
@@ -196,6 +201,8 @@ function Invoke-WebhookNotification {
       status = "skipped_no_webhook"
       webhook_host = ""
       dry_run = $DryRun
+      provider = $Provider
+      enabled = $Enabled
     }
   }
 
@@ -204,6 +211,8 @@ function Invoke-WebhookNotification {
       status = "blocked_invalid_webhook_url"
       webhook_host = $hostName
       dry_run = $DryRun
+      provider = $Provider
+      enabled = $Enabled
     }
   }
 
@@ -212,22 +221,51 @@ function Invoke-WebhookNotification {
       status = "dry_run"
       webhook_host = $hostName
       dry_run = $true
+      provider = $Provider
+      enabled = $Enabled
+    }
+  }
+
+  if (-not $Enabled) {
+    return [PSCustomObject]@{
+      status = "disabled_not_enabled"
+      webhook_host = $hostName
+      dry_run = $false
+      provider = $Provider
+      enabled = $false
     }
   }
 
   try {
-    $body = $Payload | ConvertTo-Json -Depth 8
+    if ($Provider -eq "slack") {
+      $issueText = if ($Payload.issues -and @($Payload.issues).Count -gt 0) {
+        [string]::Join(", ", @($Payload.issues))
+      } else {
+        "none"
+      }
+      $sendPayload = [PSCustomObject]@{
+        text = ("[{0}] status={1}; score={2}/100; issues={3}; report={4}" -f $Payload.label, $Payload.status, $Payload.score, $issueText, $Payload.report_path)
+      }
+    } else {
+      $sendPayload = $Payload
+    }
+
+    $body = $sendPayload | ConvertTo-Json -Depth 8
     Invoke-RestMethod -Method Post -Uri $Url -Body $body -ContentType "application/json" | Out-Null
     return [PSCustomObject]@{
       status = "sent"
       webhook_host = $hostName
       dry_run = $false
+      provider = $Provider
+      enabled = $true
     }
   } catch {
     return [PSCustomObject]@{
       status = "send_failed"
       webhook_host = $hostName
       dry_run = $false
+      provider = $Provider
+      enabled = $true
       error = $_.Exception.Message
     }
   }
@@ -329,12 +367,14 @@ $notificationPayload = [PSCustomObject]@{
   compliance_note = "L1 governance-only. No project gate changed."
 }
 $notificationResult = if ($shouldNotify) {
-  Invoke-WebhookNotification -Url $NotificationWebhookUrl -Payload $notificationPayload -DryRun $NotificationDryRun
+  Invoke-WebhookNotification -Url $NotificationWebhookUrl -Payload $notificationPayload -DryRun $NotificationDryRun -Provider $NotificationProvider -Enabled ([bool]$EnableNotification)
 } else {
   [PSCustomObject]@{
     status = "skipped_by_notify_mode"
     webhook_host = Get-WebhookHost -Url $NotificationWebhookUrl
     dry_run = $NotificationDryRun
+    provider = $NotificationProvider
+    enabled = [bool]$EnableNotification
   }
 }
 
@@ -385,7 +425,8 @@ $report.Add("## Commands")
 $report.Add("")
 $report.Add('```powershell')
 $report.Add("& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -Json")
-$report.Add("& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -NotifyOn always -NotificationWebhookUrl '<webhook-url>' -NotificationDryRun:`$true -Json")
+$report.Add("& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -NotifyOn always -NotificationProvider slack -NotificationWebhookUrl '<slack-webhook-url-from-secret-store>' -NotificationDryRun:`$true -Json")
+$report.Add("& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -EnableNotification -NotifyOn blocked -NotificationProvider slack -NotificationWebhookUrl `$env:L1_SLACK_WEBHOOK_URL -NotificationDryRun:`$false -Json")
 $report.Add("& .\Codex_L1_Governance\scripts\round-closeout-validator.ps1 -Json")
 $report.Add(("& .\Codex_L1_Governance\scripts\governance-artifact-hygiene.ps1 -TargetDirectories @({0}) -OlderThanDays {1} -DryRun:`$true -Json" -f $targetLiteralList, $OlderThanDays))
 $report.Add('```')
@@ -406,6 +447,8 @@ Add-TableRow -Lines $report -Cells @("Field", "Value")
 Add-TableRow -Lines $report -Cells @("---", "---")
 Add-TableRow -Lines $report -Cells @("notify_on", (Format-InlineCode $NotifyOn))
 Add-TableRow -Lines $report -Cells @("should_notify", (Format-InlineCode $shouldNotify))
+Add-TableRow -Lines $report -Cells @("notification_provider", (Format-InlineCode $NotificationProvider))
+Add-TableRow -Lines $report -Cells @("notification_enabled", (Format-InlineCode ([bool]$EnableNotification)))
 Add-TableRow -Lines $report -Cells @("notification_status", (Format-InlineCode $notificationResult.status))
 Add-TableRow -Lines $report -Cells @("notification_dry_run", (Format-InlineCode $NotificationDryRun))
 Add-TableRow -Lines $report -Cells @("webhook_host", (Format-InlineCode $notificationResult.webhook_host))

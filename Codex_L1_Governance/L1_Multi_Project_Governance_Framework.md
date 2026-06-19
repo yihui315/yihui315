@@ -15,6 +15,39 @@ The goal is shared governance with project-specific evidence.
 | Project evidence | Human Operator evidence, revenue evidence, environment checks | Human Operator / project owner | Required for project gate changes |
 | Project decision | Project-level gate decision and review packet | Orchestrator / reviewer | Must stay fail-closed when evidence is missing |
 
+## Project Registration Flow
+
+1. Create a project folder under `Projects/<project-name>/`.
+2. Add a project rule reference file that points to the L1 `AGENTS.md`.
+3. Register the project in the Project Registry table with an initial status of `not_connected` or `connected_with_blockers`.
+4. Add the current Evidence Gate status using the L1 Human Operator template.
+5. Add the current Gate Decision summary and preserve the current `no_go` state when evidence is missing.
+6. Run `human-evidence-intake-check.ps1` and attach or reference the generated report.
+7. Run `weekly-governance-health-check.ps1` for L1 health context.
+8. Update the project adoption report with current blockers, next Human Operator action, and any L1 scripts invoked.
+
+Registration does not grant execution approval. It only records that the project is governed by L1 rules.
+
+## Rule Inheritance Mechanism
+
+Projects inherit these L1 controls by reference:
+
+| Inherited control | Source | Project responsibility |
+| --- | --- | --- |
+| Mandatory rules | `05_Agent_与_Worker_边界/AGENTS.md` | Follow fail-closed gate and evidence rules |
+| Evidence intake shape | `02_Gate_System/Evidence_Gate/` and `scripts/human-evidence-intake-check.ps1` | Provide real Human Operator fields and masked evidence |
+| Decision refresh contract | `04_Skill_触发规则/新建高优先级/orchestrator-decision-refresh.md` | Keep project decision summaries synchronized |
+| Weekly health context | `scripts/weekly-governance-health-check.ps1` | Record invocation, but do not treat L1 pass as project pass |
+| Round closeout | `scripts/round-closeout-validator.ps1` | Run after decision refresh when a project governance round ends |
+
+Projects must not inherit these as facts:
+
+- Human Operator identity
+- evidence `present=yes`
+- Revenue readiness
+- Execution Go
+- production payment or provider readiness
+
 ## Project Onboarding Checklist
 
 1. Create `Projects/<project-name>/当前状态/`.

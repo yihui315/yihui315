@@ -64,6 +64,8 @@ Important fields:
 
 - `notify_on`
 - `should_notify`
+- `notification_provider`
+- `notification_enabled`
 - `notification_status`
 - `notification_dry_run`
 - `webhook_host`
@@ -71,8 +73,10 @@ Important fields:
 Interpretation:
 
 - `notification_status=dry_run` means no webhook was sent.
-- `notification_status=sent` means a generic JSON webhook POST completed.
+- `notification_status=sent` means an explicitly enabled webhook POST completed.
+- `notification_status=disabled_not_enabled` means the command requested non-dry-run delivery without the required `-EnableNotification` switch.
 - `notification_status=skipped_by_notify_mode` means the current status did not match `NotifyOn`.
+- `notification_provider=slack` means the script formatted a Slack incoming webhook payload.
 - The report records only the webhook host, not the full URL.
 
 ## Status Rules

@@ -267,3 +267,18 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - latest evidence intake result: `blocked`; missing `submitted_by`, `role`, `submitted_at`, `verified_environment`
 - latest weekly health result: `pass`, score `100`
 - decision impact: none; project remains `no_go`
+
+### 2026-06-20 gstack Formal Audit Readiness v1.7
+
+- package_version: `gstack-audit-package-v1.7`
+- added formal audit materials: `L1_Governance_gstack_审计材料清单.md`, `gstack_审计_Checklist.md`, `gstack_审计模拟问答.md`
+- updated maturity analysis with gstack audit strengths and risks
+- upgraded weekly health notifications: `weekly-governance-health-check.ps1` now supports Slack and generic webhooks with `-EnableNotification`
+- added webhook config example: `gstack_audit_package/webhook_config_example.md`
+- added inactive schedule example: `automation_examples/github-actions-weekly-governance-health.yml`
+- updated multi-project framework with project registration flow and rule inheritance mechanism
+- updated ai占卜.ai pilot records with Evidence missing items and `human-evidence-intake-check.ps1` invocation example
+- weekly health verification: `status=pass`, `score=100`, `notification_provider=slack`, `notification_status=dry_run`, `notification_enabled=false`
+- evidence intake verification: `status=blocked`, `present_yes=0`, `present_no=10`, missing `submitted_by`, `role`, `submitted_at`, `verified_environment`
+- compliance scan: `secret_shape_hits=0`; fake webhook URL/token search produced no repository hits
+- decision impact: none; L1 remains governance-only, ai占卜.ai remains `no_go`, Evidence and Revenue remain blocked

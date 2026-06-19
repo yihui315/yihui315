@@ -1,0 +1,39 @@
+# Example only. This file is intentionally stored outside `.github/workflows/`.
+# Move it into `.github/workflows/` only after repository maintainer approval.
+
+name: L1 Weekly Governance Health
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 1 * * 1"
+
+jobs:
+  l1-weekly-governance-health:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run L1 weekly governance health check
+        shell: pwsh
+        run: |
+          .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -Json
+
+      - name: Optional Slack notification dry-run
+        if: always()
+        shell: pwsh
+        env:
+          L1_SLACK_WEBHOOK_URL: ${{ secrets.L1_SLACK_WEBHOOK_URL }}
+        run: |
+          if ($env:L1_SLACK_WEBHOOK_URL) {
+            .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 `
+              -NotifyOn always `
+              -NotificationProvider slack `
+              -NotificationWebhookUrl $env:L1_SLACK_WEBHOOK_URL `
+              -NotificationDryRun:$true `
+              -Json
+          }

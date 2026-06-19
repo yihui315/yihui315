@@ -48,7 +48,7 @@ Current readiness posture:
 
 - governance audit readiness: `ready_for_gstack_governance_audit`
 - project execution readiness: not claimed
-- latest package version: `gstack-audit-package-v1.6`
+- latest package version: `gstack-audit-package-v1.7`
 - latest known L1 maturity estimate: `8.6/10`
 
 ## Evidence Principle

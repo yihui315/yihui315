@@ -33,6 +33,8 @@ For each row:
 - Keep `present=no` when evidence is missing.
 - Provide a masked evidence path or link for every `present=yes` row.
 - Do not paste raw secrets, production keys, provider tokens, payment credentials, customer data, or `.env` content.
+- Keep row notes concrete: include what was verified, where the masked artifact lives, and whether it was local/staging/test/sandbox/production.
+- If a claim cannot be verified, leave the row as `present=no` and explain the blocker in `Notes`.
 
 ## Masked Evidence Examples
 
@@ -73,6 +75,27 @@ As of 2026-06-20:
 - `submitted_at`
 - `verified_environment`
 - 10 evidence rows remain `present=no`
+
+## Completion Checklist
+
+- [ ] Real Human Operator filled `submitted_by`.
+- [ ] Real role filled in `role`.
+- [ ] Real timestamp filled in `submitted_at`.
+- [ ] Environment selected in `verified_environment`.
+- [ ] Verification scope describes what was personally checked.
+- [ ] Every `present=yes` row has a masked artifact path or link.
+- [ ] Every unresolved row remains `present=no`.
+- [ ] No raw secrets, provider credentials, payment secrets, customer data, or `.env` contents were added.
+- [ ] `human-evidence-intake-check.ps1` was rerun after updates.
+- [ ] Result was recorded in the project report before any decision refresh.
+
+## Reviewer Red Flags
+
+- `submitted_by` is still `todo`.
+- `present=yes` appears with `todo` evidence path.
+- Evidence path points to `.env`, secret, provider, payment, or credential files.
+- Evidence is described only in chat and not backed by a file or link.
+- The operator claims production readiness without masked artifacts.
 
 ## Compliance Boundary
 
