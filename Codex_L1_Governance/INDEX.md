@@ -115,6 +115,22 @@ Principle: important failures and compliance refusals must be recorded as struct
 4. Each round should end with `round-closeout-validator`.
 5. Artifact cleanup must start with `governance-artifact-hygiene` in dry-run mode.
 
+## Multi-Project Governance
+
+- [L1_Multi_Project_Governance_Framework.md](./L1_Multi_Project_Governance_Framework.md) defines how projects adopt shared L1 rules.
+- Projects should reference L1 rules rather than copying them into divergent local rule sets.
+- Project-specific Evidence, Revenue, and Execution gates remain fail-closed until real evidence exists.
+- Current pilot: `Projects/ai占卜.ai/当前状态/`, status `connected_with_blockers`.
+
+Minimum project onboarding files:
+
+1. `L1_规则引用.md`
+2. `当前_Evidence_Gate_状态.md`
+3. `当前_Gate_Decision_摘要.md`
+4. `L1_试点接入报告_YYYY-MM-DD.md`
+5. `Evidence_补齐指南.md`
+6. `Weekly_Health_Check_调用记录.md`
+
 ## Quick Start Guide
 
 1. Read [AGENTS.md](./05_Agent_与_Worker_边界/AGENTS.md) for mandatory rules.

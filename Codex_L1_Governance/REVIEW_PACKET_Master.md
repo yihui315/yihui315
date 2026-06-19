@@ -249,3 +249,21 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - connected controls: `human-evidence-intake-check`, `orchestrator-decision-refresh` rule, `weekly-governance-health-check`
 - latest evidence intake result: `blocked`
 - decision impact: none; project remains `no_go`, `execution_go=false`
+
+### 2026-06-20 gstack Audit Package v1.6
+
+- package_version: `gstack-audit-package-v1.6`
+- added audit docs: `L1_Governance_Overview.md`, `核心脚本使用手册.md`, `Weekly_Health_Check_报告解读指南.md`, `L1_成熟度与差距分析.md`
+- added multi-project framework: `L1_Multi_Project_Governance_Framework.md`
+- weekly script enhancement: generic JSON webhook notification support, dry-run by default
+- notification verification: `NotifyOn=always`, `NotificationDryRun=true`, `notification.status=dry_run`, `webhook_host=example.com`
+- decision impact: none; L1 remains governance-only
+
+### 2026-06-20 ai占卜.ai Pilot Deepening
+
+- added Human Operator guide: `Projects/ai占卜.ai/当前状态/Evidence_补齐指南.md`
+- added weekly health record: `Projects/ai占卜.ai/当前状态/Weekly_Health_Check_调用记录.md`
+- added refreshed report: `Projects/ai占卜.ai/当前状态/L1_试点接入报告_2026-06-20.md`
+- latest evidence intake result: `blocked`; missing `submitted_by`, `role`, `submitted_at`, `verified_environment`
+- latest weekly health result: `pass`, score `100`
+- decision impact: none; project remains `no_go`

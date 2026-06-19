@@ -50,3 +50,12 @@ Have a real Human Operator fill the Evidence Gate submission template with maske
 | `weekly-governance-health-check` | L1 script available and latest L1 run passed | no project gate upgrade |
 
 The L1 adoption report is stored at `L1_试点接入报告_2026-06-19.md`.
+
+## 2026-06-20 Status Refresh
+
+| Check | Result | Decision impact |
+| --- | --- | --- |
+| `human-evidence-intake-check` | `blocked`; missing Human Operator fields and 10 rows remain `present=no` | no change |
+| `weekly-governance-health-check` | `pass`; score `100` for L1 tooling health | no project gate upgrade |
+
+Current project decision remains `no_go`, with `execution_go=false`.

@@ -40,3 +40,5 @@
 - Added read-only `scripts/weekly-governance-health-check.ps1`, generated `weekly_health_reports/Weekly_Governance_Health_2026-06-19.md`, updated AGENTS weekly execution rules, and updated `gstack_audit_package/` to v1.4.
 - Added read-only `scripts/human-evidence-intake-check.ps1`, generated `evidence_intake_reports/Evidence_Intake_Report_2026-06-19.md`, and updated `gstack_audit_package/` to v1.5 while preserving ai占卜.ai Evidence Gate as blocked.
 - Added ai占卜.ai L1 pilot rule reference and adoption report, connecting the project to L1 controls while preserving `no_go` and blocked Evidence/Revenue gates.
+- Updated `gstack_audit_package/` to v1.6 with L1 overview, core script manual, weekly report guide, maturity gap analysis, webhook dry-run documentation, and multi-project framework.
+- Added 2026-06-20 ai占卜.ai pilot deepening records and Human Operator evidence completion guide while preserving blocked/no_go status.

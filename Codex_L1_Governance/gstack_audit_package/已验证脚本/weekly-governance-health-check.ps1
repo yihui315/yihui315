@@ -14,6 +14,11 @@ param(
   [string[]]$ArtifactTargetDirectories = @("artifacts", "screenshots", "logs", "mcp"),
   [int]$OlderThanDays = 90,
   [string]$OutputDirectory = "",
+  [string]$NotificationWebhookUrl = "",
+  [ValidateSet("always", "blocked", "conditional", "never")]
+  [string]$NotifyOn = "blocked",
+  [bool]$NotificationDryRun = $true,
+  [string]$NotificationLabel = "Codex L1 Weekly Governance Health",
   [switch]$Json
 )
 
@@ -152,6 +157,82 @@ function Format-InlineCode {
   return "``{0}``" -f $Value
 }
 
+function Get-WebhookHost {
+  param([string]$Url)
+
+  if ([string]::IsNullOrWhiteSpace($Url)) { return "" }
+
+  try {
+    return ([System.Uri]$Url).Host
+  } catch {
+    return "invalid_url"
+  }
+}
+
+function Test-ShouldNotify {
+  param(
+    [string]$Status,
+    [string]$Mode
+  )
+
+  if ($Mode -eq "never") { return $false }
+  if ($Mode -eq "always") { return $true }
+  if ($Mode -eq "blocked" -and $Status -eq "blocked") { return $true }
+  if ($Mode -eq "conditional" -and $Status -in @("blocked", "conditional")) { return $true }
+  return $false
+}
+
+function Invoke-WebhookNotification {
+  param(
+    [string]$Url,
+    [object]$Payload,
+    [bool]$DryRun
+  )
+
+  $hostName = Get-WebhookHost -Url $Url
+
+  if ([string]::IsNullOrWhiteSpace($Url)) {
+    return [PSCustomObject]@{
+      status = "skipped_no_webhook"
+      webhook_host = ""
+      dry_run = $DryRun
+    }
+  }
+
+  if ($hostName -eq "invalid_url") {
+    return [PSCustomObject]@{
+      status = "blocked_invalid_webhook_url"
+      webhook_host = $hostName
+      dry_run = $DryRun
+    }
+  }
+
+  if ($DryRun) {
+    return [PSCustomObject]@{
+      status = "dry_run"
+      webhook_host = $hostName
+      dry_run = $true
+    }
+  }
+
+  try {
+    $body = $Payload | ConvertTo-Json -Depth 8
+    Invoke-RestMethod -Method Post -Uri $Url -Body $body -ContentType "application/json" | Out-Null
+    return [PSCustomObject]@{
+      status = "sent"
+      webhook_host = $hostName
+      dry_run = $false
+    }
+  } catch {
+    return [PSCustomObject]@{
+      status = "send_failed"
+      webhook_host = $hostName
+      dry_run = $false
+      error = $_.Exception.Message
+    }
+  }
+}
+
 $root = Resolve-GovernanceRoot -InputRoot $GovernanceRoot
 if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
   $OutputDirectory = Join-Path $root "weekly_health_reports"
@@ -232,6 +313,31 @@ $overallStatus = if ($issues.Count -eq 0 -and $score -ge 90) {
   "blocked"
 }
 
+$shouldNotify = Test-ShouldNotify -Status $overallStatus -Mode $NotifyOn
+$notificationPayload = [PSCustomObject]@{
+  label = $NotificationLabel
+  status = $overallStatus
+  score = $score
+  generated_at = (Get-Date).ToString("s")
+  governance_root = $root
+  report_path = $outputPath
+  round_closeout_status = $roundStatus
+  artifact_hygiene_status = $hygieneStatus
+  secret_shape_hits = $secretScan.secret_shape_hits
+  env_like_files = $secretScan.env_like_files
+  issues = @($issues)
+  compliance_note = "L1 governance-only. No project gate changed."
+}
+$notificationResult = if ($shouldNotify) {
+  Invoke-WebhookNotification -Url $NotificationWebhookUrl -Payload $notificationPayload -DryRun $NotificationDryRun
+} else {
+  [PSCustomObject]@{
+    status = "skipped_by_notify_mode"
+    webhook_host = Get-WebhookHost -Url $NotificationWebhookUrl
+    dry_run = $NotificationDryRun
+  }
+}
+
 $report = New-Object System.Collections.Generic.List[string]
 $report.Add("# Weekly Governance Health $dateStamp")
 $report.Add("")
@@ -279,6 +385,7 @@ $report.Add("## Commands")
 $report.Add("")
 $report.Add('```powershell')
 $report.Add("& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -Json")
+$report.Add("& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -NotifyOn always -NotificationWebhookUrl '<webhook-url>' -NotificationDryRun:`$true -Json")
 $report.Add("& .\Codex_L1_Governance\scripts\round-closeout-validator.ps1 -Json")
 $report.Add(("& .\Codex_L1_Governance\scripts\governance-artifact-hygiene.ps1 -TargetDirectories @({0}) -OlderThanDays {1} -DryRun:`$true -Json" -f $targetLiteralList, $OlderThanDays))
 $report.Add('```')
@@ -293,11 +400,22 @@ if ($issues.Count -gt 0) {
   $report.Add("- none")
 }
 $report.Add("")
+$report.Add("## Notification")
+$report.Add("")
+Add-TableRow -Lines $report -Cells @("Field", "Value")
+Add-TableRow -Lines $report -Cells @("---", "---")
+Add-TableRow -Lines $report -Cells @("notify_on", (Format-InlineCode $NotifyOn))
+Add-TableRow -Lines $report -Cells @("should_notify", (Format-InlineCode $shouldNotify))
+Add-TableRow -Lines $report -Cells @("notification_status", (Format-InlineCode $notificationResult.status))
+Add-TableRow -Lines $report -Cells @("notification_dry_run", (Format-InlineCode $NotificationDryRun))
+Add-TableRow -Lines $report -Cells @("webhook_host", (Format-InlineCode $notificationResult.webhook_host))
+$report.Add("")
 $report.Add("## Compliance Boundary")
 $report.Add("")
 $report.Add("- This report is L1 governance-only.")
 $report.Add("- This report does not grant project execution, revenue, payment, or production readiness.")
 $report.Add("- No files were moved, deleted, compressed, archived, or modified by the artifact hygiene step.")
+$report.Add("- Webhook URLs must be passed at runtime and must not be committed to repository files.")
 
 $report | Set-Content -LiteralPath $outputPath -Encoding UTF8
 Write-Log ("wrote_report={0}" -f $outputPath)
@@ -319,6 +437,7 @@ $result = [PSCustomObject]@{
     sensitive_shaped_path_hits = if ($hygieneResult.json) { $hygieneResult.json.sensitive_shaped_path_hits } else { $null }
   }
   secret_scan = $secretScan
+  notification = $notificationResult
   issues = @($issues)
   compliance_note = "L1 governance-only. No gate decision changed."
 }

@@ -25,7 +25,7 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 | --- | --- | --- | --- | --- |
 | `governance-artifact-hygiene` | active | 8/10 | `scripts/governance-artifact-hygiene.ps1` | Read-only dry-run archive planner verified; no delete/archive execution by default. |
 | `round-closeout-validator` | proposed | 8/10 | `scripts/round-closeout-validator.ps1` | Read-only script verified and included in this package. |
-| `weekly-governance-health-check` | active | 8/10 | `scripts/weekly-governance-health-check.ps1` | Orchestrates closeout, artifact hygiene, and secret-shape scan into a weekly report. |
+| `weekly-governance-health-check` | active | 9/10 | `scripts/weekly-governance-health-check.ps1` | Orchestrates closeout, artifact hygiene, secret-shape scan, and generic webhook dry-run notification. |
 
 ## Supporting Reusable Skills
 
