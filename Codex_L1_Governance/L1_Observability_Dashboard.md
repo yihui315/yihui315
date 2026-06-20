@@ -7,8 +7,8 @@
 | weekly_health_status | `pass` |
 | weekly_health_score | `100` |
 | secret_shape_hits | `0` |
-| l1_should_stop | `False` |
-| l1_stop_reason | `` |
+| l1_should_stop | `True` |
+| l1_stop_reason | `repeated_failure_category` |
 | reflection_failure_category | `prompt` |
 | codex_suggestion_count | `5` |
 | improvement_suggestion_count | `7` |
@@ -20,15 +20,6 @@
 
 ## Trend Analysis
 
-### Executor Safe-Auto Interpretation
-
-| Observation | Interpretation | Boundary |
-| --- | --- | --- |
-| `trend_points=1` | Trend capability is wired, but one data point is not enough for maturity claims | Do not claim multi-cycle stability yet |
-| `weekly_health_score=100` | L1 tooling health is currently clean | Does not imply project execution readiness |
-| `stop_reason=none` | No stopping condition is active | Executor may only perform safe-auto governance updates |
-| `evidence_present_yes=0` and `evidence_present_no=10` | ai-divination remains blocked on Human Operator evidence | Must not change `execution_go=false` |
-
 ### Health Score Trend
 
 | Date | Status | Score | Delta |
@@ -39,7 +30,8 @@
 
 | Stop reason | Count |
 | --- | --- |
-| `none` | `2` |
+| `none` | `1` |
+| `repeated_failure_category` | `1` |
 
 ### Improvement Suggestion Trend
 
@@ -53,8 +45,8 @@
 | --- | --- | --- |
 | improvement_suggestion_total | `7` | Counted from improvement report history |
 | improvement_adoption_rate_percent | `` | not_tracked_until_suggestions_gain_status_fields |
-| average_iteration_count | `1` | Uses loop_history when present, otherwise current state |
-| repeated_failure_frequency_percent | `0` | Uses loop_history when present, otherwise current repeated-failure state |
+| average_iteration_count | `2` | Uses loop_history when present, otherwise current state |
+| repeated_failure_frequency_percent | `100` | Uses loop_history when present, otherwise current repeated-failure state |
 
 ## ai-divination Pilot Monitoring
 
