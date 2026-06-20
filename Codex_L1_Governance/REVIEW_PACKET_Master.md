@@ -328,3 +328,18 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - compliance boundary: all new scripts are report-only/read-only/state-only; no gate, evidence, revenue, provider, payment, production, or project readiness state changed
 - decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, Evidence and Revenue remain blocked
 - decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, Evidence and Revenue remain blocked
+
+### 2026-06-20 Executor Safe-Auto, ai Breakthrough Plan, And Dashboard Trends
+
+- updated Executor agent: `.codex/agents/executor.md`
+- Executor classification model: `safe_auto`, `human_required`, `forbidden`
+- safe_auto scope: governance Markdown docs, structured templates, indexes, checklists, generated reports, PR/Changelog text, and descriptive JSON metadata only
+- Human-required scope: scripts, workflows, AGENTS mandatory rules, Skill promotion, stop reset, webhook enablement, deletion, broad refactors, and files outside the governance scope
+- forbidden scope: gate pass/go changes, `execution_go=true`, fabricated Human Operator identity, `present=yes` without real evidence, secrets, provider/payment/production readiness
+- ai-divination breakthrough reflection: `Projects/ai占卜.ai/当前状态/AI_Divination_Breakthrough_Reflection_2026-06-20.json`
+- ai-divination breakthrough plan: `Projects/ai占卜.ai/当前状态/Breakthrough_Plan_2026-06-20.md`
+- updated state metadata: `L1_State.json` now points to the latest project reflection and breakthrough plan while preserving `current_execution_go=false`
+- enhanced dashboard trend support: `scripts/generate-l1-observability-dashboard.ps1` now reads report history, stop reason distribution, improvement suggestion trends, and ai-divination pilot monitoring
+- latest dashboard result: `weekly_health_score=100`, `l1_should_stop=false`, `pilot_no_go=true`, `pilot_execution_go_false=true`, `evidence_present_yes=0`, `evidence_present_no=10`
+- compliance boundary: no evidence, gate, revenue, provider, payment, social posting, email, deployment, or production readiness state changed
+- decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, Evidence and Revenue remain blocked

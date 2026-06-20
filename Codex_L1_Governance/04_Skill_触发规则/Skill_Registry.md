@@ -20,7 +20,7 @@
 | `l1-observability-dashboard` | observability helper | active | 8/10 | `scripts/generate-l1-observability-dashboard.ps1` | Codex | Generates read-only dashboard across health, feedback, reflection, state, evidence intake, and pilot status |
 | `HealthChecker` | sub-agent definition | documented | 7/10 | `.codex/agents/healthchecker.md` | Codex | Reads/runs L1 health checks and reports status; no gate mutation |
 | `Reflector` | sub-agent definition | documented | 7/10 | `.codex/agents/reflector.md` | Codex | Produces strict reflection JSON plus Markdown; advisory only |
-| `Executor` | sub-agent definition | documented | 7/10 | `.codex/agents/executor.md` | Codex | May execute only Human-confirmed recommendations and only when `should_stop=false` |
+| `Executor` | sub-agent definition | documented | 8/10 | `.codex/agents/executor.md` | Codex | Classifies actions as safe_auto, human_required, or forbidden; low-risk governance docs/templates may be auto-applied when `should_stop=false` |
 | `human-evidence-intake-check` | L1 governance | active | 8/10 | `scripts/human-evidence-intake-check.ps1` | Codex | Read-only intake script verified; current ai占卜.ai evidence remains blocked |
 | `orchestrator-decision-refresh` | L1 governance | proposed | 7/10 | no dedicated script | Codex | Auto-closeout rule documented |
 | `governance-artifact-hygiene` | L1 governance | active | 8/10 | `scripts/governance-artifact-hygiene.ps1` | Codex | Read-only dry-run script verified; no archive/delete execution by default |

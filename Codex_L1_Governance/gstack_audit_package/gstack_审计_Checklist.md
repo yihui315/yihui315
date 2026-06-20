@@ -59,7 +59,7 @@
 | Improvement reports are generated | `improvement_reports/L1_Codex_Improvement_YYYY-MM-DD.md/.json` | verified locally |
 | Observability dashboard exists | `L1_Observability_Dashboard.md` and `observability_reports/` | verified locally |
 | L1 state is controlled | `L1_State.json` tracks iterations, score, execution_go, estimated cost, and stop reason | verified locally |
-| Executor is not automatic | no workflow step triggers Executor after reflection | verified locally |
+| Executor is not workflow-automatic | no workflow step triggers Executor after reflection; safe-auto remains local, scoped, and blocked by `should_stop=true` | verified locally |
 
 ## Sub-Agent Checklist
 
@@ -67,7 +67,7 @@
 | --- | --- | --- |
 | HealthChecker definition exists | `.codex/agents/healthchecker.md` | verified locally |
 | Reflector definition exists | `.codex/agents/reflector.md` with required JSON contract | verified locally |
-| Executor definition exists | `.codex/agents/executor.md` with Human-confirmation and `should_stop=false` preflight | verified locally |
+| Executor definition exists | `.codex/agents/executor.md` with safe-auto classification, Human-required boundaries, and `should_stop=false` preflight | verified locally |
 | Agent boundaries are fail-closed | no agent may alter evidence, gates, revenue, or execution readiness without Human approval | verified locally |
 
 ## Stopping-Condition Checklist

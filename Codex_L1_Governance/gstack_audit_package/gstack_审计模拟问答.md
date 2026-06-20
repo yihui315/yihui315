@@ -86,7 +86,7 @@ The priority order is `cost_limit_reached`, `max_iterations_reached`, `no_progre
 
 ## 22. Can Executor run from GitHub Actions?
 
-No. The workflow generates health, feedback, reflection, and state reports only. Executor requires explicit Human confirmation and a `should_stop=false` state.
+No. The workflow generates health, feedback, reflection, state, improvement, and observability reports only. Executor is not triggered by GitHub Actions. Local Executor work may safe-auto only low-risk governance docs/templates/indexes/reports/descriptive metadata when `should_stop=false`; high-risk work still requires explicit Human confirmation.
 
 ## 23. What happens if the same failure category repeats?
 

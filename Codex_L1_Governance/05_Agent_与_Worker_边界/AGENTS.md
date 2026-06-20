@@ -31,19 +31,21 @@ Use this chain for reusable governance work:
 17. Weekly health check output must be recorded before claiming weekly L1 audit readiness.
 18. Webhook notifications must be disabled or dry-run by default; real delivery requires an explicit enable switch and a runtime URL from an external secret store.
 19. Schedule examples, GitHub Actions examples, or cron examples must not be treated as enabled automation until a maintainer explicitly installs them in the active scheduler location.
-20. The approved weekly governance workflow may commit generated reports only under `weekly_health_reports/`, `feedback_reports/`, `reflection_reports/`, and `L1_State.json`.
+20. The approved weekly governance workflow may commit generated reports only under `weekly_health_reports/`, `feedback_reports/`, `reflection_reports/`, `improvement_reports/`, `observability_reports/`, root `L1_Observability_Dashboard.md`, and `L1_State.json`.
 21. Structured feedback reports are advisory; they cannot change gate decisions, evidence rows, Skill status, or project readiness.
-22. Codex may draft self-evolution improvements from feedback reports, but human confirmation is required before modifying L1 rules, scripts, project records, or active automation.
+22. Codex may draft self-evolution improvements from feedback reports. Executor may auto-apply low-risk governance documentation, template, index, checklist, report, Changelog, Review Packet, or descriptive state metadata updates when `L1_State.json.should_stop=false`.
 23. Every weekly self-run loop must execute in this order: Health Check -> Feedback Report -> Reflector Report -> L1 State Update.
 24. `L1_State.json` is the canonical stopping-condition file for L1 loop execution; Executor must stop when `should_stop=true`.
 25. Reflector output is advisory only. It may recommend a next goal, but it must not modify files, gates, evidence, revenue state, or execution decisions.
-26. Executor may act only on a Human-confirmed Reflector recommendation and only after verifying `L1_State.json.should_stop=false`.
+26. Executor must classify each action as `safe_auto`, `human_required`, or `forbidden` before making changes, and must verify `L1_State.json.should_stop=false` before any non-read-only action.
 27. Stopping conditions are evaluated in this priority order: `cost_limit_reached`, `max_iterations_reached`, `no_progress`, `repeated_failure_category`.
 28. Cost fields in `L1_State.json` are caller-provided estimates only and must never be described as real API billing data.
 29. If the same failure category repeats for two loop updates, lower the next goal or pause for Human review before further automation.
 30. `reflect-and-improve.ps1` may generate Codex improvement suggestions, but suggestions are not approvals and must not be executed without Human confirmation.
 31. `generate-l1-observability-dashboard.ps1` is read-only and may be run before audit or handoff to summarize health, stop state, evidence intake, and pilot status.
 32. `update-l1-loop-state.ps1 -ResetStop` may be used only after Human confirmation; resetting `should_stop` does not authorize Executor or project readiness.
+33. Executor safe-auto scope is limited to governance docs, structured templates, indexes, checklists, generated reports, PR or Changelog text, and descriptive JSON metadata; gate, evidence, revenue, webhook, workflow, script logic, deletion, and broad refactor changes remain Human-required.
+34. Executor output must include classification, source suggestion, changed files, validation results, and an explicit compliance boundary.
 
 ## Weekly Health Check Trigger
 

@@ -143,7 +143,7 @@ Principle: important failures and compliance refusals must be recorded as struct
 4. Each round should end with `round-closeout-validator`.
 5. Artifact cleanup must start with `governance-artifact-hygiene` in dry-run mode.
 6. Weekly loop automation runs Health -> Feedback -> Reflect -> State Update.
-7. Executor must not run when `L1_State.json.should_stop=true`.
+7. Executor must not run non-read-only work when `L1_State.json.should_stop=true`; when clear, it may safe-auto only low-risk governance docs/templates/indexes/reports/descriptive metadata.
 8. Use `L1_Observability_Dashboard.md` as the quick handoff view before audit or project review.
 
 ## Multi-Project Governance

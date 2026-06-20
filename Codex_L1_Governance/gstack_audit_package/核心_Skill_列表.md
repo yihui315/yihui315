@@ -40,7 +40,7 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 | `executor-preflight-check` | observed-local | 7/10 | local skill file observed | Passing preflight is explicitly not Execution Go. |
 | `HealthChecker` | documented | 7/10 | `.codex/agents/healthchecker.md` | Sub-agent role for health-only interpretation; no gate mutation. |
 | `Reflector` | documented | 7/10 | `.codex/agents/reflector.md` | Sub-agent role for root-cause analysis and next-goal recommendation; advisory only. |
-| `Executor` | documented | 7/10 | `.codex/agents/executor.md` | Sub-agent role for Human-confirmed improvements; must check `should_stop=false`. |
+| `Executor` | documented | 8/10 | `.codex/agents/executor.md` | Sub-agent role for safe-auto low-risk governance updates and Human-confirmed higher-risk improvements; must check `should_stop=false`. |
 
 ## Current Execution Chain
 
@@ -48,7 +48,7 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 
 Loop Engineering chain:
 
-`HealthChecker -> weekly health -> feedback -> Reflector -> L1_State update -> Human-confirmed Executor`
+`HealthChecker -> weekly health -> feedback -> Reflector -> L1_State update -> safe-auto or Human-confirmed Executor`
 
 v2.0 advisory and observability chain:
 
@@ -112,7 +112,7 @@ v2.0 advisory and observability chain:
 - `observed-local` means a local Skill file was observed and summarized, but this package does not prove plugin/runtime invocation.
 - `round-closeout-validator` has script support, but the Skill registry remains conservative until active promotion is formally recorded.
 - Sub-agent definitions are documented role contracts; they do not prove autonomous execution.
-- Executor is not wired to GitHub Actions and requires Human confirmation plus `should_stop=false`.
+- Executor is not wired to GitHub Actions; safe-auto is local and low-risk only, while higher-risk work requires Human confirmation plus `should_stop=false`.
 - Improvement and dashboard scripts are report-only/read-only and do not authorize Executor.
 - No Skill may fabricate evidence, secrets, payment readiness, or gate state.
 

@@ -12,11 +12,50 @@
 | reflection_failure_category | `prompt` |
 | codex_suggestion_count | `5` |
 | improvement_suggestion_count | `7` |
-| evidence_intake_status | `missing` |
-| evidence_present_yes | `` |
-| evidence_present_no | `` |
-| pilot_no_go | `False` |
-| pilot_execution_go_false | `False` |
+| evidence_intake_status | `blocked` |
+| evidence_present_yes | `0` |
+| evidence_present_no | `10` |
+| pilot_no_go | `True` |
+| pilot_execution_go_false | `True` |
+
+## Trend Analysis
+
+### Health Score Trend
+
+| Date | Status | Score | Delta |
+| --- | --- | --- | --- |
+| 2026-06-20 | `pass` | `100` | `` |
+
+### Stop Reason Distribution
+
+| Stop reason | Count |
+| --- | --- |
+| `none` | `2` |
+
+### Improvement Suggestion Trend
+
+| Date | Suggestion count | Failure category |
+| --- | --- | --- |
+| 2026-06-20 | `7` | `prompt` |
+
+## Key Metrics
+
+| Metric | Value | Note |
+| --- | --- | --- |
+| improvement_suggestion_total | `7` | Counted from improvement report history |
+| improvement_adoption_rate_percent | `` | not_tracked_until_suggestions_gain_status_fields |
+| average_iteration_count | `1` | Uses loop_history when present, otherwise current state |
+| repeated_failure_frequency_percent | `0` | Uses loop_history when present, otherwise current repeated-failure state |
+
+## ai-divination Pilot Monitoring
+
+| Metric | Value |
+| --- | --- |
+| execution_go_current | `False` |
+| execution_go_trend | `stable_false` |
+| evidence_status_current | `blocked` |
+| evidence_present_yes_current | `0` |
+| evidence_present_no_current | `10` |
 
 ## Source Files
 
@@ -26,11 +65,12 @@
 | feedback | `C:\Users\Administrator\Documents\codex进化助手\Codex_L1_Governance\feedback_reports\Weekly_Governance_Feedback_2026-06-20.json` |
 | reflection | `C:\Users\Administrator\Documents\codex进化助手\Codex_L1_Governance\reflection_reports\L1_Reflection_2026-06-20.json` |
 | improvement | `C:\Users\Administrator\Documents\codex进化助手\Codex_L1_Governance\improvement_reports\L1_Codex_Improvement_2026-06-20.json` |
-| evidence_intake | `` |
+| evidence_intake | `C:\Users\Administrator\Documents\codex进化助手\Codex_L1_Governance\evidence_intake_reports\Evidence_Intake_Report_2026-06-20.md` |
 | state | `C:\Users\Administrator\Documents\codex进化助手\Codex_L1_Governance\L1_State.json` |
+| pilot_decision | `C:\Users\Administrator\Documents\codex进化助手\Codex_L1_Governance\Projects\ai占卜.ai\当前状态\当前_Gate_Decision_摘要.md` |
 
 ## Compliance Boundary
 
 - Dashboard is read-only.
 - Dashboard does not change Evidence, Revenue, Approval, Execution, payment, provider, or production readiness.
-- ai鍗犲崪.ai remains fail-closed while Human Operator evidence is missing.
+- ai-divination pilot remains fail-closed while Human Operator evidence is missing.

@@ -25,7 +25,7 @@ flowchart TD
   K -->|false| M["reflect-and-improve.ps1"]
   M --> N["Codex improvement suggestions"]
   N --> O["Human reviewer confirmation"]
-  O --> P["Executor applies approved improvement"]
+  O --> P["Executor applies safe-auto or approved improvement"]
   O --> Q["Rejected or deferred recommendation"]
   P --> R["REVIEW_PACKET_Master.md and CHANGELOG.md"]
   Q --> R
@@ -46,7 +46,7 @@ flowchart TD
 | State and stopping layer | `L1_State.json`, `update-l1-loop-state.ps1` | Track iteration, score, execution_go, estimated cost, no-progress count, and stop reason | Does not trigger Executor |
 | Improvement advisory layer | `reflect-and-improve.ps1`, `improvement_reports/` | Consolidate Codex improvement suggestions before Human review | Report-only |
 | Observability layer | `generate-l1-observability-dashboard.ps1`, `observability_reports/`, `L1_Observability_Dashboard.md` | Provide one read-only dashboard for audit and handoff | Does not change state |
-| Evolution layer | Codex review, Human reviewer, `.codex/agents/`, `AGENTS.md`, Skill registry, scripts | Propose and apply approved governance improvements | Human confirmation required for durable changes |
+| Evolution layer | Codex review, Human reviewer, `.codex/agents/`, `AGENTS.md`, Skill registry, scripts | Propose and apply safe-auto or approved governance improvements | Low-risk docs/templates can be safe-auto; high-risk changes require Human confirmation |
 
 ## Implementation Roadmap
 
@@ -147,8 +147,9 @@ The system fails closed:
 - `blocked` health checks still generate reports.
 - `blocked` or `conditional` findings remain visible in JSON and Markdown.
 - generated feedback is advisory and cannot override gate state.
-- generated reflection is advisory and cannot trigger Executor by itself.
-- `should_stop=true` blocks Executor and requires Human review.
+- generated reflection is advisory and cannot trigger high-risk Executor work by itself.
+- Executor may safe-auto only low-risk governance docs/templates/indexes/reports/descriptive metadata when `should_stop=false`.
+- `should_stop=true` blocks non-read-only Executor work and requires Human review.
 - ai占卜.ai remains `no_go` until real project evidence is submitted and reviewed.
 
 ## Current Capability Assessment

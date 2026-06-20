@@ -23,7 +23,7 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `l1-observability-dashboard` | gstack audit review, weekly closeout, or governance handoff | latest health, feedback, reflection, state, evidence intake, and pilot summary | read-only dashboard Markdown/JSON | Governance |
 | `HealthChecker` | L1 health must be interpreted by a sub-agent | repository state and weekly health report | health JSON path, score, status, issues | Governance |
 | `Reflector` | score is below target, execution_go remains false, or recurring issues appear | health report, feedback report, `L1_State.json` | root-cause JSON and next-goal recommendation | Governance |
-| `Executor` | Human confirms a Reflector recommendation and `L1_State.json.should_stop=false` | confirmed action, current L1 state, affected files | implemented change plus validation summary | Governance |
+| `Executor` | A Human confirms a higher-risk recommendation, or a low-risk governance documentation/template/index/report suggestion is classified `safe_auto` and `L1_State.json.should_stop=false` | source suggestion, current L1 state, affected files, risk classification | implemented change or human-required block plus validation summary | Governance |
 | `human-evidence-intake-check` | Human Operator masked evidence is submitted or updated | Evidence `.md` file and masked artifact references | validator summary, missing fields, readiness for orchestrator review | Evidence, Revenue |
 | `orchestrator-decision-refresh` | Evidence, Revenue, Approval, Executor, or Environment gate changes | `ORCHESTRATOR_GATE_STATE.json` and validator outputs | refreshed decision JSON and Review Packet note | All gates |
 | `tianji-revenue-gate` | Revenue, payment, checkout, webhook, entitlement, or monetization safety is in scope | final orchestrator decision and masked revenue evidence | Revenue Evidence verdict and missing evidence list | Revenue |
@@ -47,10 +47,11 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 13. Run `l1-governance-reflector` after feedback generation and before updating loop state.
 14. Run `l1-loop-state-updater` after the Reflector report; use `L1_State.json` as the canonical stop/go control for further loop work.
 15. Do not trigger Executor when `L1_State.json.should_stop=true`; request Human review instead.
-16. Reflector recommendations are not approvals. Executor requires explicit Human confirmation.
+16. Reflector recommendations are not approvals. Executor may auto-apply only low-risk governance docs/templates/indexes/reports/descriptive metadata; higher-risk work requires explicit Human confirmation.
 17. Run `l1-reflect-and-improve` before a Human review session when Codex improvement suggestions are needed.
 18. Run `l1-observability-dashboard` before formal audit submission or after weekly closeout to create one review entrypoint.
 19. Use `update-l1-loop-state.ps1 -ResetStop` only after Human confirmation; reset does not approve Executor work by itself.
+20. Executor must mark each action as `safe_auto`, `human_required`, or `forbidden` before editing.
 
 ## Post-Run Record Map
 
@@ -69,7 +70,7 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `l1-observability-dashboard` | `observability_reports/` and root `L1_Observability_Dashboard.md` | health score, stop state, evidence intake status, pilot status |
 | `HealthChecker` | health report or handoff summary | status, score, health JSON path |
 | `Reflector` | reflection report | strict JSON contract and Markdown summary |
-| `Executor` | `REVIEW_PACKET_Master.md` and `CHANGELOG.md` for durable changes | Human approval source, changed files, validation result |
+| `Executor` | `REVIEW_PACKET_Master.md` and `CHANGELOG.md` for durable changes | classification, source suggestion, changed files, validation result, compliance boundary |
 | `codex-system-governance-auditor` | `REVIEW_PACKET_Master.md` for L1-level audits | findings, assets updated, validation summary |
 | `executor-preflight-check` | executor health report or Review Packet | executor availability JSON and recommendation |
 

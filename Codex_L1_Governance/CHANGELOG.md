@@ -2,6 +2,10 @@
 
 ## 2026-06-20
 
+- Strengthened `.codex/agents/executor.md` with safe-auto, human-required, and forbidden action classifications.
+- Added ai占卜.ai breakthrough reflection and `Breakthrough_Plan_2026-06-20.md` while preserving `no_go`, `execution_go=false`, and blocked Evidence/Revenue status.
+- Enhanced `generate-l1-observability-dashboard.ps1` with historical trend tables, key metrics, stop reason distribution, and ai-divination pilot monitoring.
+- Updated `L1_State.json` with descriptive project breakthrough report paths without changing execution readiness.
 - Added active `.github/workflows/weekly-governance-health-check.yml` for weekly L1 health and structured feedback report generation.
 - Added `scripts/generate-weekly-feedback-report.ps1` with Markdown/JSON feedback output.
 - Added `self_evolution/` architecture and feedback templates for the L1 self-run and self-evolution loop.

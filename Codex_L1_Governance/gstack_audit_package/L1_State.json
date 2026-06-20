@@ -20,6 +20,9 @@
     "latest_health_report":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\weekly_health_reports\\Weekly_Governance_Health_2026-06-20.json",
     "latest_feedback_report":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\feedback_reports\\Weekly_Governance_Feedback_2026-06-20.json",
     "latest_reflection_report":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\reflection_reports\\L1_Reflection_2026-06-20.json",
+    "latest_project_reflection_report":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/AI_Divination_Breakthrough_Reflection_2026-06-20.json",
+    "latest_project_breakthrough_plan":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/Breakthrough_Plan_2026-06-20.md",
+    "project_breakthrough_note":  "ai占卜.ai remains no_go and execution_go=false; breakthrough plan is advisory only.",
     "cost_model_note":  "Estimated loop cost only. This file does not read or claim real API billing.",
     "compliance_note":  "L1 governance state only. This file does not change project Evidence, Revenue, or Execution gates."
 }
