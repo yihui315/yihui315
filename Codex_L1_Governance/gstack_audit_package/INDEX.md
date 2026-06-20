@@ -57,9 +57,11 @@ Supporting files:
 - [Codex improvement script](./scripts/reflect-and-improve.ps1)
 - [Observability dashboard script](./scripts/generate-l1-observability-dashboard.ps1)
 - [Latest observability dashboard](./L1_Observability_Dashboard.md)
+- [Latest Executor safe-auto verification](./executor_safe_auto_reports/Executor_Safe_Auto_Verification_2026-06-20.md)
 - [L1 loop state](./L1_State.json)
 - Generated feedback reports live under `feedback_reports/`.
 - Generated reflection reports live under `reflection_reports/`.
+- Executor safe-auto verification reports live under `executor_safe_auto_reports/`.
 
 Sub-agent definitions:
 
