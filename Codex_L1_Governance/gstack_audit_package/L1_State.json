@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0",
-    "updated_at":  "2026-06-20T18:00:00",
+    "updated_at":  "2026-06-20T19:22:24+08:00",
     "iteration_count":  1,
     "max_iterations":  5,
     "total_cost_usd":  0,
@@ -26,8 +26,8 @@
     "latest_executor_safe_auto_report":  "Codex_L1_Governance/executor_safe_auto_reports/Executor_Safe_Auto_Verification_2026-06-20.md",
     "executor_safe_auto_note":  "safe_auto verified for governance dashboard wording and structured report creation only; generated-dashboard persistence requires script review.",
     "ai_divination_tracking":  {
-        "status":  "blocked_but_stage_execution_started",
-        "last_action":  "Selected P0 Human Operator evidence packet and manual publication proof tasks from Breakthrough_Plan_2026-06-20.md; generated stage execution plan and support templates.",
+        "status":  "blocked_but_human_guides_ready",
+        "last_action":  "Generated detailed Human Operator evidence packet filling guide and post-publication evidence collection templates for the selected P0 tasks from Breakthrough_Plan_2026-06-20.md.",
         "selected_items":  [
             "Human Operator evidence packet",
             "Manual publication proof for one approved pending item"
@@ -48,6 +48,10 @@
         "latest_stage_execution_plan":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/AI_Divination_Stage_Execution_Plan_2026-06-20.md",
         "latest_human_operator_packet_template":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/Human_Operator_Evidence_Packet_Template_2026-06-20.md",
         "latest_publication_proof_checklist":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/Manual_Publication_Proof_Checklist_2026-06-20.md",
+        "latest_human_operator_filling_guide":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/Human_Operator_Evidence_Packet_Filling_Guide_2026-06-20.md",
+        "latest_post_publication_evidence_template":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/Post_Publication_Evidence_Collection_Template_2026-06-20.md",
+        "latest_publication_evidence_csv_template":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/Publication_Evidence_Log_Template_2026-06-20.csv",
+        "latest_publication_evidence_json_template":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/Publication_Evidence_Log_Template_2026-06-20.json",
         "reflector_needed":  "not_now",
         "reflector_needed_reason":  "Existing reflection already identifies missing Human Operator attestation, publication proof, and masked demand/revenue evidence; rerun after real evidence changes.",
         "gate_invariant":  "Project remains no_go, execution_go=false, present_yes=0, present_no=10 until real Human Operator evidence is submitted and validated."

@@ -2,6 +2,11 @@
 
 ## 2026-06-20
 
+- Added ai占卜.ai Human Operator evidence packet filling guide with field-by-field examples and evidence quality checklist.
+- Added post-publication evidence collection template plus CSV/JSON batch log templates for Day003-Day010 manual publication proof.
+- Linked the new filling guide and publication evidence templates from the existing Human Operator packet and manual publication checklist.
+- Updated `L1_State.json.ai_divination_tracking` to `blocked_but_human_guides_ready` while preserving `current_execution_go=false`.
+- Re-ran `human-evidence-intake-check.ps1`; result remained `blocked` with `present_yes=0` and `present_no=10`.
 - Started ai占卜.ai stage execution tracking from `Breakthrough_Plan_2026-06-20.md`.
 - Added `AI_Divination_Stage_Execution_Plan_2026-06-20.md`, `Human_Operator_Evidence_Packet_Template_2026-06-20.md`, and `Manual_Publication_Proof_Checklist_2026-06-20.md`.
 - Updated `L1_State.json.ai_divination_tracking` with status, last action, next milestone, safe_auto support, Human-required actions, and Reflector rerun guidance.

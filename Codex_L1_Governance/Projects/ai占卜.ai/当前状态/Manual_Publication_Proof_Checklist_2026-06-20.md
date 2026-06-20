@@ -4,6 +4,16 @@
 
 Use this checklist to convert one approved `pending_manual_review` asset into reviewable masked publication evidence.
 
+## Companion Evidence Collection Templates
+
+Use these supporting templates after a real Human Operator manually publishes an approved asset:
+
+- `Post_Publication_Evidence_Collection_Template_2026-06-20.md`
+- `Publication_Evidence_Log_Template_2026-06-20.csv`
+- `Publication_Evidence_Log_Template_2026-06-20.json`
+
+These files standardize post-publication evidence collection. They do not publish content, submit evidence, change `present=no`, or change `execution_go=false`.
+
 ## Selected Asset
 
 | Field | Value |
@@ -63,4 +73,3 @@ Do not apply this automatically:
 - This checklist does not change `present=no`.
 - This checklist does not change `execution_go=false`.
 - This checklist does not prove revenue readiness.
-

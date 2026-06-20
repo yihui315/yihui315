@@ -4,6 +4,14 @@
 
 Use this packet when a real Human Operator is ready to submit masked evidence for ai占卜.ai. This is a template only. Do not treat it as evidence until a real Human Operator fills it.
 
+## Companion Guide
+
+Before filling this packet, read:
+
+- `Human_Operator_Evidence_Packet_Filling_Guide_2026-06-20.md`
+
+The guide explains each field, acceptable examples, invalid examples, and the self-check process. It is instructional only; it does not submit evidence or change any Gate state.
+
 ## Operator Attestation
 
 | Field | Value |
@@ -50,4 +58,3 @@ After the Human Operator updates the real evidence file, run:
 ## Compliance Boundary
 
 This template does not submit evidence, does not mark rows present, and does not change gate decisions.
-

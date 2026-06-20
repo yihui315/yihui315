@@ -368,3 +368,16 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - next milestone: Human Operator submits a real evidence packet and one manual publication proof packet with masked artifacts
 - Reflector decision: not needed now; rerun only after real evidence, publication proof, or masked demand/revenue evidence changes
 - decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, Evidence and Revenue remain blocked
+
+### 2026-06-20 ai占卜.ai Human Evidence Guide Pack
+
+- selected execution scope: A + B from the Human Operator support plan
+- created filling guide: `Projects/ai占卜.ai/当前状态/Human_Operator_Evidence_Packet_Filling_Guide_2026-06-20.md`
+- created post-publication evidence template: `Projects/ai占卜.ai/当前状态/Post_Publication_Evidence_Collection_Template_2026-06-20.md`
+- created batch log templates: `Publication_Evidence_Log_Template_2026-06-20.csv` and `.json`
+- linked the new guide from `Human_Operator_Evidence_Packet_Template_2026-06-20.md`
+- linked the new publication evidence templates from `Manual_Publication_Proof_Checklist_2026-06-20.md`
+- updated L1 tracking: `L1_State.json.ai_divination_tracking.status=blocked_but_human_guides_ready`
+- validation: `human-evidence-intake-check.ps1` returned `blocked`, `present_yes=0`, `present_no=10`
+- compliance boundary: guide/template creation only; no Human Operator evidence was submitted
+- decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, `present_yes=0`, `present_no=10`

@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "template_type": "ai_divination_publication_evidence_log",
+  "compliance_boundary": "Template only. Does not publish content, submit evidence, change present values, or change execution_go.",
+  "records": [
+    {
+      "evidence_packet_id": "PUB-EV-YYYYMMDD-001",
+      "source_day": "Day003_to_Day010",
+      "asset_id_or_name": "todo",
+      "platform_name": "todo_platform",
+      "publication_channel": "todo_channel",
+      "published_at": "todo_actual_timestamp_with_timezone",
+      "public_url_or_channel_proof": "todo_public_or_masked_proof",
+      "content_artifact_path": "todo_masked_content_artifact",
+      "kpi_artifact_path": "todo_kpi_artifact",
+      "metrics": {
+        "impressions": "todo_or_not_available_yet",
+        "clicks": "todo_or_not_available_yet",
+        "leads": "todo_or_not_available_yet"
+      },
+      "revenue_or_demand_signal": {
+        "signal_type": "none",
+        "masked_artifact_path": "todo",
+        "provider_or_environment": "todo"
+      },
+      "human_operator": "todo_operator",
+      "verification_status": "pending_review",
+      "notes": "todo"
+    }
+  ]
+}
