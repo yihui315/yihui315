@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | status | `blocked` |
-| generated_at | `2026-06-20T11:29:37` |
+| generated_at | `2026-06-20T12:07:51` |
 | evidence_file | `C:\Users\Administrator\Documents\codex进化助手\Codex_L1_Governance\Projects\ai占卜.ai\当前状态\当前_Evidence_Gate_状态.md` |
 | dry_run | `True` |
 

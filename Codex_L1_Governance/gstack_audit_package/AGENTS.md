@@ -34,6 +34,13 @@ Use this chain for reusable governance work:
 20. The approved weekly governance workflow may commit generated reports only under `weekly_health_reports/` and `feedback_reports/`.
 21. Structured feedback reports are advisory; they cannot change gate decisions, evidence rows, Skill status, or project readiness.
 22. Codex may draft self-evolution improvements from feedback reports, but human confirmation is required before modifying L1 rules, scripts, project records, or active automation.
+23. Every weekly self-run loop must execute in this order: Health Check -> Feedback Report -> Reflector Report -> L1 State Update.
+24. `L1_State.json` is the canonical stopping-condition file for L1 loop execution; Executor must stop when `should_stop=true`.
+25. Reflector output is advisory only. It may recommend a next goal, but it must not modify files, gates, evidence, revenue state, or execution decisions.
+26. Executor may act only on a Human-confirmed Reflector recommendation and only after verifying `L1_State.json.should_stop=false`.
+27. Stopping conditions are evaluated in this priority order: `cost_limit_reached`, `max_iterations_reached`, `no_progress`, `repeated_failure_category`.
+28. Cost fields in `L1_State.json` are caller-provided estimates only and must never be described as real API billing data.
+29. If the same failure category repeats for two loop updates, lower the next goal or pause for Human review before further automation.
 
 ## Weekly Health Check Trigger
 
@@ -58,7 +65,10 @@ Run a governance health check when any of these occur:
 ## Self-Run And Self-Evolution Boundary
 
 - Weekly automation may run health checks and feedback generation.
+- Weekly automation may generate Reflector reports and update `L1_State.json` stopping fields.
 - Generated feedback must be reviewed before any governance rule or script is changed.
+- Generated reflection is advisory; Executor must not run automatically from GitHub Actions.
+- `.codex/agents/healthchecker.md`, `.codex/agents/reflector.md`, and `.codex/agents/executor.md` define role boundaries for loop work.
 - Repeated issues should become proposed changes, failure cases, or checklist items, not automatic gate decisions.
 - ai占卜.ai and other projects remain fail-closed until project-specific Human Operator evidence exists.
 

@@ -19,6 +19,12 @@ on:
 permissions:
   contents: write
 
+env:
+  MAX_ITERATIONS: 5
+  MAX_COST_USD: 3.0
+  NO_PROGRESS_THRESHOLD: 2
+  LOOP_COST_USD: 0
+
 jobs:
   weekly-governance-health-check:
     runs-on: windows-latest
@@ -69,16 +75,66 @@ jobs:
       - name: Generate structured feedback report
         shell: pwsh
         run: |
-          & .\Codex_L1_Governance\scripts\generate-weekly-feedback-report.ps1 `
+          $output = @(& .\Codex_L1_Governance\scripts\generate-weekly-feedback-report.ps1 `
             -WeeklyHealthJsonPath $env:HEALTH_JSON_PATH `
-            -Json
+            -Json 2>&1)
+          $feedbackExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          Write-Host $outputText
+          if ($feedbackExitCode -ne 0) {
+            exit $feedbackExitCode
+          }
+
+          $feedback = $outputText | ConvertFrom-Json
+          "FEEDBACK_JSON_PATH=$($feedback.json_output_path)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Generate Reflector report
+        shell: pwsh
+        run: |
+          $output = @(& .\Codex_L1_Governance\scripts\reflect-l1-governance-loop.ps1 `
+            -WeeklyHealthJsonPath $env:HEALTH_JSON_PATH `
+            -FeedbackJsonPath $env:FEEDBACK_JSON_PATH `
+            -StatePath "Codex_L1_Governance/L1_State.json" `
+            -Json 2>&1)
+          $reflectExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          Write-Host $outputText
+          if ($reflectExitCode -ne 0) {
+            exit $reflectExitCode
+          }
+
+          $reflection = $outputText | ConvertFrom-Json
+          "REFLECTION_JSON_PATH=$($reflection.json_output_path)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Update L1 loop state and stopping conditions
+        shell: pwsh
+        run: |
+          $output = @(& .\Codex_L1_Governance\scripts\update-l1-loop-state.ps1 `
+            -WeeklyHealthJsonPath $env:HEALTH_JSON_PATH `
+            -FeedbackJsonPath $env:FEEDBACK_JSON_PATH `
+            -ReflectionJsonPath $env:REFLECTION_JSON_PATH `
+            -LoopCostUsd ([double]$env:LOOP_COST_USD) `
+            -MaxIterations ([int]$env:MAX_ITERATIONS) `
+            -MaxCostUsd ([double]$env:MAX_COST_USD) `
+            -NoProgressThreshold ([int]$env:NO_PROGRESS_THRESHOLD) `
+            -Json 2>&1)
+          $stateExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          Write-Host $outputText
+          if ($stateExitCode -ne 0) {
+            exit $stateExitCode
+          }
+
+          $state = $outputText | ConvertFrom-Json
+          "LOOP_SHOULD_STOP=$($state.should_stop)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "LOOP_STOP_REASON=$($state.stop_reason)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 
       - name: Commit generated governance reports
         shell: pwsh
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Codex_L1_Governance/weekly_health_reports Codex_L1_Governance/feedback_reports
+          git add Codex_L1_Governance/weekly_health_reports Codex_L1_Governance/feedback_reports Codex_L1_Governance/reflection_reports Codex_L1_Governance/L1_State.json
           if (git diff --cached --quiet) {
             Write-Host "No generated report changes to commit."
           } else {
@@ -89,6 +145,12 @@ jobs:
       - name: Preserve health check verdict
         shell: pwsh
         run: |
+          if ($env:LOOP_SHOULD_STOP -eq "True" -or $env:LOOP_SHOULD_STOP -eq "true") {
+            Write-Host "L1 loop stopping condition reached: $env:LOOP_STOP_REASON"
+            Write-Host "Reports and L1_State.json were committed for Human review. Executor is not triggered by this workflow."
+            exit 0
+          }
+
           if ($env:HEALTH_EXIT_CODE -ne "0") {
             Write-Host "Weekly governance health check ended with exit code $env:HEALTH_EXIT_CODE."
             exit ([int]$env:HEALTH_EXIT_CODE)

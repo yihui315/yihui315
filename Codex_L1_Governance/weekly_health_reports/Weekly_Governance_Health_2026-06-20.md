@@ -6,7 +6,7 @@
 | --- | --- |
 | status | `pass` |
 | score | `100/100` |
-| generated_at | `2026-06-20T11:28:23` |
+| generated_at | `2026-06-20T12:10:09` |
 | governance_root | `C:\Users\Administrator\Documents\codex进化助手\Codex_L1_Governance` |
 
 ## Round Closeout
@@ -32,7 +32,7 @@
 
 | Field | Value |
 | --- | --- |
-| scanned_files | `89` |
+| scanned_files | `101` |
 | secret_shape_hits | `0` |
 | env_like_files | `0` |
 

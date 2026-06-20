@@ -5,6 +5,12 @@
 - Added active `.github/workflows/weekly-governance-health-check.yml` for weekly L1 health and structured feedback report generation.
 - Added `scripts/generate-weekly-feedback-report.ps1` with Markdown/JSON feedback output.
 - Added `self_evolution/` architecture and feedback templates for the L1 self-run and self-evolution loop.
+- Added `.codex/agents/healthchecker.md`, `.codex/agents/reflector.md`, and `.codex/agents/executor.md` for Loop Engineering sub-agent role boundaries.
+- Added `Codex_L1_Governance/L1_State.json` as the controlled loop state and stopping-condition record.
+- Added `scripts/reflect-l1-governance-loop.ps1` for advisory reflection JSON/Markdown reports.
+- Added `scripts/update-l1-loop-state.ps1` for stop-condition state updates and scenario testing.
+- Updated the weekly governance workflow to run Health -> Feedback -> Reflect -> State Update, then commit only generated reports/state.
+- Updated `gstack_audit_package/` to v1.9 with Reflect, stopping conditions, sub-agent definitions, state schema, and script snapshots.
 - Added ai占卜.ai closed-loop mechanism and run report while preserving `no_go`, `execution_go=false`, and blocked Evidence/Revenue status.
 - Updated `gstack_audit_package/` to v1.8 with active automation and advisory feedback-loop materials.
 - Updated `gstack_audit_package/` to v1.7 with a formal material list, gstack checklist, audit simulation Q&A, webhook config example, and inactive GitHub Actions weekly health example.

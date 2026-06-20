@@ -4,7 +4,7 @@
 
 | Check | Expected result | Status |
 | --- | --- | --- |
-| Audit package has a current version | `gstack-audit-package-v1.8` | pending auditor review |
+| Audit package has a current version | `gstack-audit-package-v1.9` | pending auditor review |
 | Package index lists all core materials | overview, scripts, checklist, Q&A, maturity, multi-project framework | pending auditor review |
 | L1 overview explains control-plane boundary | L1 does not grant project execution approval | pending auditor review |
 | Maturity analysis lists strengths and risks | 10/10 is not claimed | pending auditor review |
@@ -19,6 +19,8 @@
 | `governance-artifact-hygiene.ps1` exists | dry-run archive planning | verified locally |
 | `weekly-governance-health-check.ps1` exists | combined weekly report | verified locally |
 | `generate-weekly-feedback-report.ps1` exists | structured feedback Markdown/JSON generation | verified locally |
+| `reflect-l1-governance-loop.ps1` exists | strict advisory reflection JSON/Markdown generation | verified locally |
+| `update-l1-loop-state.ps1` exists | stopping-condition state update for `L1_State.json` | verified locally |
 | Weekly script supports notification | Slack/generic webhook, disabled or dry-run by default | verified locally |
 | Webhook secrets are not committed | only placeholders and host names are recorded | verified locally |
 
@@ -51,6 +53,27 @@
 | GitHub Actions or cron example exists | inactive example remains available for reference | implemented as inactive example |
 | Notification support exists | real send requires explicit switch and URL at runtime | verified locally |
 | Automation output is recorded | `REVIEW_PACKET_Master.md` and generated reports | verified locally |
+| Reflector reports are generated | `reflection_reports/L1_Reflection_YYYY-MM-DD.md/.json` | verified locally |
+| L1 state is controlled | `L1_State.json` tracks iterations, score, execution_go, estimated cost, and stop reason | verified locally |
+| Executor is not automatic | no workflow step triggers Executor after reflection | verified locally |
+
+## Sub-Agent Checklist
+
+| Check | Expected result | Status |
+| --- | --- | --- |
+| HealthChecker definition exists | `.codex/agents/healthchecker.md` | verified locally |
+| Reflector definition exists | `.codex/agents/reflector.md` with required JSON contract | verified locally |
+| Executor definition exists | `.codex/agents/executor.md` with Human-confirmation and `should_stop=false` preflight | verified locally |
+| Agent boundaries are fail-closed | no agent may alter evidence, gates, revenue, or execution readiness without Human approval | verified locally |
+
+## Stopping-Condition Checklist
+
+| Check | Expected result | Status |
+| --- | --- | --- |
+| Cost limit has highest priority | `cost_limit_reached` wins over other stop reasons | verified locally |
+| Max iteration stop exists | iteration `>= 5` triggers `max_iterations_reached` | verified locally |
+| No-progress stop exists | two consecutive non-improving loops trigger `no_progress` | verified locally |
+| Repeated failure category stop exists | two repeated failure categories trigger `repeated_failure_category` after higher-priority checks | verified locally |
 
 ## Auditor Decision Prompt
 

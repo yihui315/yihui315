@@ -14,6 +14,11 @@
 | `weekly-governance-health-check` | validation helper | active | 9/10 | `scripts/weekly-governance-health-check.ps1` | Codex | Orchestrates closeout, artifact hygiene, secret-shape scan, and Slack/generic webhook notification with explicit enable switch |
 | `weekly-governance-health-schedule` | automation workflow | active | 8/10 | `.github/workflows/weekly-governance-health-check.yml` | Codex | Active scheduled workflow; commits generated health and feedback reports only |
 | `weekly-governance-feedback-report` | validation helper | active | 8/10 | `scripts/generate-weekly-feedback-report.ps1` | Codex | Converts weekly health JSON into Markdown/JSON feedback and 12D recommendations |
+| `l1-governance-reflector` | validation helper | active | 8/10 | `scripts/reflect-l1-governance-loop.ps1` | Codex | Converts health, feedback, and state into advisory reflection JSON/Markdown |
+| `l1-loop-state-updater` | validation helper | active | 8/10 | `scripts/update-l1-loop-state.ps1` | Codex | Applies loop stopping conditions to `L1_State.json`; uses estimated cost only |
+| `HealthChecker` | sub-agent definition | documented | 7/10 | `.codex/agents/healthchecker.md` | Codex | Reads/runs L1 health checks and reports status; no gate mutation |
+| `Reflector` | sub-agent definition | documented | 7/10 | `.codex/agents/reflector.md` | Codex | Produces strict reflection JSON plus Markdown; advisory only |
+| `Executor` | sub-agent definition | documented | 7/10 | `.codex/agents/executor.md` | Codex | May execute only Human-confirmed recommendations and only when `should_stop=false` |
 | `human-evidence-intake-check` | L1 governance | active | 8/10 | `scripts/human-evidence-intake-check.ps1` | Codex | Read-only intake script verified; current ai占卜.ai evidence remains blocked |
 | `orchestrator-decision-refresh` | L1 governance | proposed | 7/10 | no dedicated script | Codex | Auto-closeout rule documented |
 | `governance-artifact-hygiene` | L1 governance | active | 8/10 | `scripts/governance-artifact-hygiene.ps1` | Codex | Read-only dry-run script verified; no archive/delete execution by default |

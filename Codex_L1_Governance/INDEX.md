@@ -52,7 +52,17 @@ Supporting files:
 - [Feedback Markdown template](./self_evolution/templates/Weekly_Governance_Feedback_Template.md)
 - [Feedback JSON template](./self_evolution/templates/Weekly_Governance_Feedback_Template.json)
 - [Feedback generator script](./scripts/generate-weekly-feedback-report.ps1)
+- [Reflector script](./scripts/reflect-l1-governance-loop.ps1)
+- [State updater script](./scripts/update-l1-loop-state.ps1)
+- [L1 loop state](./L1_State.json)
 - Generated feedback reports live under `feedback_reports/`.
+- Generated reflection reports live under `reflection_reports/`.
+
+Sub-agent definitions:
+
+- [HealthChecker](../.codex/agents/healthchecker.md)
+- [Reflector](../.codex/agents/reflector.md)
+- [Executor](../.codex/agents/executor.md)
 
 ## Gate System
 
@@ -129,6 +139,8 @@ Principle: important failures and compliance refusals must be recorded as struct
 3. Revenue work must read the final decision before proceeding.
 4. Each round should end with `round-closeout-validator`.
 5. Artifact cleanup must start with `governance-artifact-hygiene` in dry-run mode.
+6. Weekly loop automation runs Health -> Feedback -> Reflect -> State Update.
+7. Executor must not run when `L1_State.json.should_stop=true`.
 
 ## Multi-Project Governance
 
@@ -170,6 +182,6 @@ Minimum project onboarding files:
 ## Version Status
 
 - current maturity: L1 10/10 push estimate 8.6/10
-- latest gstack package: v1.8
+- latest gstack package: v1.9
 - last updated: 2026-06-20
 - contributors: Codex and Human Operator

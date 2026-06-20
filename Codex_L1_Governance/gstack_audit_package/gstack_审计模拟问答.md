@@ -10,7 +10,7 @@ No. ai占卜.ai remains `no_go` with `execution_go=false`. Evidence and Revenue 
 
 ## 3. What is the current audit package version?
 
-The current target version is `gstack-audit-package-v1.8`.
+The current target version is `gstack-audit-package-v1.9`.
 
 ## 4. What is the latest L1 maturity estimate?
 
@@ -18,11 +18,11 @@ The latest formal estimate remains `8.6/10`. Newer docs and scripts improve audi
 
 ## 5. Why is 10/10 not claimed?
 
-Decision refresh validation, standalone secret-shape automation, project trend history, and fully approved scheduling/CI still need additional work.
+Decision refresh validation, standalone secret-shape automation, longer project trend history, and multiple observed scheduled runs still need additional work.
 
 ## 6. Which scripts are verified?
 
-The L1 layer has verified read-only or dry-run scripts for evidence intake, round closeout, artifact hygiene, and weekly health checks.
+The L1 layer has verified read-only, dry-run, report-only, or state-only scripts for evidence intake, round closeout, artifact hygiene, weekly health checks, feedback generation, reflection, and L1 loop state updates.
 
 ## 7. What does a Weekly Health `pass` mean?
 
@@ -67,3 +67,27 @@ Complete `当前_Evidence_Gate_状态.md` using `Evidence_补齐指南.md`, prov
 ## 17. What should gstack focus on during formal audit?
 
 gstack should verify whether the L1 governance system is clear, conservative, script-backed, and fail-closed. It should not treat L1 health as project launch readiness.
+
+## 18. Does Reflector automatically change the system?
+
+No. Reflector only writes advisory JSON and Markdown. It cannot modify gates, evidence, revenue state, execution readiness, or production settings.
+
+## 19. What does `L1_State.json` control?
+
+It tracks loop iteration count, latest score, execution_go trend, estimated cost, repeated failure category, and stopping status. Executor must not run when `should_stop=true`.
+
+## 20. Are cost fields real billing data?
+
+No. Cost fields are caller-provided estimates only. The system does not read API billing or claim exact spend.
+
+## 21. What are the stopping-condition priorities?
+
+The priority order is `cost_limit_reached`, `max_iterations_reached`, `no_progress`, then `repeated_failure_category`.
+
+## 22. Can Executor run from GitHub Actions?
+
+No. The workflow generates health, feedback, reflection, and state reports only. Executor requires explicit Human confirmation and a `should_stop=false` state.
+
+## 23. What happens if the same failure category repeats?
+
+Reflector recommends lowering the next goal or pausing, and the state updater can set `should_stop=true` with `repeated_failure_category` unless a higher-priority stop reason applies.

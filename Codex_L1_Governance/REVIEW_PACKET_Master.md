@@ -295,4 +295,21 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - updated AGENTS: generated feedback is advisory; Codex may draft changes, but Human confirmation is required before rules, scripts, gates, evidence, or automation activation changes
 - updated ai占卜.ai pilot: `Weekly_Governance_Closed_Loop_Mechanism.md` and `AI_Divination_L1_Closed_Loop_Run_Report_2026-06-20.md`
 - validation: weekly health JSON generated with `status=pass`, feedback generator returned `status=generated`, `health_score=100`
+
+### 2026-06-20 L1 Loop Engineering v1.9
+
+- package_version: `gstack-audit-package-v1.9`
+- added sub-agent definitions: `.codex/agents/healthchecker.md`, `.codex/agents/reflector.md`, `.codex/agents/executor.md`
+- added controlled loop state: `L1_State.json`
+- added Reflector script: `scripts/reflect-l1-governance-loop.ps1`
+- added state updater script: `scripts/update-l1-loop-state.ps1`
+- workflow scope update: weekly health workflow now runs Health -> Feedback -> Reflect -> State Update and commits generated reports/state only under `weekly_health_reports/`, `feedback_reports/`, `reflection_reports/`, and `L1_State.json`
+- latest reflection report: `reflection_reports/L1_Reflection_2026-06-20.md`
+- latest state result: `iteration_count=1`, `current_score=100`, `current_execution_go=false`, `consecutive_no_progress=0`, `failure_category=prompt`, `should_stop=false`
+- validation: reflection JSON contract passed; `L1_State.json` parsed; workflow YAML parsed; `secret_shape_hits=0`; `human-evidence-intake-check` remained `blocked` with `present_yes=0`, `present_no=10`
+- stopping scenario tests: `cost_limit_reached`, `max_iterations_reached`, `no_progress`, `repeated_failure_category`, and invalid-state preservation all passed using temporary state files
+- stopping-condition priority: `cost_limit_reached`, `max_iterations_reached`, `no_progress`, `repeated_failure_category`
+- cost note: `L1_State.json` records caller-provided estimated cost only; it does not read or claim real API billing
+- Executor boundary: Executor is not triggered by workflow and may act only after Human confirmation plus `L1_State.json.should_stop=false`
+- decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, Evidence and Revenue remain blocked
 - decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, Evidence and Revenue remain blocked

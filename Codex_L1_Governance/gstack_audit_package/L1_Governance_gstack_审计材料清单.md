@@ -60,9 +60,21 @@ Audit scope:
 | --- | --- | --- |
 | `generate-weekly-feedback-report.ps1` | `../scripts/generate-weekly-feedback-report.ps1` | `../feedback_reports/Weekly_Governance_Feedback_2026-06-20.md` |
 
+## Additional v1.9 Materials
+
+| Category | Material | Location | Review purpose |
+| --- | --- | --- | --- |
+| Reflection | Reflector script | `../scripts/reflect-l1-governance-loop.ps1` | Confirm advisory root-cause report generation |
+| State | Loop state updater | `../scripts/update-l1-loop-state.ps1` | Confirm stopping-condition state updates |
+| State | Controlled loop state | `../L1_State.json` | Confirm stop fields, estimated cost note, and execution_go tracking |
+| Agents | HealthChecker definition | `../../.codex/agents/healthchecker.md` | Confirm health-only role boundary |
+| Agents | Reflector definition | `../../.codex/agents/reflector.md` | Confirm strict reflection JSON contract |
+| Agents | Executor definition | `../../.codex/agents/executor.md` | Confirm Human approval and `should_stop=false` preflight |
+| Reports | Reflection reports | `../reflection_reports/` | Confirm generated advisory reports |
+
 ## Required Audit Checks
 
-1. Confirm `gstack-audit-package-v1.8` is the current package version.
+1. Confirm `gstack-audit-package-v1.9` is the current package version.
 2. Confirm the package does not claim project `execution_go=true`.
 3. Confirm ai占卜.ai remains `no_go` with Evidence and Revenue blocked.
 4. Confirm scripts are read-only or dry-run by default.
@@ -75,6 +87,13 @@ Additional v1.8 audit checks:
 
 - Confirm the active GitHub Actions workflow commits generated reports only under `weekly_health_reports/` and `feedback_reports/`.
 - Confirm structured feedback reports are advisory and require Human approval before L1 changes.
+
+Additional v1.9 audit checks:
+
+- Confirm the active workflow commits generated reports only under `weekly_health_reports/`, `feedback_reports/`, `reflection_reports/`, and `L1_State.json`.
+- Confirm Reflector output is advisory and cannot trigger Executor.
+- Confirm `L1_State.json` uses estimated cost only and records stopping conditions.
+- Confirm Executor requires Human confirmation and `should_stop=false`.
 
 ## Current Formal Audit Position
 
