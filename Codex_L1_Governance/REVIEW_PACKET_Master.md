@@ -396,3 +396,21 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - Executor boundary: stop condition is active; Executor must not auto-apply improvements until Human review/reset
 - compliance boundary: no gate, evidence, revenue, provider, payment, social posting, email, deployment, or production readiness state changed
 - decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, `present_yes=0`, `present_no=10`
+
+### 2026-06-20 Reflector Recovery And ai占卜.ai Evidence Sub-Loop
+
+- execution scope: Scheme A + Scheme B
+- Reflector upgrade: `.codex/agents/reflector.md` now requires `recoverable`, `suggested_auto_action`, and `recommended_strategy`
+- failure categories expanded: `cost`, `logic`, `data`, `environment`, `prompt`, `context`, `tool`, `external_block`
+- script upgrade: `scripts/reflect-l1-governance-loop.ps1` now emits recoverability and strategy fields
+- stop logic upgrade: `scripts/update-l1-loop-state.ps1` now preserves extended state fields and supports bounded auto-retry through `auto_retry_count` and `max_auto_retries`
+- workflow upgrade: `.github/workflows/weekly-governance-health-check.yml` now passes `MAX_AUTO_RETRIES`
+- report upgrades: `reflect-and-improve.ps1` and `generate-l1-observability-dashboard.ps1` now expose recoverability and retry fields
+- validation result: latest Reflector classified the recurring issue as `context`, `recoverable=true`, strategy `add_context`
+- recovery test: temporary state update returned `auto_recovery_status=retry_allowed`, `auto_retry_count=1`, `should_stop=false`
+- official state boundary: current `L1_State.json.should_stop` remains `true` from the previous hard stop; no silent reset was performed
+- ai sub-loop design: `Projects/ai占卜.ai/当前状态/AI_Divination_Evidence_Publication_Sub_Loop_Design_2026-06-20.md`
+- ai sub-loop phases: Detect -> Prepare -> Guide -> Collect & Verify -> Update -> Escalate
+- updated L1 tracking: `ai_divination_tracking.evidence_publication_sub_loop.status=designed`
+- compliance boundary: sub-loop may prepare/check/guide only; Human publication, attestation, screenshots, and candidate `present=yes` review remain Human-required
+- decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, `present_yes=0`, `present_no=10`

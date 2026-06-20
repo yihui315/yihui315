@@ -291,6 +291,10 @@ $dashboard = [PSCustomObject]@{
     stop_reason = if ($state) { $state.stop_reason } else { "" }
     current_failure_category = if ($state) { $state.current_failure_category } else { "" }
     current_execution_go = if ($state) { [bool]$state.current_execution_go } else { $false }
+    auto_retry_count = if ($state -and $state.auto_retry_count -ne $null) { [int]$state.auto_retry_count } else { 0 }
+    max_auto_retries = if ($state -and $state.max_auto_retries -ne $null) { [int]$state.max_auto_retries } else { 2 }
+    auto_recovery_status = if ($state -and $state.auto_recovery_status -ne $null) { $state.auto_recovery_status } else { "" }
+    last_soft_stop_reason = if ($state -and $state.last_soft_stop_reason -ne $null) { $state.last_soft_stop_reason } else { "" }
   }
   feedback = [PSCustomObject]@{
     source = $feedbackPath
@@ -300,6 +304,8 @@ $dashboard = [PSCustomObject]@{
   reflection = [PSCustomObject]@{
     source = $reflectionPath
     failure_category = if ($reflection) { $reflection.failure_category } else { "" }
+    recoverable = if ($reflection -and $reflection.recoverable -ne $null) { [bool]$reflection.recoverable } else { $false }
+    recommended_strategy = if ($reflection -and $reflection.recommended_strategy -ne $null) { $reflection.recommended_strategy } else { "" }
     should_continue = if ($reflection) { [bool]$reflection.should_continue } else { $false }
   }
   improvement = [PSCustomObject]@{
@@ -356,6 +362,11 @@ Add-TableRow -Lines $lines -Cells @("secret_shape_hits", (Format-InlineCode $das
 Add-TableRow -Lines $lines -Cells @("l1_should_stop", (Format-InlineCode $dashboard.loop_state.should_stop))
 Add-TableRow -Lines $lines -Cells @("l1_stop_reason", (Format-InlineCode $dashboard.loop_state.stop_reason))
 Add-TableRow -Lines $lines -Cells @("reflection_failure_category", (Format-InlineCode $dashboard.reflection.failure_category))
+Add-TableRow -Lines $lines -Cells @("reflection_recoverable", (Format-InlineCode $dashboard.reflection.recoverable))
+Add-TableRow -Lines $lines -Cells @("recommended_strategy", (Format-InlineCode $dashboard.reflection.recommended_strategy))
+Add-TableRow -Lines $lines -Cells @("auto_retry_count", (Format-InlineCode $dashboard.loop_state.auto_retry_count))
+Add-TableRow -Lines $lines -Cells @("max_auto_retries", (Format-InlineCode $dashboard.loop_state.max_auto_retries))
+Add-TableRow -Lines $lines -Cells @("auto_recovery_status", (Format-InlineCode $dashboard.loop_state.auto_recovery_status))
 Add-TableRow -Lines $lines -Cells @("codex_suggestion_count", (Format-InlineCode $dashboard.feedback.codex_suggestion_count))
 Add-TableRow -Lines $lines -Cells @("improvement_suggestion_count", (Format-InlineCode $dashboard.improvement.suggestion_count))
 Add-TableRow -Lines $lines -Cells @("evidence_intake_status", (Format-InlineCode $dashboard.evidence_intake.status))

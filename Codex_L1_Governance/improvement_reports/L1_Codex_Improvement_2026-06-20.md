@@ -6,21 +6,27 @@
 | --- | --- |
 | health_status | `pass` |
 | health_score | `100` |
-| should_stop | `False` |
-| stop_reason | `` |
-| failure_category | `prompt` |
+| should_stop | `True` |
+| stop_reason | `repeated_failure_category` |
+| failure_category | `context` |
+| recoverable | `True` |
+| recommended_strategy | `add_context` |
+| auto_retry_count | `0` |
+| max_auto_retries | `2` |
+| auto_recovery_status | `policy_installed_existing_stop_preserved` |
 
 ## Suggestions
 
 | Priority | Source | Action | Executor allowed now |
 | --- | --- | --- | --- |
-| medium | 12D:2. Skill trigger fit | Promote only script-backed skills after verification. | True |
-| medium | 12D:3. Sub-agent boundaries | Keep Codex analysis manual until review prompts are stable. | True |
-| medium | 12D:4. Worker parallelism | Parallelize read-only scans only after report dependency graph is explicit. | True |
-| medium | 12D:8. Project map | Register each new project before it inherits L1 rules. | True |
-| medium | 12D:9. Business priority | Prioritize evidence unblock work over cosmetic governance changes. | True |
-| medium | reflection:prompt | Tighten AGENTS or Skill trigger wording for recurring conditional dimensions. | True |
-| high | reflection:prompt | Lower the next loop goal or pause for Human review because the same failure category repeated. | True |
+| medium | 12D:2. Skill trigger fit | Promote only script-backed skills after verification. | False |
+| medium | 12D:3. Sub-agent boundaries | Keep Codex analysis manual until review prompts are stable. | False |
+| medium | 12D:4. Worker parallelism | Parallelize read-only scans only after report dependency graph is explicit. | False |
+| medium | 12D:8. Project map | Register each new project before it inherits L1 rules. | False |
+| medium | 12D:9. Business priority | Prioritize evidence unblock work over cosmetic governance changes. | False |
+| medium | reflection:context | Create a short context pack listing missing source-of-truth files, stale assumptions, and the next smallest verifiable action. | False |
+| medium | reflection:auto_recovery | Generate a missing-context checklist from current L1 reports and rerun the loop with the narrowed scope. | False |
+| high | L1_State | Pause Executor and request Human review of stop_reason before applying any improvement. | False |
 
 ## Human Review Gate
 

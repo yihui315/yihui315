@@ -91,6 +91,8 @@ function Get-FailureCategory {
 
   if ($State.total_cost_usd -ge $State.max_cost_usd) { return "cost" }
   if ($Health.secret_scan.secret_shape_hits -gt 0 -or $Health.secret_scan.env_like_files -gt 0) { return "data" }
+  if ($Health.round_closeout.exit_code -ne $null -and [int]$Health.round_closeout.exit_code -ne 0) { return "tool" }
+  if ($Health.artifact_hygiene.exit_code -ne $null -and [int]$Health.artifact_hygiene.exit_code -ne 0) { return "tool" }
   if ($Health.round_closeout.status -eq "blocked" -or $Health.artifact_hygiene.status -eq "blocked") { return "logic" }
   if ($Health.status -eq "blocked" -or $Health.status -eq "conditional") { return "environment" }
 
@@ -98,9 +100,80 @@ function Get-FailureCategory {
     $Feedback.dimension_assessment |
       Where-Object { $_.rating -eq "Conditional" -or $_.rating -eq "Needs Work" }
   )
-  if ($conditionalDimensions.Count -gt 0) { return "prompt" }
+  if ($conditionalDimensions.Count -gt 0) {
+    $dimensionNames = @($conditionalDimensions | ForEach-Object { [string]$_.dimension })
+    if ($dimensionNames -match "Skill trigger|Sub-agent|Project map|Business priority|Codex mechanism") {
+      return "context"
+    }
+    if ($dimensionNames -match "Worker parallelism|Feedback loop|Automation|Governance") {
+      return "logic"
+    }
+    return "prompt"
+  }
 
   return "external_block"
+}
+
+function Get-Recoverability {
+  param(
+    [string]$FailureCategory,
+    [object]$Health,
+    [object]$State
+  )
+
+  $recoverable = $false
+  $strategy = "pause_for_review"
+  $autoAction = "Request Human review before further automation."
+
+  switch ($FailureCategory) {
+    "prompt" {
+      $recoverable = $true
+      $strategy = "lower_goal"
+      $autoAction = "Generate a smaller next-goal context pack and rerun Reflector once before invoking Executor."
+    }
+    "context" {
+      $recoverable = $true
+      $strategy = "add_context"
+      $autoAction = "Generate a missing-context checklist from current L1 reports and rerun the loop with the narrowed scope."
+    }
+    "tool" {
+      $recoverable = $true
+      $strategy = "rerun_read_only_tool"
+      $autoAction = "Rerun the failed read-only validator once and capture stdout/stderr in the next feedback report."
+    }
+    "logic" {
+      $strategy = "split_subtask"
+      $autoAction = "Draft a targeted logic-fix plan for Human review; do not auto-edit rules or scripts."
+    }
+    "external_block" {
+      $strategy = "request_human_evidence"
+      $autoAction = "Request real Human Operator evidence or publication proof; do not retry automation as a substitute."
+    }
+    "cost" {
+      $strategy = "pause_for_review"
+      $autoAction = "Pause the loop and request budget review."
+    }
+    "data" {
+      $strategy = "pause_for_review"
+      $autoAction = "Pause the loop and request data or secret-shape cleanup."
+    }
+    "environment" {
+      $strategy = "pause_for_review"
+      $autoAction = "Pause the loop and request environment/runtime review."
+    }
+  }
+
+  if ($Health.secret_scan.secret_shape_hits -gt 0 -or $Health.secret_scan.env_like_files -gt 0) {
+    $recoverable = $false
+    $strategy = "pause_for_review"
+    $autoAction = "Pause the loop because data safety findings require Human review."
+  }
+
+  return [PSCustomObject]@{
+    recoverable = $recoverable
+    suggested_auto_action = $autoAction
+    recommended_strategy = $strategy
+  }
 }
 
 function Get-IssueList {
@@ -176,9 +249,25 @@ function Get-Suggestions {
         expected_impact = "Can restore weekly health pass status."
       })
     }
+    "context" {
+      $suggestions.Add([PSCustomObject]@{
+        action = "Create a short context pack listing missing source-of-truth files, stale assumptions, and the next smallest verifiable action."
+        priority = "medium"
+        estimated_effort = "low"
+        expected_impact = "Can reduce repeated context-related loop stops without changing project readiness."
+      })
+    }
+    "tool" {
+      $suggestions.Add([PSCustomObject]@{
+        action = "Rerun the failed read-only validator once and preserve the exact command/output in feedback reports."
+        priority = "medium"
+        estimated_effort = "low"
+        expected_impact = "Can distinguish transient tool issues from real governance blockers."
+      })
+    }
     "prompt" {
       $suggestions.Add([PSCustomObject]@{
-        action = "Tighten AGENTS or Skill trigger wording for recurring conditional dimensions."
+        action = "Rewrite the next loop goal into one small testable action with explicit inputs, outputs, and stop conditions."
         priority = "medium"
         estimated_effort = "low"
         expected_impact = "Can improve governance quality and reduce repeated conditional findings."
@@ -238,10 +327,13 @@ $feedback = Get-Content -LiteralPath $resolvedFeedbackPath -Raw | ConvertFrom-Js
 $state = Get-Content -LiteralPath $resolvedStatePath -Raw | ConvertFrom-Json
 
 $failureCategory = Get-FailureCategory -Health $health -Feedback $feedback -State $state
+$recovery = Get-Recoverability -FailureCategory $failureCategory -Health $health -State $state
 $issues = @(Get-IssueList -Health $health -Feedback $feedback -FailureCategory $failureCategory)
 $suggestions = @(Get-Suggestions -FailureCategory $failureCategory -Issues $issues -State $state)
-$shouldContinue = -not [bool]$state.should_stop
-if ($state.repeated_failure_count -ge 1 -and $state.current_failure_category -eq $failureCategory) {
+$autoRetryCount = if ($state.auto_retry_count -ne $null) { [int]$state.auto_retry_count } else { 0 }
+$maxAutoRetries = if ($state.max_auto_retries -ne $null) { [int]$state.max_auto_retries } else { 2 }
+$shouldContinue = (-not [bool]$state.should_stop) -or ([bool]$recovery.recoverable -and $autoRetryCount -lt $maxAutoRetries)
+if ($state.repeated_failure_count -ge 1 -and $state.current_failure_category -eq $failureCategory -and -not [bool]$recovery.recoverable) {
   $shouldContinue = $false
 }
 
@@ -250,12 +342,18 @@ $rootCause = switch ($failureCategory) {
   "logic" { "The loop is blocked by L1 validation or closeout logic that must be resolved before stronger readiness claims." }
   "data" { "The loop is blocked by data hygiene or secret-shape safety findings." }
   "environment" { "The loop is blocked by runtime or environment health conditions." }
-  "prompt" { "The loop is healthy but still has conditional governance quality dimensions that need clearer instructions or triggers." }
+  "prompt" { "The loop is healthy but the next goal or instruction shape is still too broad for useful autonomous progress." }
+  "context" { "The loop is healthy but recurring conditional dimensions point to missing context, stale assumptions, or unclear source-of-truth boundaries." }
+  "tool" { "The loop needs a bounded tool rerun or command-output capture before treating the failure as a governance blocker." }
   default { "The L1 loop is healthy; project progress remains blocked by external Human Operator evidence rather than L1 automation." }
 }
 
 $nextGoal = if ($shouldContinue) {
-  "Review the top Reflector suggestion and apply it only after Human confirmation."
+  if ([bool]$recovery.recoverable) {
+    $recovery.suggested_auto_action
+  } else {
+    "Review the top Reflector suggestion and apply it only after Human confirmation."
+  }
 } else {
   "Pause or lower the next loop goal and request Human review."
 }
@@ -269,6 +367,9 @@ $reflection = [PSCustomObject]@{
   failure_category = $failureCategory
   key_issues = @($issues)
   evolution_suggestions = @($suggestions)
+  recoverable = [bool]$recovery.recoverable
+  suggested_auto_action = [string]$recovery.suggested_auto_action
+  recommended_strategy = [string]$recovery.recommended_strategy
   should_continue = $shouldContinue
   recommended_next_goal = $nextGoal
   source_health_json = $resolvedHealthPath
@@ -287,6 +388,8 @@ $lines.Add("")
 Add-TableRow -Lines $lines -Cells @("Field", "Value")
 Add-TableRow -Lines $lines -Cells @("---", "---")
 Add-TableRow -Lines $lines -Cells @("failure_category", (Format-InlineCode $failureCategory))
+Add-TableRow -Lines $lines -Cells @("recoverable", (Format-InlineCode $recovery.recoverable))
+Add-TableRow -Lines $lines -Cells @("recommended_strategy", (Format-InlineCode $recovery.recommended_strategy))
 Add-TableRow -Lines $lines -Cells @("should_continue", (Format-InlineCode $shouldContinue))
 Add-TableRow -Lines $lines -Cells @("recommended_next_goal", $nextGoal)
 $lines.Add("")
@@ -299,6 +402,10 @@ $lines.Add("")
 foreach ($issue in $issues) {
   $lines.Add("- " + $issue)
 }
+$lines.Add("")
+$lines.Add("## Suggested Auto Action")
+$lines.Add("")
+$lines.Add($recovery.suggested_auto_action)
 $lines.Add("")
 $lines.Add("## Evolution Suggestions")
 $lines.Add("")
@@ -322,6 +429,8 @@ $result = [ordered]@{
   markdown_output_path = $markdownOutputPath
   json_output_path = $jsonOutputPath
   failure_category = $failureCategory
+  recoverable = [bool]$recovery.recoverable
+  recommended_strategy = [string]$recovery.recommended_strategy
   should_continue = $shouldContinue
   compliance_note = "Advisory reflection only. No gate state changed."
 }

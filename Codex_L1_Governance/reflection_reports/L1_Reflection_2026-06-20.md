@@ -4,13 +4,15 @@
 
 | Field | Value |
 | --- | --- |
-| failure_category | `prompt` |
-| should_continue | `False` |
-| recommended_next_goal | Pause or lower the next loop goal and request Human review. |
+| failure_category | `context` |
+| recoverable | `True` |
+| recommended_strategy | `add_context` |
+| should_continue | `True` |
+| recommended_next_goal | Generate a missing-context checklist from current L1 reports and rerun the loop with the narrowed scope. |
 
 ## Root Cause
 
-The loop is healthy but still has conditional governance quality dimensions that need clearer instructions or triggers.
+The loop is healthy but recurring conditional dimensions point to missing context, stale assumptions, or unclear source-of-truth boundaries.
 
 ## Key Issues
 
@@ -20,12 +22,15 @@ The loop is healthy but still has conditional governance quality dimensions that
 - 8. Project map: Register each new project before it inherits L1 rules.
 - 9. Business priority: Prioritize evidence unblock work over cosmetic governance changes.
 
+## Suggested Auto Action
+
+Generate a missing-context checklist from current L1 reports and rerun the loop with the narrowed scope.
+
 ## Evolution Suggestions
 
 | Priority | Effort | Action | Expected impact |
 | --- | --- | --- | --- |
-| medium | low | Tighten AGENTS or Skill trigger wording for recurring conditional dimensions. | Can improve governance quality and reduce repeated conditional findings. |
-| high | low | Lower the next loop goal or pause for Human review because the same failure category repeated. | Prevents repeated low-value loops; no direct execution_go impact. |
+| medium | low | Create a short context pack listing missing source-of-truth files, stale assumptions, and the next smallest verifiable action. | Can reduce repeated context-related loop stops without changing project readiness. |
 
 ## Compliance Boundary
 

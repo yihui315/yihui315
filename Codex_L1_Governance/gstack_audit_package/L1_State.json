@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  "1.0",
-    "updated_at":  "2026-06-20T20:58:14",
+    "updated_at":  "2026-06-20T21:20:29",
     "iteration_count":  2,
     "max_iterations":  5,
     "total_cost_usd":  0,
@@ -56,7 +56,46 @@
                                    "latest_publication_evidence_json_template":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/Publication_Evidence_Log_Template_2026-06-20.json",
                                    "reflector_needed":  "not_now",
                                    "reflector_needed_reason":  "Existing reflection already identifies missing Human Operator attestation, publication proof, and masked demand/revenue evidence; rerun after real evidence changes.",
-                                   "gate_invariant":  "Project remains no_go, execution_go=false, present_yes=0, present_no=10 until real Human Operator evidence is submitted and validated."
+                                   "gate_invariant":  "Project remains no_go, execution_go=false, present_yes=0, present_no=10 until real Human Operator evidence is submitted and validated.",
+                                   "latest_evidence_publication_sub_loop_design":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/AI_Divination_Evidence_Publication_Sub_Loop_Design_2026-06-20.md",
+                                   "evidence_publication_sub_loop":  {
+                                                                         "status":  "designed",
+                                                                         "current_phase":  "detect",
+                                                                         "last_run_at":  "not_run_yet",
+                                                                         "last_detected_missing_items":  [
+                                                                                                             "submitted_by",
+                                                                                                             "role",
+                                                                                                             "submitted_at",
+                                                                                                             "verified_environment",
+                                                                                                             "manual_publication_proof",
+                                                                                                             "kpi_row",
+                                                                                                             "masked_demand_or_revenue_signal"
+                                                                                                         ],
+                                                                         "prepared_packet_path":  "Codex_L1_Governance/Projects/ai占卜.ai/当前状态/Human_Operator_Evidence_Packet_Template_2026-06-20.md",
+                                                                         "latest_validator_report":  "Codex_L1_Governance/evidence_intake_reports/Evidence_Intake_Report_2026-06-20.md",
+                                                                         "failed_attempt_count":  0,
+                                                                         "escalation_needed":  false,
+                                                                         "next_human_action":  "Fill Human Operator evidence packet and one publication proof packet with real masked artifacts.",
+                                                                         "safe_auto_allowed":  [
+                                                                                                   "detect_missing_items",
+                                                                                                   "prepare_checklists",
+                                                                                                   "generate_human_brief",
+                                                                                                   "run_intake_validator",
+                                                                                                   "update_descriptive_tracking"
+                                                                                               ],
+                                                                         "human_required":  [
+                                                                                                "publish_content",
+                                                                                                "capture_real_masked_proof",
+                                                                                                "submit_real_operator_attestation",
+                                                                                                "approve_candidate_present_yes"
+                                                                                            ],
+                                                                         "forbidden":  [
+                                                                                           "set_execution_go_true",
+                                                                                           "fabricate_evidence",
+                                                                                           "convert_present_no_to_yes_without_real_artifact",
+                                                                                           "claim_revenue_readiness_without_masked_revenue_evidence"
+                                                                                       ]
+                                                                     }
                                },
     "latest_improvement_report":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\improvement_reports\\L1_Codex_Improvement_2026-06-20.json",
     "closed_loop_note":  "Full C loop executed: Health -\u003e Feedback -\u003e Reflect -\u003e Improve -\u003e State Update -\u003e Dashboard. Stop condition repeated_failure_category is preserved for Human review.",
@@ -83,5 +122,14 @@
                      ],
     "latest_dashboard_report":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\observability_reports\\L1_Observability_Dashboard_2026-06-20.json",
     "latest_dashboard_markdown":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\observability_reports\\L1_Observability_Dashboard_2026-06-20.md",
-    "latest_root_dashboard":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\L1_Observability_Dashboard.md"
+    "latest_root_dashboard":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\L1_Observability_Dashboard.md",
+    "max_auto_retries":  2,
+    "auto_retry_count":  0,
+    "auto_recovery_status":  "policy_installed_existing_stop_preserved",
+    "last_soft_stop_reason":  "",
+    "latest_recoverable":  true,
+    "latest_suggested_auto_action":  "Generate a missing-context checklist from current L1 reports and rerun the loop with the narrowed scope.",
+    "latest_recommended_strategy":  "add_context",
+    "recoverable_stop_policy_note":  "Recoverable prompt/context/tool failures may spend bounded auto retries in future state updates; existing hard stop is preserved until a new state update or Human reset.",
+    "pending_reflection_failure_category":  "context"
 }

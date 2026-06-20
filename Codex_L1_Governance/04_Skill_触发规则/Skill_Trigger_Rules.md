@@ -17,14 +17,15 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `Secret_Shape_Scan` | Evidence or revenue artifacts are added | target paths and masking policy | secret-shape result with hit count | Evidence, Revenue |
 | `weekly-governance-health-check` | Weekly L1 governance cycle ends or audit readiness is claimed | L1 root, closeout script, artifact hygiene script | Markdown health report with score, closeout status, artifact plan, and secret-shape summary | Governance |
 | `weekly-governance-feedback-report` | Weekly health JSON is generated | `Weekly_Governance_Health_YYYY-MM-DD.json` | Markdown and JSON feedback reports with 12D assessment and recommendations | Governance |
-| `l1-governance-reflector` | Weekly health JSON and feedback JSON are generated | health JSON, feedback JSON, `L1_State.json` | strict reflection JSON and Markdown report | Governance |
-| `l1-loop-state-updater` | Reflector report is generated | health JSON, feedback JSON, reflection JSON, `L1_State.json` | updated `L1_State.json` with stopping-condition fields | Governance |
+| `l1-governance-reflector` | Weekly health JSON and feedback JSON are generated | health JSON, feedback JSON, `L1_State.json` | strict reflection JSON and Markdown report with recoverability and strategy fields | Governance |
+| `l1-loop-state-updater` | Reflector report is generated | health JSON, feedback JSON, reflection JSON, `L1_State.json` | updated `L1_State.json` with stopping-condition and bounded auto-retry fields | Governance |
 | `l1-reflect-and-improve` | Health, feedback, reflection, and state artifacts exist | latest health, feedback, reflection, and `L1_State.json` | advisory Codex improvement suggestions | Governance |
 | `l1-observability-dashboard` | gstack audit review, weekly closeout, or governance handoff | latest health, feedback, reflection, state, evidence intake, and pilot summary | read-only dashboard Markdown/JSON | Governance |
 | `HealthChecker` | L1 health must be interpreted by a sub-agent | repository state and weekly health report | health JSON path, score, status, issues | Governance |
 | `Reflector` | score is below target, execution_go remains false, or recurring issues appear | health report, feedback report, `L1_State.json` | root-cause JSON and next-goal recommendation | Governance |
 | `Executor` | A Human confirms a higher-risk recommendation, or a low-risk governance documentation/template/index/report suggestion is classified `safe_auto` and `L1_State.json.should_stop=false` | source suggestion, current L1 state, affected files, risk classification | implemented change or human-required block plus validation summary | Governance |
 | `human-evidence-intake-check` | Human Operator masked evidence is submitted or updated | Evidence `.md` file and masked artifact references | validator summary, missing fields, readiness for orchestrator review | Evidence, Revenue |
+| `ai-divination-evidence-publication-sub-loop` | ai占卜.ai remains blocked but Human evidence/publication templates exist | current Evidence Gate state, Gate Decision summary, Human packet guide, publication proof templates | missing item summary, Human action brief, read-only intake result, descriptive L1 tracking update | Evidence, Publication Proof |
 | `orchestrator-decision-refresh` | Evidence, Revenue, Approval, Executor, or Environment gate changes | `ORCHESTRATOR_GATE_STATE.json` and validator outputs | refreshed decision JSON and Review Packet note | All gates |
 | `tianji-revenue-gate` | Revenue, payment, checkout, webhook, entitlement, or monetization safety is in scope | final orchestrator decision and masked revenue evidence | Revenue Evidence verdict and missing evidence list | Revenue |
 | `governance-artifact-hygiene` | Governance artifact directories grow or weekly health check detects sprawl | sanitized artifact listings, file counts, current review packet | keep/archive proposal and dry-run commands | Governance |
@@ -52,6 +53,8 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 18. Run `l1-observability-dashboard` before formal audit submission or after weekly closeout to create one review entrypoint.
 19. Use `update-l1-loop-state.ps1 -ResetStop` only after Human confirmation; reset does not approve Executor work by itself.
 20. Executor must mark each action as `safe_auto`, `human_required`, or `forbidden` before editing.
+21. If Reflector reports `recoverable=true`, `l1-loop-state-updater` may use one bounded auto-retry instead of hard stopping, but only within `max_auto_retries`.
+22. The ai占卜.ai evidence/publication sub-loop may prepare checklists and run read-only intake validation, but Human publication, real screenshots, real attestation, and candidate `present=yes` review remain Human-required.
 
 ## Post-Run Record Map
 
@@ -64,12 +67,13 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `round-closeout-validator` | Review Packet or closeout report | closeout status, missing records, next-round recommendation |
 | `weekly-governance-health-check` | `weekly_health_reports/` and `REVIEW_PACKET_Master.md` | score, closeout status, artifact hygiene result, secret-shape result |
 | `weekly-governance-feedback-report` | `feedback_reports/` and `REVIEW_PACKET_Master.md` when recommendations are acted on | 12D assessment, issues, recommendations, Human-confirmation boundary |
-| `l1-governance-reflector` | `reflection_reports/` and `L1_State.json` source references | root cause, failure category, should_continue, next goal |
-| `l1-loop-state-updater` | `L1_State.json` and generated workflow report commit | iteration, score, execution_go, no-progress count, stop reason |
+| `l1-governance-reflector` | `reflection_reports/` and `L1_State.json` source references | root cause, failure category, recoverable flag, strategy, should_continue, next goal |
+| `l1-loop-state-updater` | `L1_State.json` and generated workflow report commit | iteration, score, execution_go, no-progress count, auto-retry count, stop reason |
 | `l1-reflect-and-improve` | `improvement_reports/` | suggestions, executor_allowed_now, Human-confirmation boundary |
 | `l1-observability-dashboard` | `observability_reports/` and root `L1_Observability_Dashboard.md` | health score, stop state, evidence intake status, pilot status |
 | `HealthChecker` | health report or handoff summary | status, score, health JSON path |
 | `Reflector` | reflection report | strict JSON contract and Markdown summary |
+| `ai-divination-evidence-publication-sub-loop` | project current status and L1 state | sub-loop phase, missing fields, next Human action, escalation status |
 | `Executor` | `REVIEW_PACKET_Master.md` and `CHANGELOG.md` for durable changes | classification, source suggestion, changed files, validation result, compliance boundary |
 | `codex-system-governance-auditor` | `REVIEW_PACKET_Master.md` for L1-level audits | findings, assets updated, validation summary |
 | `executor-preflight-check` | executor health report or Review Packet | executor availability JSON and recommendation |

@@ -1,18 +1,34 @@
-# Example only. This file is intentionally stored outside `.github/workflows/`.
-# Move it into `.github/workflows/` only after repository maintainer approval.
-
-name: L1 Weekly Governance Health
+name: Weekly Governance Health Check
 
 on:
   workflow_dispatch:
+    inputs:
+      notify_on:
+        description: "Notification mode for the dry-run notification path"
+        required: false
+        default: "blocked"
+        type: choice
+        options:
+          - blocked
+          - conditional
+          - always
+          - never
   schedule:
     - cron: "0 1 * * 1"
 
+permissions:
+  contents: write
+
+env:
+  MAX_ITERATIONS: 5
+  MAX_COST_USD: 3.0
+  NO_PROGRESS_THRESHOLD: 2
+  MAX_AUTO_RETRIES: 2
+  LOOP_COST_USD: 0
+
 jobs:
-  l1-weekly-governance-health:
+  weekly-governance-health-check:
     runs-on: windows-latest
-    permissions:
-      contents: read
 
     steps:
       - name: Checkout
@@ -20,20 +36,151 @@ jobs:
 
       - name: Run L1 weekly governance health check
         shell: pwsh
-        run: |
-          .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 -Json
-
-      - name: Optional Slack notification dry-run
-        if: always()
-        shell: pwsh
         env:
           L1_SLACK_WEBHOOK_URL: ${{ secrets.L1_SLACK_WEBHOOK_URL }}
+          NOTIFY_ON_INPUT: ${{ github.event.inputs.notify_on || 'blocked' }}
         run: |
-          if ($env:L1_SLACK_WEBHOOK_URL) {
-            .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 `
-              -NotifyOn always `
-              -NotificationProvider slack `
-              -NotificationWebhookUrl $env:L1_SLACK_WEBHOOK_URL `
-              -NotificationDryRun:$true `
-              -Json
+          $date = Get-Date -Format "yyyy-MM-dd"
+          $jsonPath = "Codex_L1_Governance/weekly_health_reports/Weekly_Governance_Health_$date.json"
+          New-Item -ItemType Directory -Force -Path "Codex_L1_Governance/weekly_health_reports" | Out-Null
+
+          $notifyOn = $env:NOTIFY_ON_INPUT
+          if ([string]::IsNullOrWhiteSpace($notifyOn)) {
+            $notifyOn = "blocked"
+          }
+
+          $arguments = @("-Json", "-NotifyOn", $notifyOn)
+          if (-not [string]::IsNullOrWhiteSpace($env:L1_SLACK_WEBHOOK_URL)) {
+            $arguments += @(
+              "-NotificationProvider", "slack",
+              "-NotificationWebhookUrl", $env:L1_SLACK_WEBHOOK_URL,
+              "-NotificationDryRun:$true"
+            )
+          }
+
+          $output = @(& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 @arguments 2>&1)
+          $healthExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          $outputText | Set-Content -LiteralPath $jsonPath -Encoding UTF8
+
+          "HEALTH_EXIT_CODE=$healthExitCode" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "HEALTH_JSON_PATH=$jsonPath" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+          Write-Host $outputText
+          Write-Host "health_exit_code=$healthExitCode"
+
+          if ($healthExitCode -gt 2) {
+            exit $healthExitCode
+          }
+
+      - name: Generate structured feedback report
+        shell: pwsh
+        run: |
+          $output = @(& .\Codex_L1_Governance\scripts\generate-weekly-feedback-report.ps1 `
+            -WeeklyHealthJsonPath $env:HEALTH_JSON_PATH `
+            -Json 2>&1)
+          $feedbackExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          Write-Host $outputText
+          if ($feedbackExitCode -ne 0) {
+            exit $feedbackExitCode
+          }
+
+          $feedback = $outputText | ConvertFrom-Json
+          "FEEDBACK_JSON_PATH=$($feedback.json_output_path)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Generate Reflector report
+        shell: pwsh
+        run: |
+          $output = @(& .\Codex_L1_Governance\scripts\reflect-l1-governance-loop.ps1 `
+            -WeeklyHealthJsonPath $env:HEALTH_JSON_PATH `
+            -FeedbackJsonPath $env:FEEDBACK_JSON_PATH `
+            -StatePath "Codex_L1_Governance/L1_State.json" `
+            -Json 2>&1)
+          $reflectExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          Write-Host $outputText
+          if ($reflectExitCode -ne 0) {
+            exit $reflectExitCode
+          }
+
+          $reflection = $outputText | ConvertFrom-Json
+          "REFLECTION_JSON_PATH=$($reflection.json_output_path)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Update L1 loop state and stopping conditions
+        shell: pwsh
+        run: |
+          $output = @(& .\Codex_L1_Governance\scripts\update-l1-loop-state.ps1 `
+            -WeeklyHealthJsonPath $env:HEALTH_JSON_PATH `
+            -FeedbackJsonPath $env:FEEDBACK_JSON_PATH `
+            -ReflectionJsonPath $env:REFLECTION_JSON_PATH `
+            -LoopCostUsd ([double]$env:LOOP_COST_USD) `
+            -MaxIterations ([int]$env:MAX_ITERATIONS) `
+            -MaxCostUsd ([double]$env:MAX_COST_USD) `
+            -NoProgressThreshold ([int]$env:NO_PROGRESS_THRESHOLD) `
+            -MaxAutoRetries ([int]$env:MAX_AUTO_RETRIES) `
+            -Json 2>&1)
+          $stateExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          Write-Host $outputText
+          if ($stateExitCode -ne 0) {
+            exit $stateExitCode
+          }
+
+          $state = $outputText | ConvertFrom-Json
+          "LOOP_SHOULD_STOP=$($state.should_stop)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "LOOP_STOP_REASON=$($state.stop_reason)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Generate Codex improvement suggestions
+        shell: pwsh
+        run: |
+          $output = @(& .\Codex_L1_Governance\scripts\reflect-and-improve.ps1 `
+            -WeeklyHealthJsonPath $env:HEALTH_JSON_PATH `
+            -FeedbackJsonPath $env:FEEDBACK_JSON_PATH `
+            -ReflectionJsonPath $env:REFLECTION_JSON_PATH `
+            -StatePath "Codex_L1_Governance/L1_State.json" `
+            -Json 2>&1)
+          $improveExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          Write-Host $outputText
+          if ($improveExitCode -ne 0) {
+            exit $improveExitCode
+          }
+
+      - name: Generate L1 observability dashboard
+        shell: pwsh
+        run: |
+          $output = @(& .\Codex_L1_Governance\scripts\generate-l1-observability-dashboard.ps1 -Json 2>&1)
+          $dashboardExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          Write-Host $outputText
+          if ($dashboardExitCode -ne 0) {
+            exit $dashboardExitCode
+          }
+
+      - name: Commit generated governance reports
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Codex_L1_Governance/weekly_health_reports Codex_L1_Governance/feedback_reports Codex_L1_Governance/reflection_reports Codex_L1_Governance/improvement_reports Codex_L1_Governance/observability_reports Codex_L1_Governance/L1_Observability_Dashboard.md Codex_L1_Governance/L1_State.json
+          if (git diff --cached --quiet) {
+            Write-Host "No generated report changes to commit."
+          } else {
+            git commit -m "chore: update weekly governance health reports"
+            git push
+          }
+
+      - name: Preserve health check verdict
+        shell: pwsh
+        run: |
+          if ($env:LOOP_SHOULD_STOP -eq "True" -or $env:LOOP_SHOULD_STOP -eq "true") {
+            Write-Host "L1 loop stopping condition reached: $env:LOOP_STOP_REASON"
+            Write-Host "Reports and L1_State.json were committed for Human review. Executor is not triggered by this workflow."
+            exit 0
+          }
+
+          if ($env:HEALTH_EXIT_CODE -ne "0") {
+            Write-Host "Weekly governance health check ended with exit code $env:HEALTH_EXIT_CODE."
+            exit ([int]$env:HEALTH_EXIT_CODE)
           }

@@ -2,6 +2,10 @@
 
 ## 2026-06-20
 
+- Optimized Reflector with expanded failure categories, recoverability, suggested auto action, and recommended strategy fields.
+- Updated `update-l1-loop-state.ps1` with bounded auto-retry fields while preserving extended state metadata.
+- Added ai占卜.ai Evidence & Publication Proof Sub-Loop design and registered it in L1 skill trigger records.
+- Regenerated reflection, improvement, and observability reports with recoverability fields while preserving the existing stop state and ai占卜.ai `no_go` boundary.
 - Added ai占卜.ai Human Operator evidence packet filling guide with field-by-field examples and evidence quality checklist.
 - Added post-publication evidence collection template plus CSV/JSON batch log templates for Day003-Day010 manual publication proof.
 - Linked the new filling guide and publication evidence templates from the existing Human Operator packet and manual publication checklist.

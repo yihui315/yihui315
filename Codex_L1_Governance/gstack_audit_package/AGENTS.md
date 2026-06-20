@@ -46,6 +46,10 @@ Use this chain for reusable governance work:
 32. `update-l1-loop-state.ps1 -ResetStop` may be used only after Human confirmation; resetting `should_stop` does not authorize Executor or project readiness.
 33. Executor safe-auto scope is limited to governance docs, structured templates, indexes, checklists, generated reports, PR or Changelog text, and descriptive JSON metadata; gate, evidence, revenue, webhook, workflow, script logic, deletion, and broad refactor changes remain Human-required.
 34. Executor output must include classification, source suggestion, changed files, validation results, and an explicit compliance boundary.
+35. Reflector must distinguish `prompt`, `context`, `tool`, `logic`, `data`, `environment`, `cost`, and `external_block`; do not overuse `prompt` for missing Human evidence.
+36. When Reflector marks `recoverable=true`, `update-l1-loop-state.ps1` may spend at most the configured `max_auto_retries` on bounded recovery before hard stop.
+37. Recoverable retry actions may generate context packs, smaller next goals, or rerun read-only validators only; they must not modify gates, evidence truth, revenue state, secrets, webhooks, provider/payment settings, or production readiness.
+38. ai占卜.ai evidence/publication proof work must use the project sub-loop design; the sub-loop may prepare and guide, but Human Operator evidence collection and publication proof remain Human-required.
 
 ## Weekly Health Check Trigger
 
@@ -77,6 +81,8 @@ Run a governance health check when any of these occur:
 - `.codex/agents/healthchecker.md`, `.codex/agents/reflector.md`, and `.codex/agents/executor.md` define role boundaries for loop work.
 - Repeated issues should become proposed changes, failure cases, or checklist items, not automatic gate decisions.
 - ai占卜.ai and other projects remain fail-closed until project-specific Human Operator evidence exists.
+
+- ai占卜.ai Evidence & Publication Proof Sub-Loop output may feed reflection context, but it cannot override the main L1 gate chain.
 
 ## Required Review Packet Update
 

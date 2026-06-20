@@ -20,6 +20,7 @@ param(
   [double]$MaxCostUsd = -1.0,
   [int]$NoProgressThreshold = -1,
   [int]$RepeatedFailureThreshold = -1,
+  [int]$MaxAutoRetries = -1,
   [switch]$ResetStop,
   [string]$ResetReason = "",
   [switch]$Json
@@ -105,6 +106,9 @@ if ($ResetStop) {
   $resetState.stop_reason = ""
   $resetState.consecutive_no_progress = 0
   $resetState.repeated_failure_count = 0
+  $resetState.auto_retry_count = 0
+  $resetState.auto_recovery_status = "manual_reset"
+  $resetState.last_soft_stop_reason = ""
   $resetState.last_failure_category = [string]$state.current_failure_category
   $resetState.reset_note = if ([string]::IsNullOrWhiteSpace($ResetReason)) {
     "Manual stop reset requested. Human confirmation is required before Executor runs."
@@ -169,6 +173,15 @@ $effectiveRepeatedFailureThreshold = if ($RepeatedFailureThreshold -ge 0) {
 } else {
   2
 }
+$effectiveMaxAutoRetries = if ($MaxAutoRetries -ge 0) {
+  $MaxAutoRetries
+} elseif ($env:MAX_AUTO_RETRIES) {
+  [int]$env:MAX_AUTO_RETRIES
+} elseif ($state.max_auto_retries -ne $null) {
+  [int]$state.max_auto_retries
+} else {
+  2
+}
 $effectiveLoopCostUsd = if ($LoopCostUsd -gt 0) { $LoopCostUsd } elseif ($env:LOOP_COST_USD) { [double]$env:LOOP_COST_USD } else { 0.0 }
 
 $previousScore = $state.current_score
@@ -195,8 +208,16 @@ $repeatedFailureCount = if (-not [string]::IsNullOrWhiteSpace($lastFailureCatego
   1
 }
 
+$recoverable = Convert-ToBool $reflection.recoverable
+$suggestedAutoAction = if ($reflection.suggested_auto_action -ne $null) { [string]$reflection.suggested_auto_action } else { "" }
+$recommendedStrategy = if ($reflection.recommended_strategy -ne $null) { [string]$reflection.recommended_strategy } else { "" }
+$previousAutoRetryCount = if ($state.auto_retry_count -ne $null) { [int]$state.auto_retry_count } else { 0 }
+
 $shouldStop = $false
 $stopReason = ""
+$softStopReason = ""
+$autoRecoveryStatus = "not_needed"
+$autoRetryCount = if ($hasProgress) { 0 } else { $previousAutoRetryCount }
 if ($totalCost -ge $effectiveMaxCostUsd) {
   $shouldStop = $true
   $stopReason = "cost_limit_reached"
@@ -204,11 +225,25 @@ if ($totalCost -ge $effectiveMaxCostUsd) {
   $shouldStop = $true
   $stopReason = "max_iterations_reached"
 } elseif ($consecutiveNoProgress -ge $effectiveNoProgressThreshold) {
-  $shouldStop = $true
-  $stopReason = "no_progress"
+  if ($recoverable -and $previousAutoRetryCount -lt $effectiveMaxAutoRetries) {
+    $softStopReason = "no_progress"
+    $autoRetryCount = $previousAutoRetryCount + 1
+    $autoRecoveryStatus = "retry_allowed"
+  } else {
+    $shouldStop = $true
+    $stopReason = "no_progress"
+    $autoRecoveryStatus = if ($recoverable) { "retry_budget_exhausted" } else { "not_recoverable" }
+  }
 } elseif ($repeatedFailureCount -ge $effectiveRepeatedFailureThreshold) {
-  $shouldStop = $true
-  $stopReason = "repeated_failure_category"
+  if ($recoverable -and $previousAutoRetryCount -lt $effectiveMaxAutoRetries) {
+    $softStopReason = "repeated_failure_category"
+    $autoRetryCount = $previousAutoRetryCount + 1
+    $autoRecoveryStatus = "retry_allowed"
+  } else {
+    $shouldStop = $true
+    $stopReason = "repeated_failure_category"
+    $autoRecoveryStatus = if ($recoverable) { "retry_budget_exhausted" } else { "not_recoverable" }
+  }
 }
 
 $newState = [ordered]@{
@@ -220,6 +255,13 @@ $newState = [ordered]@{
   max_cost_usd = $effectiveMaxCostUsd
   no_progress_threshold = $effectiveNoProgressThreshold
   repeated_failure_threshold = $effectiveRepeatedFailureThreshold
+  max_auto_retries = $effectiveMaxAutoRetries
+  auto_retry_count = $autoRetryCount
+  last_soft_stop_reason = $softStopReason
+  auto_recovery_status = $autoRecoveryStatus
+  latest_recoverable = $recoverable
+  latest_suggested_auto_action = $suggestedAutoAction
+  latest_recommended_strategy = $recommendedStrategy
   last_score = $previousScore
   current_score = $currentScore
   last_execution_go = $previousExecutionGo
@@ -237,8 +279,14 @@ $newState = [ordered]@{
   compliance_note = "L1 governance state only. This file does not change project Evidence, Revenue, or Execution gates."
 }
 
+foreach ($property in $state.PSObject.Properties) {
+  if (-not $newState.Contains($property.Name)) {
+    $newState[$property.Name] = $property.Value
+  }
+}
+
 $tempPath = $resolvedStatePath + ".tmp"
-$newState | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $tempPath -Encoding UTF8
+$newState | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $tempPath -Encoding UTF8
 Get-Content -LiteralPath $tempPath -Raw | ConvertFrom-Json | Out-Null
 Move-Item -LiteralPath $tempPath -Destination $resolvedStatePath -Force
 
@@ -251,6 +299,11 @@ $result = [ordered]@{
   consecutive_no_progress = $consecutiveNoProgress
   current_failure_category = $currentFailureCategory
   repeated_failure_count = $repeatedFailureCount
+  recoverable = $recoverable
+  auto_retry_count = $autoRetryCount
+  max_auto_retries = $effectiveMaxAutoRetries
+  last_soft_stop_reason = $softStopReason
+  auto_recovery_status = $autoRecoveryStatus
   should_stop = $shouldStop
   stop_reason = $stopReason
   compliance_note = "State update only. No gate state changed."

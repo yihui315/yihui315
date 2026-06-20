@@ -27,10 +27,11 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 | `round-closeout-validator` | proposed | 8/10 | `scripts/round-closeout-validator.ps1` | Read-only script verified and included in this package. |
 | `weekly-governance-health-check` | active | 9/10 | `scripts/weekly-governance-health-check.ps1` | Orchestrates closeout, artifact hygiene, secret-shape scan, and Slack/generic webhook notification with explicit enable switch. |
 | `weekly-governance-feedback-report` | active | 8/10 | `scripts/generate-weekly-feedback-report.ps1` | Converts weekly health JSON into Markdown/JSON 12D feedback and improvement recommendations. |
-| `l1-governance-reflector` | active | 8/10 | `scripts/reflect-l1-governance-loop.ps1` | Produces strict advisory reflection JSON/Markdown from health, feedback, and state. |
-| `l1-loop-state-updater` | active | 8/10 | `scripts/update-l1-loop-state.ps1` | Applies stopping conditions to `L1_State.json`; does not trigger Executor. |
+| `l1-governance-reflector` | active | 9/10 | `scripts/reflect-l1-governance-loop.ps1` | Produces advisory reflection JSON/Markdown with recoverability and strategy fields. |
+| `l1-loop-state-updater` | active | 9/10 | `scripts/update-l1-loop-state.ps1` | Applies stopping conditions, preserves extended state, and allows bounded auto-retry for recoverable failures. |
 | `l1-reflect-and-improve` | active | 8/10 | `scripts/reflect-and-improve.ps1` | Produces advisory Codex improvement suggestions for Human review. |
 | `l1-observability-dashboard` | active | 8/10 | `scripts/generate-l1-observability-dashboard.ps1` | Produces read-only dashboard across health, stop state, evidence intake, and pilot status. |
+| `ai-divination-evidence-publication-sub-loop` | documented | 7/10 | project design document | Project-specific sub-loop for missing evidence detection, Human guidance, read-only intake validation, and escalation. |
 
 ## Supporting Reusable Skills
 
@@ -55,6 +56,14 @@ v2.0 advisory and observability chain:
 `Health/Feedback/Reflection/State -> reflect-and-improve -> Human review`
 
 `Health/Feedback/Reflection/State/Evidence/Pilot -> L1_Observability_Dashboard`
+
+Recoverable reflection chain:
+
+`Health/Feedback/State -> Reflector(recoverable + strategy) -> State Updater(auto_retry_count or hard stop) -> Human review if budget exhausted`
+
+ai占卜.ai evidence sub-loop:
+
+`Detect -> Prepare -> Guide -> Collect & Verify -> Update descriptive tracking -> Escalate`
 
 ## Script-Backed Evidence
 
@@ -105,6 +114,14 @@ v2.0 advisory and observability chain:
 | Codex improvement report | `../improvement_reports/` | Generated |
 | Observability dashboard | `../L1_Observability_Dashboard.md` | Generated |
 | Stop reset support | `../scripts/update-l1-loop-state.ps1` | Manual-only |
+
+## Additional v2.1 Evidence
+
+| Evidence | Location | Status |
+| --- | --- | --- |
+| Recoverable Reflector fields | `reflector.md` and `宸查獙璇佽剼鏈?reflect-l1-governance-loop.ps1` | Implemented |
+| Bounded auto-retry state fields | `L1_State.json` and `宸查獙璇佽剼鏈?update-l1-loop-state.ps1` | Implemented with hard-stop priority preserved |
+| ai占卜.ai evidence/publication sub-loop | `../Projects/ai占卜.ai/当前状态/AI_Divination_Evidence_Publication_Sub_Loop_Design_2026-06-20.md` | Documented |
 
 ## Audit Boundaries
 

@@ -9,9 +9,14 @@
 | secret_shape_hits | `0` |
 | l1_should_stop | `True` |
 | l1_stop_reason | `repeated_failure_category` |
-| reflection_failure_category | `prompt` |
+| reflection_failure_category | `context` |
+| reflection_recoverable | `True` |
+| recommended_strategy | `add_context` |
+| auto_retry_count | `0` |
+| max_auto_retries | `2` |
+| auto_recovery_status | `policy_installed_existing_stop_preserved` |
 | codex_suggestion_count | `5` |
-| improvement_suggestion_count | `7` |
+| improvement_suggestion_count | `8` |
 | evidence_intake_status | `blocked` |
 | evidence_present_yes | `0` |
 | evidence_present_no | `10` |
@@ -30,20 +35,19 @@
 
 | Stop reason | Count |
 | --- | --- |
-| `none` | `1` |
-| `repeated_failure_category` | `1` |
+| `repeated_failure_category` | `2` |
 
 ### Improvement Suggestion Trend
 
 | Date | Suggestion count | Failure category |
 | --- | --- | --- |
-| 2026-06-20 | `7` | `prompt` |
+| 2026-06-20 | `8` | `context` |
 
 ## Key Metrics
 
 | Metric | Value | Note |
 | --- | --- | --- |
-| improvement_suggestion_total | `7` | Counted from improvement report history |
+| improvement_suggestion_total | `8` | Counted from improvement report history |
 | improvement_adoption_rate_percent | `` | not_tracked_until_suggestions_gain_status_fields |
 | average_iteration_count | `2` | Uses loop_history when present, otherwise current state |
 | repeated_failure_frequency_percent | `100` | Uses loop_history when present, otherwise current repeated-failure state |

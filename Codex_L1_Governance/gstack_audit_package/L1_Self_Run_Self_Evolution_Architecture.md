@@ -66,7 +66,7 @@ flowchart TD
 | `scripts/weekly-governance-health-check.ps1` | Orchestrates closeout, artifact hygiene, and secret-shape checks |
 | `scripts/generate-weekly-feedback-report.ps1` | Converts weekly health JSON into Markdown and JSON feedback reports |
 | `scripts/reflect-l1-governance-loop.ps1` | Converts health, feedback, and state into root-cause reflection reports |
-| `scripts/update-l1-loop-state.ps1` | Applies stopping conditions and updates `L1_State.json` |
+| `scripts/update-l1-loop-state.ps1` | Applies stopping conditions, preserves extended state, and allows bounded retry for recoverable failures |
 | `scripts/reflect-and-improve.ps1` | Generates advisory Codex improvement suggestions from latest health, feedback, reflection, and state |
 | `scripts/generate-l1-observability-dashboard.ps1` | Generates the read-only L1 observability dashboard |
 | `L1_State.json` | Tracks iterations, score, execution_go trend, estimated cost, repeated failure category, and stop reason |
@@ -107,7 +107,7 @@ These actions may run automatically:
 
 ## Stopping Conditions
 
-The L1 loop must stop for Human review when any stopping condition is reached. Priority order:
+The L1 loop must stop for Human review when any hard stopping condition is reached. Priority order:
 
 1. `cost_limit_reached`: estimated loop cost reaches `max_cost_usd`.
 2. `max_iterations_reached`: iteration count reaches `max_iterations`.
@@ -115,6 +115,39 @@ The L1 loop must stop for Human review when any stopping condition is reached. P
 4. `repeated_failure_category`: the same Reflector failure category reaches `repeated_failure_threshold`; default is 2.
 
 `L1_State.json` records estimated cost only. It does not read or claim real API billing.
+
+## Recoverable Reflection Flow
+
+Reflector now distinguishes:
+
+- `prompt`: unclear or overbroad goal shape
+- `context`: missing source-of-truth, stale handoff, or insufficient local context
+- `tool`: failed or inconclusive script/workflow/parser/validator path
+- `logic`: inconsistent L1 rules or state transition reasoning
+- `data`: malformed data, secret-shape findings, or invalid evidence structure
+- `environment`: runtime or platform condition
+- `cost`: estimated budget limit
+- `external_block`: Human Operator, real publication, revenue evidence, credentials, or other outside action required
+
+If Reflector returns `recoverable=true`, the state updater may record a soft stop reason and spend one `auto_retry_count` slot before hard-stopping.
+
+Allowed recoverable actions:
+
+- generate a smaller next-goal context pack
+- add missing source-file context
+- rerun one read-only validator
+- create a tool failure summary
+
+Disallowed recoverable actions:
+
+- changing gates
+- setting `execution_go=true`
+- changing `present=no` to `present=yes`
+- fabricating Human Operator evidence
+- enabling real webhook delivery
+- touching provider, payment, production, or secret state
+
+Cost and max-iteration limits remain hard stops. `data` and `external_block` are not recoverable by automation.
 
 ## Stop Recovery
 

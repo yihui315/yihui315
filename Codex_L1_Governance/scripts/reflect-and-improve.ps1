@@ -125,6 +125,17 @@ foreach ($item in @($reflection.evolution_suggestions)) {
   }
 }
 
+if ($reflection.recoverable -eq $true -and -not [string]::IsNullOrWhiteSpace([string]$reflection.suggested_auto_action)) {
+  $suggestions.Add([PSCustomObject]@{
+    source = "reflection:auto_recovery"
+    action = [string]$reflection.suggested_auto_action
+    priority = "medium"
+    requires_human_confirmation = $false
+    executor_allowed_now = ((-not [bool]$state.should_stop) -or ([string]$state.auto_recovery_status -eq "retry_allowed"))
+    strategy = [string]$reflection.recommended_strategy
+  })
+}
+
 if ([bool]$state.should_stop) {
   $suggestions.Add([PSCustomObject]@{
     source = "L1_State"
@@ -162,6 +173,12 @@ $reportObject = [PSCustomObject]@{
   should_stop = [bool]$state.should_stop
   stop_reason = [string]$state.stop_reason
   failure_category = [string]$reflection.failure_category
+  recoverable = if ($reflection.recoverable -ne $null) { [bool]$reflection.recoverable } else { $false }
+  suggested_auto_action = if ($reflection.suggested_auto_action -ne $null) { [string]$reflection.suggested_auto_action } else { "" }
+  recommended_strategy = if ($reflection.recommended_strategy -ne $null) { [string]$reflection.recommended_strategy } else { "" }
+  auto_retry_count = if ($state.auto_retry_count -ne $null) { [int]$state.auto_retry_count } else { 0 }
+  max_auto_retries = if ($state.max_auto_retries -ne $null) { [int]$state.max_auto_retries } else { 2 }
+  auto_recovery_status = if ($state.auto_recovery_status -ne $null) { [string]$state.auto_recovery_status } else { "" }
   suggestions = @($suggestionArray)
   executor_boundary = "Executor may act only after Human confirmation and only when L1_State.json should_stop=false."
   compliance_note = "Report-only. No gate, evidence, revenue, provider, payment, production, or readiness state changed."
@@ -181,6 +198,11 @@ Add-TableRow -Lines $lines -Cells @("health_score", (Format-InlineCode $health.s
 Add-TableRow -Lines $lines -Cells @("should_stop", (Format-InlineCode $state.should_stop))
 Add-TableRow -Lines $lines -Cells @("stop_reason", (Format-InlineCode $state.stop_reason))
 Add-TableRow -Lines $lines -Cells @("failure_category", (Format-InlineCode $reflection.failure_category))
+Add-TableRow -Lines $lines -Cells @("recoverable", (Format-InlineCode $reportObject.recoverable))
+Add-TableRow -Lines $lines -Cells @("recommended_strategy", (Format-InlineCode $reportObject.recommended_strategy))
+Add-TableRow -Lines $lines -Cells @("auto_retry_count", (Format-InlineCode $reportObject.auto_retry_count))
+Add-TableRow -Lines $lines -Cells @("max_auto_retries", (Format-InlineCode $reportObject.max_auto_retries))
+Add-TableRow -Lines $lines -Cells @("auto_recovery_status", (Format-InlineCode $reportObject.auto_recovery_status))
 $lines.Add("")
 $lines.Add("## Suggestions")
 $lines.Add("")

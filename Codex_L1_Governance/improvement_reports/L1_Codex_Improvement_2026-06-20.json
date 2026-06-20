@@ -1,64 +1,78 @@
 ﻿{
     "report_type":  "l1_codex_improvement_suggestions",
-    "generated_at":  "2026-06-20T20:57:12",
+    "generated_at":  "2026-06-20T21:20:00",
     "source_health_json":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\weekly_health_reports\\Weekly_Governance_Health_2026-06-20.json",
     "source_feedback_json":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\feedback_reports\\Weekly_Governance_Feedback_2026-06-20.json",
     "source_reflection_json":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\reflection_reports\\L1_Reflection_2026-06-20.json",
     "source_state_json":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\L1_State.json",
     "health_status":  "pass",
     "health_score":  100,
-    "should_stop":  false,
-    "stop_reason":  "",
-    "failure_category":  "prompt",
+    "should_stop":  true,
+    "stop_reason":  "repeated_failure_category",
+    "failure_category":  "context",
+    "recoverable":  true,
+    "suggested_auto_action":  "Generate a missing-context checklist from current L1 reports and rerun the loop with the narrowed scope.",
+    "recommended_strategy":  "add_context",
+    "auto_retry_count":  0,
+    "max_auto_retries":  2,
+    "auto_recovery_status":  "policy_installed_existing_stop_preserved",
     "suggestions":  [
                         {
                             "source":  "12D:2. Skill trigger fit",
                             "action":  "Promote only script-backed skills after verification.",
                             "priority":  "medium",
                             "requires_human_confirmation":  true,
-                            "executor_allowed_now":  true
+                            "executor_allowed_now":  false
                         },
                         {
                             "source":  "12D:3. Sub-agent boundaries",
                             "action":  "Keep Codex analysis manual until review prompts are stable.",
                             "priority":  "medium",
                             "requires_human_confirmation":  true,
-                            "executor_allowed_now":  true
+                            "executor_allowed_now":  false
                         },
                         {
                             "source":  "12D:4. Worker parallelism",
                             "action":  "Parallelize read-only scans only after report dependency graph is explicit.",
                             "priority":  "medium",
                             "requires_human_confirmation":  true,
-                            "executor_allowed_now":  true
+                            "executor_allowed_now":  false
                         },
                         {
                             "source":  "12D:8. Project map",
                             "action":  "Register each new project before it inherits L1 rules.",
                             "priority":  "medium",
                             "requires_human_confirmation":  true,
-                            "executor_allowed_now":  true
+                            "executor_allowed_now":  false
                         },
                         {
                             "source":  "12D:9. Business priority",
                             "action":  "Prioritize evidence unblock work over cosmetic governance changes.",
                             "priority":  "medium",
                             "requires_human_confirmation":  true,
-                            "executor_allowed_now":  true
+                            "executor_allowed_now":  false
                         },
                         {
-                            "source":  "reflection:prompt",
-                            "action":  "Tighten AGENTS or Skill trigger wording for recurring conditional dimensions.",
+                            "source":  "reflection:context",
+                            "action":  "Create a short context pack listing missing source-of-truth files, stale assumptions, and the next smallest verifiable action.",
                             "priority":  "medium",
                             "requires_human_confirmation":  true,
-                            "executor_allowed_now":  true
+                            "executor_allowed_now":  false
                         },
                         {
-                            "source":  "reflection:prompt",
-                            "action":  "Lower the next loop goal or pause for Human review because the same failure category repeated.",
+                            "source":  "reflection:auto_recovery",
+                            "action":  "Generate a missing-context checklist from current L1 reports and rerun the loop with the narrowed scope.",
+                            "priority":  "medium",
+                            "requires_human_confirmation":  false,
+                            "executor_allowed_now":  false,
+                            "strategy":  "add_context"
+                        },
+                        {
+                            "source":  "L1_State",
+                            "action":  "Pause Executor and request Human review of stop_reason before applying any improvement.",
                             "priority":  "high",
                             "requires_human_confirmation":  true,
-                            "executor_allowed_now":  true
+                            "executor_allowed_now":  false
                         }
                     ],
     "executor_boundary":  "Executor may act only after Human confirmation and only when L1_State.json should_stop=false.",

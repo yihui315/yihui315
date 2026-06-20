@@ -23,6 +23,7 @@ env:
   MAX_ITERATIONS: 5
   MAX_COST_USD: 3.0
   NO_PROGRESS_THRESHOLD: 2
+  MAX_AUTO_RETRIES: 2
   LOOP_COST_USD: 0
 
 jobs:
@@ -117,6 +118,7 @@ jobs:
             -MaxIterations ([int]$env:MAX_ITERATIONS) `
             -MaxCostUsd ([double]$env:MAX_COST_USD) `
             -NoProgressThreshold ([int]$env:NO_PROGRESS_THRESHOLD) `
+            -MaxAutoRetries ([int]$env:MAX_AUTO_RETRIES) `
             -Json 2>&1)
           $stateExitCode = $LASTEXITCODE
           $outputText = ($output | Out-String).Trim()
