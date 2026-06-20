@@ -41,9 +41,18 @@ Supporting files:
 
 ## Automation Examples
 
+- [Active weekly governance workflow](../.github/workflows/weekly-governance-health-check.yml)
 - [Inactive weekly GitHub Actions example](./automation_examples/github-actions-weekly-governance-health.yml)
 - Webhook runtime configuration is documented in the gstack audit package as `webhook_config_example.md`.
 - Automation examples are not active until a maintainer explicitly installs them in a scheduler path.
+
+## Self-Run And Self-Evolution
+
+- [Architecture and roadmap](./self_evolution/L1_Self_Run_Self_Evolution_Architecture.md)
+- [Feedback Markdown template](./self_evolution/templates/Weekly_Governance_Feedback_Template.md)
+- [Feedback JSON template](./self_evolution/templates/Weekly_Governance_Feedback_Template.json)
+- [Feedback generator script](./scripts/generate-weekly-feedback-report.ps1)
+- Generated feedback reports live under `feedback_reports/`.
 
 ## Gate System
 
@@ -131,7 +140,7 @@ Principle: important failures and compliance refusals must be recorded as struct
 Additional registration rules:
 
 - Project registration must record inherited L1 controls, local evidence ownership, and the current fail-closed decision before any execution claim.
-- Weekly automation can use the inactive GitHub Actions example, but it is not enabled until moved into an active scheduler path by a maintainer.
+- Weekly automation now uses the active `.github/workflows/weekly-governance-health-check.yml`; the inactive example remains reference-only.
 
 Minimum project onboarding files:
 
@@ -161,6 +170,6 @@ Minimum project onboarding files:
 ## Version Status
 
 - current maturity: L1 10/10 push estimate 8.6/10
-- latest gstack package: v1.7
+- latest gstack package: v1.8
 - last updated: 2026-06-20
 - contributors: Codex and Human Operator

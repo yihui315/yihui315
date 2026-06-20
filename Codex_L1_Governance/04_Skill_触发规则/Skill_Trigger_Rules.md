@@ -16,6 +16,7 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `Review_Packet_Scorer` | A review packet is created or refreshed | project review packet, gate decision, 12D scan | quantitative score section and trend notes | All gates |
 | `Secret_Shape_Scan` | Evidence or revenue artifacts are added | target paths and masking policy | secret-shape result with hit count | Evidence, Revenue |
 | `weekly-governance-health-check` | Weekly L1 governance cycle ends or audit readiness is claimed | L1 root, closeout script, artifact hygiene script | Markdown health report with score, closeout status, artifact plan, and secret-shape summary | Governance |
+| `weekly-governance-feedback-report` | Weekly health JSON is generated | `Weekly_Governance_Health_YYYY-MM-DD.json` | Markdown and JSON feedback reports with 12D assessment and recommendations | Governance |
 | `human-evidence-intake-check` | Human Operator masked evidence is submitted or updated | Evidence `.md` file and masked artifact references | validator summary, missing fields, readiness for orchestrator review | Evidence, Revenue |
 | `orchestrator-decision-refresh` | Evidence, Revenue, Approval, Executor, or Environment gate changes | `ORCHESTRATOR_GATE_STATE.json` and validator outputs | refreshed decision JSON and Review Packet note | All gates |
 | `tianji-revenue-gate` | Revenue, payment, checkout, webhook, entitlement, or monetization safety is in scope | final orchestrator decision and masked revenue evidence | Revenue Evidence verdict and missing evidence list | Revenue |
@@ -35,6 +36,7 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 9. Run `governance-artifact-hygiene` in dry-run mode first; archive or delete actions require explicit approval.
 10. Run `round-closeout-validator` before treating a governance round as complete.
 11. Run `weekly-governance-health-check` before claiming weekly L1 audit readiness.
+12. Run `weekly-governance-feedback-report` after weekly health JSON is generated; feedback is advisory and requires Human confirmation before changes.
 
 ## Post-Run Record Map
 
@@ -46,6 +48,7 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `governance-artifact-hygiene` | Review Packet or artifact hygiene report | keep/archive plan, dry-run command, manual approval note |
 | `round-closeout-validator` | Review Packet or closeout report | closeout status, missing records, next-round recommendation |
 | `weekly-governance-health-check` | `weekly_health_reports/` and `REVIEW_PACKET_Master.md` | score, closeout status, artifact hygiene result, secret-shape result |
+| `weekly-governance-feedback-report` | `feedback_reports/` and `REVIEW_PACKET_Master.md` when recommendations are acted on | 12D assessment, issues, recommendations, Human-confirmation boundary |
 | `codex-system-governance-auditor` | `REVIEW_PACKET_Master.md` for L1-level audits | findings, assets updated, validation summary |
 | `executor-preflight-check` | executor health report or Review Packet | executor availability JSON and recommendation |
 

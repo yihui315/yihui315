@@ -6,7 +6,7 @@
 | --- | --- |
 | status | `pass` |
 | score | `100/100` |
-| generated_at | `2026-06-20T06:28:02` |
+| generated_at | `2026-06-20T11:28:23` |
 | governance_root | `C:\Users\Administrator\Documents\codex进化助手\Codex_L1_Governance` |
 
 ## Round Closeout
@@ -32,7 +32,7 @@
 
 | Field | Value |
 | --- | --- |
-| scanned_files | `79` |
+| scanned_files | `89` |
 | secret_shape_hits | `0` |
 | env_like_files | `0` |
 
@@ -54,13 +54,13 @@
 
 | Field | Value |
 | --- | --- |
-| notify_on | `always` |
-| should_notify | `True` |
-| notification_provider | `slack` |
+| notify_on | `blocked` |
+| should_notify | `False` |
+| notification_provider | `generic` |
 | notification_enabled | `False` |
-| notification_status | `dry_run` |
+| notification_status | `skipped_by_notify_mode` |
 | notification_dry_run | `True` |
-| webhook_host | `example.com` |
+| webhook_host | `` |
 
 ## Compliance Boundary
 

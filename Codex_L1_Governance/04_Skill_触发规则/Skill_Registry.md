@@ -12,7 +12,8 @@
 | `Review_Packet_Scorer` | L1 governance | proposed | 6/10 | no dedicated script | Codex | Scoring fields and dashboard template exist |
 | `Secret_Shape_Scan` | validation helper | proposed | 6/10 | command pattern only | Codex | Manual `rg` scan currently used |
 | `weekly-governance-health-check` | validation helper | active | 9/10 | `scripts/weekly-governance-health-check.ps1` | Codex | Orchestrates closeout, artifact hygiene, secret-shape scan, and Slack/generic webhook notification with explicit enable switch |
-| `weekly-governance-health-schedule` | automation example | documented | 7/10 | `automation_examples/github-actions-weekly-governance-health.yml` | Codex | Inactive schedule example only; not installed under `.github/workflows/` |
+| `weekly-governance-health-schedule` | automation workflow | active | 8/10 | `.github/workflows/weekly-governance-health-check.yml` | Codex | Active scheduled workflow; commits generated health and feedback reports only |
+| `weekly-governance-feedback-report` | validation helper | active | 8/10 | `scripts/generate-weekly-feedback-report.ps1` | Codex | Converts weekly health JSON into Markdown/JSON feedback and 12D recommendations |
 | `human-evidence-intake-check` | L1 governance | active | 8/10 | `scripts/human-evidence-intake-check.ps1` | Codex | Read-only intake script verified; current ai占卜.ai evidence remains blocked |
 | `orchestrator-decision-refresh` | L1 governance | proposed | 7/10 | no dedicated script | Codex | Auto-closeout rule documented |
 | `governance-artifact-hygiene` | L1 governance | active | 8/10 | `scripts/governance-artifact-hygiene.ps1` | Codex | Read-only dry-run script verified; no archive/delete execution by default |

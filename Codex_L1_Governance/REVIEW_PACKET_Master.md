@@ -282,3 +282,17 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - evidence intake verification: `status=blocked`, `present_yes=0`, `present_no=10`, missing `submitted_by`, `role`, `submitted_at`, `verified_environment`
 - compliance scan: `secret_shape_hits=0`; fake webhook URL/token search produced no repository hits
 - decision impact: none; L1 remains governance-only, ai占卜.ai remains `no_go`, Evidence and Revenue remain blocked
+
+### 2026-06-20 L1 Self-Run And Self-Evolution v1.8
+
+- package_version: `gstack-audit-package-v1.8`
+- added active workflow: `.github/workflows/weekly-governance-health-check.yml`
+- workflow scope: weekly health check, feedback generation, and generated report commits under `weekly_health_reports/` and `feedback_reports/`
+- added feedback generator: `scripts/generate-weekly-feedback-report.ps1`
+- generated reports: `feedback_reports/Weekly_Governance_Feedback_2026-06-20.md` and `.json`
+- added templates: `self_evolution/templates/Weekly_Governance_Feedback_Template.md` and `.json`
+- added architecture: `self_evolution/L1_Self_Run_Self_Evolution_Architecture.md`
+- updated AGENTS: generated feedback is advisory; Codex may draft changes, but Human confirmation is required before rules, scripts, gates, evidence, or automation activation changes
+- updated ai占卜.ai pilot: `Weekly_Governance_Closed_Loop_Mechanism.md` and `AI_Divination_L1_Closed_Loop_Run_Report_2026-06-20.md`
+- validation: weekly health JSON generated with `status=pass`, feedback generator returned `status=generated`, `health_score=100`
+- decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, Evidence and Revenue remain blocked

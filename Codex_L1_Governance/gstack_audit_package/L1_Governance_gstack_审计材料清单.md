@@ -34,6 +34,17 @@ Audit scope:
 | Notification | Webhook config example | `webhook_config_example.md` | Confirm runtime-only webhook secret handling |
 | Automation | Inactive GitHub Actions example | `automation_examples/github-actions-weekly-governance-health.yml` | Confirm schedule path without enabling CI by default |
 
+## Additional v1.8 Materials
+
+| Category | Material | Location | Review purpose |
+| --- | --- | --- | --- |
+| Automation | Active weekly governance workflow | `../.github/workflows/weekly-governance-health-check.yml` | Confirm scheduled health and feedback generation |
+| Self-evolution | Architecture and roadmap | `../self_evolution/L1_Self_Run_Self_Evolution_Architecture.md` | Review execution, feedback, and evolution boundaries |
+| Feedback | Markdown template | `../self_evolution/templates/Weekly_Governance_Feedback_Template.md` | Check human-readable feedback shape |
+| Feedback | JSON template | `../self_evolution/templates/Weekly_Governance_Feedback_Template.json` | Check machine-readable feedback shape |
+| Feedback | Feedback generator | `../scripts/generate-weekly-feedback-report.ps1` | Confirm health-to-feedback conversion |
+| Pilot | ai占卜.ai closed-loop report | `../Projects/ai占卜.ai/当前状态/AI_Divination_L1_Closed_Loop_Run_Report_2026-06-20.md` | Confirm project loop remains fail-closed |
+
 ## Verified Script Materials
 
 | Script | Package copy | Source copy | Latest report |
@@ -43,9 +54,15 @@ Audit scope:
 | `governance-artifact-hygiene.ps1` | `已验证脚本/governance-artifact-hygiene.ps1` | `../scripts/governance-artifact-hygiene.ps1` | `../artifact_hygiene_reports/Archive_Plan_2026-06-20.md` |
 | `weekly-governance-health-check.ps1` | `已验证脚本/weekly-governance-health-check.ps1` | `../scripts/weekly-governance-health-check.ps1` | `../weekly_health_reports/Weekly_Governance_Health_2026-06-20.md` |
 
+## Additional v1.8 Script Material
+
+| Script | Source copy | Latest report |
+| --- | --- | --- |
+| `generate-weekly-feedback-report.ps1` | `../scripts/generate-weekly-feedback-report.ps1` | `../feedback_reports/Weekly_Governance_Feedback_2026-06-20.md` |
+
 ## Required Audit Checks
 
-1. Confirm `gstack-audit-package-v1.7` is the current package version.
+1. Confirm `gstack-audit-package-v1.8` is the current package version.
 2. Confirm the package does not claim project `execution_go=true`.
 3. Confirm ai占卜.ai remains `no_go` with Evidence and Revenue blocked.
 4. Confirm scripts are read-only or dry-run by default.
@@ -54,9 +71,10 @@ Audit scope:
 7. Confirm weekly health pass is not treated as project readiness.
 8. Confirm multi-project governance requires project-specific evidence.
 
-Additional v1.7 audit check:
+Additional v1.8 audit checks:
 
-- Confirm the GitHub Actions file is an inactive example unless a maintainer installs it under `.github/workflows/`.
+- Confirm the active GitHub Actions workflow commits generated reports only under `weekly_health_reports/` and `feedback_reports/`.
+- Confirm structured feedback reports are advisory and require Human approval before L1 changes.
 
 ## Current Formal Audit Position
 

@@ -4,7 +4,7 @@
 
 | Check | Expected result | Status |
 | --- | --- | --- |
-| Audit package has a current version | `gstack-audit-package-v1.7` | pending auditor review |
+| Audit package has a current version | `gstack-audit-package-v1.8` | pending auditor review |
 | Package index lists all core materials | overview, scripts, checklist, Q&A, maturity, multi-project framework | pending auditor review |
 | L1 overview explains control-plane boundary | L1 does not grant project execution approval | pending auditor review |
 | Maturity analysis lists strengths and risks | 10/10 is not claimed | pending auditor review |
@@ -18,6 +18,7 @@
 | `round-closeout-validator.ps1` exists | read-only closeout validation | verified locally |
 | `governance-artifact-hygiene.ps1` exists | dry-run archive planning | verified locally |
 | `weekly-governance-health-check.ps1` exists | combined weekly report | verified locally |
+| `generate-weekly-feedback-report.ps1` exists | structured feedback Markdown/JSON generation | verified locally |
 | Weekly script supports notification | Slack/generic webhook, disabled or dry-run by default | verified locally |
 | Webhook secrets are not committed | only placeholders and host names are recorded | verified locally |
 
@@ -46,7 +47,8 @@
 | Check | Expected result | Status |
 | --- | --- | --- |
 | Weekly report exists | `Weekly_Governance_Health_2026-06-20.md` | verified locally |
-| GitHub Actions or cron example exists | schedule example only unless enabled by maintainer | implemented as inactive example |
+| Active GitHub Actions workflow exists | weekly workflow runs health, feedback, and report commit steps | YAML parse ok locally; pending first GitHub run |
+| GitHub Actions or cron example exists | inactive example remains available for reference | implemented as inactive example |
 | Notification support exists | real send requires explicit switch and URL at runtime | verified locally |
 | Automation output is recorded | `REVIEW_PACKET_Master.md` and generated reports | verified locally |
 

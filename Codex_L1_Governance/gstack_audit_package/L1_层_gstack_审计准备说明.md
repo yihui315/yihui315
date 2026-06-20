@@ -9,7 +9,7 @@ This layer is a governance control plane. It is not a project execution approval
 ## Current Maturity
 
 - current estimated maturity: `8.6/10`
-- audit package version: `gstack-audit-package-v1.7`
+- audit package version: `gstack-audit-package-v1.8`
 - source report: `2026-06-17_L1_Layer_10_10_Push_Scan_Report.md`
 - decision posture: governance audit ready, execution remains gated by project-specific evidence
 
@@ -30,6 +30,8 @@ This layer is a governance control plane. It is not a project execution approval
 - Added formal audit material list, gstack checklist, and audit simulation Q&A for v1.7.
 - Added Slack and generic webhook support to the weekly health script, disabled or dry-run by default.
 - Added inactive GitHub Actions schedule example for weekly health checks.
+- Added active weekly GitHub Actions workflow for health and feedback report generation.
+- Added self-run and self-evolution architecture, feedback templates, and feedback generator script.
 - Added multi-project governance framework and kept ai占卜.ai as a blocked-but-connected pilot.
 - Recorded the latest 12D scan and 10/10 push summary.
 - Recorded secret-shape scan result as `secret_shape_hits=0`.
@@ -62,7 +64,8 @@ Implemented or documented control points:
 | Gap | Current state | Required improvement |
 | --- | --- | --- |
 | Script coverage | Evidence intake, closeout, artifact hygiene, and weekly health have verified read-only scripts | Add scripts for secret scan and decision refresh validation |
-| CI or scheduled execution | Inactive GitHub Actions example exists, no external scheduler is installed | Move schedule into an active workflow only after maintainer approval |
+| CI or scheduled execution | Active weekly health workflow exists and commits generated reports only | Monitor workflow reliability across several cycles |
+| Feedback automation | Feedback generator creates Markdown and JSON recommendations | Add trend analysis after multiple reports exist |
 | Trend evidence | Latest scan and weekly report exist, limited time series | Accumulate multiple scans and weekly reports |
 | Multi-project governance | ai占卜.ai pilot is connected but blocked | Add multi-project framework and project registry |
 | Project adoption | L1 package is ready | Downstream projects must still submit real evidence |

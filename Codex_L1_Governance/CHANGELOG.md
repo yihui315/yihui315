@@ -2,6 +2,11 @@
 
 ## 2026-06-20
 
+- Added active `.github/workflows/weekly-governance-health-check.yml` for weekly L1 health and structured feedback report generation.
+- Added `scripts/generate-weekly-feedback-report.ps1` with Markdown/JSON feedback output.
+- Added `self_evolution/` architecture and feedback templates for the L1 self-run and self-evolution loop.
+- Added ai占卜.ai closed-loop mechanism and run report while preserving `no_go`, `execution_go=false`, and blocked Evidence/Revenue status.
+- Updated `gstack_audit_package/` to v1.8 with active automation and advisory feedback-loop materials.
 - Updated `gstack_audit_package/` to v1.7 with a formal material list, gstack checklist, audit simulation Q&A, webhook config example, and inactive GitHub Actions weekly health example.
 - Upgraded `weekly-governance-health-check.ps1` with Slack/generic webhook support, explicit `-EnableNotification`, dry-run default behavior, and host-only reporting.
 - Expanded `L1_Multi_Project_Governance_Framework.md` with project registration flow and rule inheritance boundaries.

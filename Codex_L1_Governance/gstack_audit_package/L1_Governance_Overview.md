@@ -18,6 +18,7 @@ Codex_L1_Governance
   -> Agent and Worker boundaries
   -> Feedback and scoring
   -> Scripts and generated validation reports
+  -> Self-run and self-evolution feedback reports
   -> Project pilot records
 ```
 
@@ -30,6 +31,7 @@ Human Operator evidence
   -> orchestrator-decision-refresh
   -> round-closeout-validator
   -> weekly-governance-health-check
+  -> generate-weekly-feedback-report
   -> REVIEW_PACKET_Master and CHANGELOG
 ```
 
@@ -48,7 +50,7 @@ Current readiness posture:
 
 - governance audit readiness: `ready_for_gstack_governance_audit`
 - project execution readiness: not claimed
-- latest package version: `gstack-audit-package-v1.7`
+- latest package version: `gstack-audit-package-v1.8`
 - latest known L1 maturity estimate: `8.6/10`
 
 ## Evidence Principle

@@ -17,10 +17,10 @@ Result:
 - artifact hygiene status: `pass`
 - secret_shape_hits: `0`
 - env_like_files: `0`
-- notification_provider: `slack`
-- notification_status: `dry_run`
+- notification_provider: `generic`
+- notification_status: `skipped_by_notify_mode`
 - notification_enabled: `false`
-- webhook_host: `example.com`
+- webhook_host: ``
 
 Project impact:
 
@@ -32,3 +32,11 @@ Project impact:
 Interpretation:
 
 The weekly L1 health check confirms L1 governance tooling health. It does not prove project-specific evidence or revenue readiness.
+
+## Scheduled Mechanism
+
+- active workflow: `.github/workflows/weekly-governance-health-check.yml`
+- report directories: `weekly_health_reports/`, `feedback_reports/`
+- notification mode: dry-run by default
+- project impact: no automatic gate change
+- ai占卜.ai remains `no_go` until real Human Operator evidence is submitted and reviewed

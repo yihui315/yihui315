@@ -26,6 +26,7 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 | `governance-artifact-hygiene` | active | 8/10 | `scripts/governance-artifact-hygiene.ps1` | Read-only dry-run archive planner verified; no delete/archive execution by default. |
 | `round-closeout-validator` | proposed | 8/10 | `scripts/round-closeout-validator.ps1` | Read-only script verified and included in this package. |
 | `weekly-governance-health-check` | active | 9/10 | `scripts/weekly-governance-health-check.ps1` | Orchestrates closeout, artifact hygiene, secret-shape scan, and Slack/generic webhook notification with explicit enable switch. |
+| `weekly-governance-feedback-report` | active | 8/10 | `scripts/generate-weekly-feedback-report.ps1` | Converts weekly health JSON into Markdown/JSON 12D feedback and improvement recommendations. |
 
 ## Supporting Reusable Skills
 
@@ -57,6 +58,15 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 | --- | --- | --- |
 | Webhook config example | `webhook_config_example.md` | Runtime-only URL pattern documented |
 | Inactive schedule example | `automation_examples/github-actions-weekly-governance-health.yml` | Included but not enabled as CI |
+
+## Additional v1.8 Evidence
+
+| Evidence | Location | Status |
+| --- | --- | --- |
+| Active weekly workflow | `../.github/workflows/weekly-governance-health-check.yml` | Scheduled self-run path implemented |
+| Feedback generator | `../scripts/generate-weekly-feedback-report.ps1` | Verified locally |
+| Feedback reports | `../feedback_reports/` | Markdown and JSON reports generated |
+| Self-evolution architecture | `../self_evolution/L1_Self_Run_Self_Evolution_Architecture.md` | Documented |
 
 ## Audit Boundaries
 

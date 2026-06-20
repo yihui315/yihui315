@@ -10,7 +10,7 @@ No. ai占卜.ai remains `no_go` with `execution_go=false`. Evidence and Revenue 
 
 ## 3. What is the current audit package version?
 
-The current target version is `gstack-audit-package-v1.7`.
+The current target version is `gstack-audit-package-v1.8`.
 
 ## 4. What is the latest L1 maturity estimate?
 
@@ -50,7 +50,7 @@ The weekly health script supports Slack incoming webhook payloads, plus generic 
 
 ## 13. Is there a scheduled automation?
 
-The package includes an inactive GitHub Actions schedule example under `automation_examples/`. It is not installed under `.github/workflows/`, so it does not change CI behavior unless the repository maintainer explicitly enables it.
+The repository now includes an active `.github/workflows/weekly-governance-health-check.yml` workflow for weekly L1 health and feedback reports. The older `automation_examples/` file remains reference-only.
 
 ## 14. How does multi-project governance work?
 

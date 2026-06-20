@@ -1,0 +1,103 @@
+{
+  "report_type": "weekly_governance_feedback",
+  "generated_at": "",
+  "source_health_json": "",
+  "health_summary": {
+    "status": "",
+    "score": 0,
+    "round_closeout_status": "",
+    "artifact_hygiene_status": "",
+    "secret_shape_hits": 0,
+    "env_like_files": 0,
+    "issues": []
+  },
+  "dimension_assessment": [
+    {
+      "dimension": "1. Repeated workflow",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    },
+    {
+      "dimension": "2. Skill trigger fit",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    },
+    {
+      "dimension": "3. Sub-agent boundaries",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    },
+    {
+      "dimension": "4. Worker parallelism",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    },
+    {
+      "dimension": "5. Output quality",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    },
+    {
+      "dimension": "6. Feedback loop",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    },
+    {
+      "dimension": "7. Failure memory",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    },
+    {
+      "dimension": "8. Project map",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    },
+    {
+      "dimension": "9. Business priority",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    },
+    {
+      "dimension": "10. Automation",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    },
+    {
+      "dimension": "11. Codex mechanism fit",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    },
+    {
+      "dimension": "12. Governance",
+      "rating": "",
+      "evidence": "",
+      "recommendation": ""
+    }
+  ],
+  "improvement_recommendations": [
+    {
+      "priority": "",
+      "action": "",
+      "owner": "",
+      "requires_human_confirmation": true
+    }
+  ],
+  "codex_improvement_flow": {
+    "step_1": "Health Check generates Markdown and JSON.",
+    "step_2": "Feedback generator converts health data into 12D assessment and recommendations.",
+    "step_3": "Codex reviews feedback and drafts changes.",
+    "step_4": "Human reviewer confirms before L1 rules, scripts, gates, or evidence files are changed."
+  },
+  "compliance_note": "Feedback is advisory and does not change gate state or project readiness."
+}

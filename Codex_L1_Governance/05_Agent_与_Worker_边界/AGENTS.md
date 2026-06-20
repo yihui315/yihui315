@@ -31,6 +31,9 @@ Use this chain for reusable governance work:
 17. Weekly health check output must be recorded before claiming weekly L1 audit readiness.
 18. Webhook notifications must be disabled or dry-run by default; real delivery requires an explicit enable switch and a runtime URL from an external secret store.
 19. Schedule examples, GitHub Actions examples, or cron examples must not be treated as enabled automation until a maintainer explicitly installs them in the active scheduler location.
+20. The approved weekly governance workflow may commit generated reports only under `weekly_health_reports/` and `feedback_reports/`.
+21. Structured feedback reports are advisory; they cannot change gate decisions, evidence rows, Skill status, or project readiness.
+22. Codex may draft self-evolution improvements from feedback reports, but human confirmation is required before modifying L1 rules, scripts, project records, or active automation.
 
 ## Weekly Health Check Trigger
 
@@ -51,6 +54,13 @@ Run a governance health check when any of these occur:
 - Use real webhook delivery only with `-EnableNotification`, `-NotificationDryRun:$false`, and a URL supplied at runtime.
 - Never commit full webhook URLs or provider secrets.
 - Keep automation examples outside active scheduler paths unless the maintainer approves activation.
+
+## Self-Run And Self-Evolution Boundary
+
+- Weekly automation may run health checks and feedback generation.
+- Generated feedback must be reviewed before any governance rule or script is changed.
+- Repeated issues should become proposed changes, failure cases, or checklist items, not automatic gate decisions.
+- ai占卜.ai and other projects remain fail-closed until project-specific Human Operator evidence exists.
 
 ## Required Review Packet Update
 

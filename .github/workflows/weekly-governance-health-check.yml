@@ -1,0 +1,95 @@
+name: Weekly Governance Health Check
+
+on:
+  workflow_dispatch:
+    inputs:
+      notify_on:
+        description: "Notification mode for the dry-run notification path"
+        required: false
+        default: "blocked"
+        type: choice
+        options:
+          - blocked
+          - conditional
+          - always
+          - never
+  schedule:
+    - cron: "0 1 * * 1"
+
+permissions:
+  contents: write
+
+jobs:
+  weekly-governance-health-check:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run L1 weekly governance health check
+        shell: pwsh
+        env:
+          L1_SLACK_WEBHOOK_URL: ${{ secrets.L1_SLACK_WEBHOOK_URL }}
+          NOTIFY_ON_INPUT: ${{ github.event.inputs.notify_on || 'blocked' }}
+        run: |
+          $date = Get-Date -Format "yyyy-MM-dd"
+          $jsonPath = "Codex_L1_Governance/weekly_health_reports/Weekly_Governance_Health_$date.json"
+          New-Item -ItemType Directory -Force -Path "Codex_L1_Governance/weekly_health_reports" | Out-Null
+
+          $notifyOn = $env:NOTIFY_ON_INPUT
+          if ([string]::IsNullOrWhiteSpace($notifyOn)) {
+            $notifyOn = "blocked"
+          }
+
+          $arguments = @("-Json", "-NotifyOn", $notifyOn)
+          if (-not [string]::IsNullOrWhiteSpace($env:L1_SLACK_WEBHOOK_URL)) {
+            $arguments += @(
+              "-NotificationProvider", "slack",
+              "-NotificationWebhookUrl", $env:L1_SLACK_WEBHOOK_URL,
+              "-NotificationDryRun:$true"
+            )
+          }
+
+          $output = @(& .\Codex_L1_Governance\scripts\weekly-governance-health-check.ps1 @arguments 2>&1)
+          $healthExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          $outputText | Set-Content -LiteralPath $jsonPath -Encoding UTF8
+
+          "HEALTH_EXIT_CODE=$healthExitCode" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "HEALTH_JSON_PATH=$jsonPath" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+          Write-Host $outputText
+          Write-Host "health_exit_code=$healthExitCode"
+
+          if ($healthExitCode -gt 2) {
+            exit $healthExitCode
+          }
+
+      - name: Generate structured feedback report
+        shell: pwsh
+        run: |
+          & .\Codex_L1_Governance\scripts\generate-weekly-feedback-report.ps1 `
+            -WeeklyHealthJsonPath $env:HEALTH_JSON_PATH `
+            -Json
+
+      - name: Commit generated governance reports
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Codex_L1_Governance/weekly_health_reports Codex_L1_Governance/feedback_reports
+          if (git diff --cached --quiet) {
+            Write-Host "No generated report changes to commit."
+          } else {
+            git commit -m "chore: update weekly governance health reports"
+            git push
+          }
+
+      - name: Preserve health check verdict
+        shell: pwsh
+        run: |
+          if ($env:HEALTH_EXIT_CODE -ne "0") {
+            Write-Host "Weekly governance health check ended with exit code $env:HEALTH_EXIT_CODE."
+            exit ([int]$env:HEALTH_EXIT_CODE)
+          }
