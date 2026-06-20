@@ -160,6 +160,27 @@ $recommendations.Add([PSCustomObject]@{
 
 $recommendationArray = @($recommendations | ForEach-Object { $_ })
 
+$codexImprovementSuggestions = New-Object System.Collections.Generic.List[object]
+foreach ($dimension in $dimensionAssessment) {
+  if ($dimension.rating -eq "Conditional" -or $dimension.rating -eq "Needs Work") {
+    $codexImprovementSuggestions.Add([PSCustomObject]@{
+      source = "12D:{0}" -f $dimension.dimension
+      suggested_action = $dimension.recommendation
+      requires_human_confirmation = $true
+      execution_boundary = "Codex may draft a patch or report only; Human confirmation is required before durable changes."
+    })
+  }
+}
+if ($issues.Count -gt 0) {
+  $codexImprovementSuggestions.Add([PSCustomObject]@{
+    source = "weekly_health_issues"
+    suggested_action = "Inspect health issues and create the smallest safe governance fix or failure-case record."
+    requires_human_confirmation = $true
+    execution_boundary = "No gate, evidence, revenue, provider, payment, or production state may change automatically."
+  })
+}
+$codexImprovementSuggestionArray = @($codexImprovementSuggestions.ToArray())
+
 $feedback = [PSCustomObject]@{
   report_type = "weekly_governance_feedback"
   generated_at = (Get-Date).ToString("s")
@@ -175,6 +196,7 @@ $feedback = [PSCustomObject]@{
   }
   dimension_assessment = @($dimensionAssessment)
   improvement_recommendations = @($recommendationArray)
+  codex_improvement_suggestions = @($codexImprovementSuggestionArray)
   codex_improvement_flow = [PSCustomObject]@{
     step_1 = "Health Check generates Markdown and JSON."
     step_2 = "Feedback generator converts health data into 12D assessment and recommendations."
@@ -235,6 +257,18 @@ Add-TableRow -Lines $lines -Cells @("Priority", "Action", "Owner", "Human confir
 Add-TableRow -Lines $lines -Cells @("---", "---", "---", "---")
 foreach ($recommendation in $recommendations) {
   Add-TableRow -Lines $lines -Cells @($recommendation.priority, $recommendation.action, $recommendation.owner, [string]$recommendation.requires_human_confirmation)
+}
+$lines.Add("")
+$lines.Add("## Codex Improvement Suggestions")
+$lines.Add("")
+Add-TableRow -Lines $lines -Cells @("Source", "Suggested action", "Human confirmation", "Boundary")
+Add-TableRow -Lines $lines -Cells @("---", "---", "---", "---")
+if ($codexImprovementSuggestions.Count -gt 0) {
+  foreach ($suggestion in $codexImprovementSuggestions) {
+    Add-TableRow -Lines $lines -Cells @($suggestion.source, $suggestion.suggested_action, [string]$suggestion.requires_human_confirmation, $suggestion.execution_boundary)
+  }
+} else {
+  Add-TableRow -Lines $lines -Cells @("none", "No Codex improvement suggestion generated.", "true", "Continue observation.")
 }
 $lines.Add("")
 $lines.Add("## Codex Improvement Flow")

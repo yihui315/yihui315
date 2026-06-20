@@ -5,8 +5,8 @@
 | Field | Value |
 | --- | --- |
 | failure_category | `prompt` |
-| should_continue | `True` |
-| recommended_next_goal | Review the top Reflector suggestion and apply it only after Human confirmation. |
+| should_continue | `False` |
+| recommended_next_goal | Pause or lower the next loop goal and request Human review. |
 
 ## Root Cause
 
@@ -25,6 +25,7 @@ The loop is healthy but still has conditional governance quality dimensions that
 | Priority | Effort | Action | Expected impact |
 | --- | --- | --- | --- |
 | medium | low | Tighten AGENTS or Skill trigger wording for recurring conditional dimensions. | Can improve governance quality and reduce repeated conditional findings. |
+| high | low | Lower the next loop goal or pause for Human review because the same failure category repeated. | Prevents repeated low-value loops; no direct execution_go impact. |
 
 ## Compliance Boundary
 

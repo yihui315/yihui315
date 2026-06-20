@@ -146,6 +146,52 @@ function Invoke-SecretShapeScan {
   }
 }
 
+function Get-L1LoopStateSummary {
+  param([string]$Root)
+
+  $statePath = Join-Path $Root "L1_State.json"
+  if (-not (Test-Path -LiteralPath $statePath)) {
+    return [PSCustomObject]@{
+      present = $false
+      path = $statePath
+      should_stop = $false
+      stop_reason = ""
+      iteration_count = $null
+      current_score = $null
+      current_execution_go = $false
+      current_failure_category = ""
+      repeated_failure_count = $null
+    }
+  }
+
+  try {
+    $state = Get-Content -LiteralPath $statePath -Raw | ConvertFrom-Json
+    return [PSCustomObject]@{
+      present = $true
+      path = $statePath
+      should_stop = [bool]$state.should_stop
+      stop_reason = [string]$state.stop_reason
+      iteration_count = $state.iteration_count
+      current_score = $state.current_score
+      current_execution_go = [bool]$state.current_execution_go
+      current_failure_category = [string]$state.current_failure_category
+      repeated_failure_count = $state.repeated_failure_count
+    }
+  } catch {
+    return [PSCustomObject]@{
+      present = $true
+      path = $statePath
+      should_stop = $true
+      stop_reason = "invalid_l1_state_json"
+      iteration_count = $null
+      current_score = $null
+      current_execution_go = $false
+      current_failure_category = ""
+      repeated_failure_count = $null
+    }
+  }
+}
+
 function Add-TableRow {
   param(
     [System.Collections.Generic.List[string]]$Lines,
@@ -312,6 +358,7 @@ $hygieneResult = Convert-ScriptOutput -ScriptPath $hygieneScript -Output $hygien
 
 Write-Log "running L1 secret-shape scan"
 $secretScan = Invoke-SecretShapeScan -Root $root
+$loopState = Get-L1LoopStateSummary -Root $root
 
 $issues = New-Object System.Collections.Generic.List[string]
 $score = 100
@@ -341,6 +388,11 @@ if ($secretScan.env_like_files -gt 0) {
   $issues.Add("env_like_files_present")
 }
 
+if ($loopState.should_stop) {
+  $score -= 20
+  $issues.Add("l1_loop_should_stop")
+}
+
 if ($score -lt 0) { $score = 0 }
 
 $overallStatus = if ($issues.Count -eq 0 -and $score -ge 90) {
@@ -363,6 +415,8 @@ $notificationPayload = [PSCustomObject]@{
   artifact_hygiene_status = $hygieneStatus
   secret_shape_hits = $secretScan.secret_shape_hits
   env_like_files = $secretScan.env_like_files
+  loop_should_stop = $loopState.should_stop
+  loop_stop_reason = $loopState.stop_reason
   issues = @($issues)
   compliance_note = "L1 governance-only. No project gate changed."
 }
@@ -420,6 +474,18 @@ Add-TableRow -Lines $report -Cells @("---", "---")
 Add-TableRow -Lines $report -Cells @("scanned_files", (Format-InlineCode $secretScan.scanned_files))
 Add-TableRow -Lines $report -Cells @("secret_shape_hits", (Format-InlineCode $secretScan.secret_shape_hits))
 Add-TableRow -Lines $report -Cells @("env_like_files", (Format-InlineCode $secretScan.env_like_files))
+$report.Add("")
+$report.Add("## L1 Loop State")
+$report.Add("")
+Add-TableRow -Lines $report -Cells @("Field", "Value")
+Add-TableRow -Lines $report -Cells @("---", "---")
+Add-TableRow -Lines $report -Cells @("state_file_present", (Format-InlineCode $loopState.present))
+Add-TableRow -Lines $report -Cells @("should_stop", (Format-InlineCode $loopState.should_stop))
+Add-TableRow -Lines $report -Cells @("stop_reason", (Format-InlineCode $loopState.stop_reason))
+Add-TableRow -Lines $report -Cells @("iteration_count", (Format-InlineCode $loopState.iteration_count))
+Add-TableRow -Lines $report -Cells @("current_score", (Format-InlineCode $loopState.current_score))
+Add-TableRow -Lines $report -Cells @("current_execution_go", (Format-InlineCode $loopState.current_execution_go))
+Add-TableRow -Lines $report -Cells @("current_failure_category", (Format-InlineCode $loopState.current_failure_category))
 $report.Add("")
 $report.Add("## Commands")
 $report.Add("")
@@ -480,6 +546,7 @@ $result = [PSCustomObject]@{
     sensitive_shaped_path_hits = if ($hygieneResult.json) { $hygieneResult.json.sensitive_shaped_path_hits } else { $null }
   }
   secret_scan = $secretScan
+  loop_state = $loopState
   notification = $notificationResult
   issues = @($issues)
   compliance_note = "L1 governance-only. No gate decision changed."

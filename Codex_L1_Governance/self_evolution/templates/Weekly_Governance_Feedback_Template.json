@@ -93,6 +93,14 @@
       "requires_human_confirmation": true
     }
   ],
+  "codex_improvement_suggestions": [
+    {
+      "source": "",
+      "suggested_action": "",
+      "requires_human_confirmation": true,
+      "execution_boundary": "Advisory only; no automatic gate, evidence, revenue, provider, payment, or production change."
+    }
+  ],
   "codex_improvement_flow": {
     "step_1": "Health Check generates Markdown and JSON.",
     "step_2": "Feedback generator converts health data into 12D assessment and recommendations.",

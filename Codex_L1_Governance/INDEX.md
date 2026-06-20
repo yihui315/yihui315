@@ -54,6 +54,9 @@ Supporting files:
 - [Feedback generator script](./scripts/generate-weekly-feedback-report.ps1)
 - [Reflector script](./scripts/reflect-l1-governance-loop.ps1)
 - [State updater script](./scripts/update-l1-loop-state.ps1)
+- [Codex improvement script](./scripts/reflect-and-improve.ps1)
+- [Observability dashboard script](./scripts/generate-l1-observability-dashboard.ps1)
+- [Latest observability dashboard](./L1_Observability_Dashboard.md)
 - [L1 loop state](./L1_State.json)
 - Generated feedback reports live under `feedback_reports/`.
 - Generated reflection reports live under `reflection_reports/`.
@@ -141,6 +144,7 @@ Principle: important failures and compliance refusals must be recorded as struct
 5. Artifact cleanup must start with `governance-artifact-hygiene` in dry-run mode.
 6. Weekly loop automation runs Health -> Feedback -> Reflect -> State Update.
 7. Executor must not run when `L1_State.json.should_stop=true`.
+8. Use `L1_Observability_Dashboard.md` as the quick handoff view before audit or project review.
 
 ## Multi-Project Governance
 
@@ -182,6 +186,6 @@ Minimum project onboarding files:
 ## Version Status
 
 - current maturity: L1 10/10 push estimate 8.6/10
-- latest gstack package: v1.9
+- latest gstack package: v2.0
 - last updated: 2026-06-20
 - contributors: Codex and Human Operator

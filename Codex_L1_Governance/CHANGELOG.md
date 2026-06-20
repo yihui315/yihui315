@@ -11,6 +11,10 @@
 - Added `scripts/update-l1-loop-state.ps1` for stop-condition state updates and scenario testing.
 - Updated the weekly governance workflow to run Health -> Feedback -> Reflect -> State Update, then commit only generated reports/state.
 - Updated `gstack_audit_package/` to v1.9 with Reflect, stopping conditions, sub-agent definitions, state schema, and script snapshots.
+- Added `scripts/reflect-and-improve.ps1` and `scripts/generate-l1-observability-dashboard.ps1`.
+- Enhanced weekly health, feedback, and state updater outputs with stop-state, Codex suggestions, repeated failure threshold, and manual reset support.
+- Added `L1_Observability_Dashboard.md`, improvement reports, and observability reports.
+- Updated `gstack_audit_package/` to v2.0 with final audit brief, observability, improvement suggestions, stop recovery, and script snapshots.
 - Added ai占卜.ai closed-loop mechanism and run report while preserving `no_go`, `execution_go=false`, and blocked Evidence/Revenue status.
 - Updated `gstack_audit_package/` to v1.8 with active automation and advisory feedback-loop materials.
 - Updated `gstack_audit_package/` to v1.7 with a formal material list, gstack checklist, audit simulation Q&A, webhook config example, and inactive GitHub Actions weekly health example.

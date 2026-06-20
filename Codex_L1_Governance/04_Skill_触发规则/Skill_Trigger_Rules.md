@@ -19,6 +19,8 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `weekly-governance-feedback-report` | Weekly health JSON is generated | `Weekly_Governance_Health_YYYY-MM-DD.json` | Markdown and JSON feedback reports with 12D assessment and recommendations | Governance |
 | `l1-governance-reflector` | Weekly health JSON and feedback JSON are generated | health JSON, feedback JSON, `L1_State.json` | strict reflection JSON and Markdown report | Governance |
 | `l1-loop-state-updater` | Reflector report is generated | health JSON, feedback JSON, reflection JSON, `L1_State.json` | updated `L1_State.json` with stopping-condition fields | Governance |
+| `l1-reflect-and-improve` | Health, feedback, reflection, and state artifacts exist | latest health, feedback, reflection, and `L1_State.json` | advisory Codex improvement suggestions | Governance |
+| `l1-observability-dashboard` | gstack audit review, weekly closeout, or governance handoff | latest health, feedback, reflection, state, evidence intake, and pilot summary | read-only dashboard Markdown/JSON | Governance |
 | `HealthChecker` | L1 health must be interpreted by a sub-agent | repository state and weekly health report | health JSON path, score, status, issues | Governance |
 | `Reflector` | score is below target, execution_go remains false, or recurring issues appear | health report, feedback report, `L1_State.json` | root-cause JSON and next-goal recommendation | Governance |
 | `Executor` | Human confirms a Reflector recommendation and `L1_State.json.should_stop=false` | confirmed action, current L1 state, affected files | implemented change plus validation summary | Governance |
@@ -46,6 +48,9 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 14. Run `l1-loop-state-updater` after the Reflector report; use `L1_State.json` as the canonical stop/go control for further loop work.
 15. Do not trigger Executor when `L1_State.json.should_stop=true`; request Human review instead.
 16. Reflector recommendations are not approvals. Executor requires explicit Human confirmation.
+17. Run `l1-reflect-and-improve` before a Human review session when Codex improvement suggestions are needed.
+18. Run `l1-observability-dashboard` before formal audit submission or after weekly closeout to create one review entrypoint.
+19. Use `update-l1-loop-state.ps1 -ResetStop` only after Human confirmation; reset does not approve Executor work by itself.
 
 ## Post-Run Record Map
 
@@ -60,6 +65,8 @@ This file defines proposed L1 skill triggers. These are governance rules first; 
 | `weekly-governance-feedback-report` | `feedback_reports/` and `REVIEW_PACKET_Master.md` when recommendations are acted on | 12D assessment, issues, recommendations, Human-confirmation boundary |
 | `l1-governance-reflector` | `reflection_reports/` and `L1_State.json` source references | root cause, failure category, should_continue, next goal |
 | `l1-loop-state-updater` | `L1_State.json` and generated workflow report commit | iteration, score, execution_go, no-progress count, stop reason |
+| `l1-reflect-and-improve` | `improvement_reports/` | suggestions, executor_allowed_now, Human-confirmation boundary |
+| `l1-observability-dashboard` | `observability_reports/` and root `L1_Observability_Dashboard.md` | health score, stop state, evidence intake status, pilot status |
 | `HealthChecker` | health report or handoff summary | status, score, health JSON path |
 | `Reflector` | reflection report | strict JSON contract and Markdown summary |
 | `Executor` | `REVIEW_PACKET_Master.md` and `CHANGELOG.md` for durable changes | Human approval source, changed files, validation result |

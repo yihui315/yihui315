@@ -38,6 +38,16 @@
 | P2 | Review this feedback report and approve any L1 rule or script changes manually. | Human Reviewer | True |
 | P2 | Preserve project no-go states when evidence remains missing. | Codex | False |
 
+## Codex Improvement Suggestions
+
+| Source | Suggested action | Human confirmation | Boundary |
+| --- | --- | --- | --- |
+| 12D:2. Skill trigger fit | Promote only script-backed skills after verification. | True | Codex may draft a patch or report only; Human confirmation is required before durable changes. |
+| 12D:3. Sub-agent boundaries | Keep Codex analysis manual until review prompts are stable. | True | Codex may draft a patch or report only; Human confirmation is required before durable changes. |
+| 12D:4. Worker parallelism | Parallelize read-only scans only after report dependency graph is explicit. | True | Codex may draft a patch or report only; Human confirmation is required before durable changes. |
+| 12D:8. Project map | Register each new project before it inherits L1 rules. | True | Codex may draft a patch or report only; Human confirmation is required before durable changes. |
+| 12D:9. Business priority | Prioritize evidence unblock work over cosmetic governance changes. | True | Codex may draft a patch or report only; Human confirmation is required before durable changes. |
+
 ## Codex Improvement Flow
 
 1. Health Check generates Markdown and JSON.

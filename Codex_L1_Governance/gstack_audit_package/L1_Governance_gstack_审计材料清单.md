@@ -72,9 +72,19 @@ Audit scope:
 | Agents | Executor definition | `../../.codex/agents/executor.md` | Confirm Human approval and `should_stop=false` preflight |
 | Reports | Reflection reports | `../reflection_reports/` | Confirm generated advisory reports |
 
+## Additional v2.0 Materials
+
+| Category | Material | Location | Review purpose |
+| --- | --- | --- | --- |
+| Audit brief | Formal audit overview | `L1_gstack_正式审计概述_v2.0.md` | Fast reviewer entrypoint |
+| Improvement | Codex improvement script | `../scripts/reflect-and-improve.ps1` | Confirm suggestions remain advisory |
+| Improvement | Improvement reports | `../improvement_reports/` | Review Codex suggestion output |
+| Observability | Dashboard script | `../scripts/generate-l1-observability-dashboard.ps1` | Confirm read-only dashboard generation |
+| Observability | Latest dashboard | `../L1_Observability_Dashboard.md` | Review current health, stop, evidence, and pilot status |
+
 ## Required Audit Checks
 
-1. Confirm `gstack-audit-package-v1.9` is the current package version.
+1. Confirm `gstack-audit-package-v2.0` is the current package version.
 2. Confirm the package does not claim project `execution_go=true`.
 3. Confirm ai占卜.ai remains `no_go` with Evidence and Revenue blocked.
 4. Confirm scripts are read-only or dry-run by default.
@@ -90,10 +100,17 @@ Additional v1.8 audit checks:
 
 Additional v1.9 audit checks:
 
-- Confirm the active workflow commits generated reports only under `weekly_health_reports/`, `feedback_reports/`, `reflection_reports/`, and `L1_State.json`.
+- Confirm the active workflow commits generated reports only under `weekly_health_reports/`, `feedback_reports/`, `reflection_reports/`, `improvement_reports/`, `observability_reports/`, `L1_Observability_Dashboard.md`, and `L1_State.json`.
 - Confirm Reflector output is advisory and cannot trigger Executor.
 - Confirm `L1_State.json` uses estimated cost only and records stopping conditions.
 - Confirm Executor requires Human confirmation and `should_stop=false`.
+
+Additional v2.0 audit checks:
+
+- Confirm `reflect-and-improve.ps1` does not mutate files and only produces advisory suggestions.
+- Confirm `generate-l1-observability-dashboard.ps1` is read-only.
+- Confirm `-ResetStop` is documented as Human-confirmed recovery only.
+- Confirm ai占卜.ai remains `no_go` and Evidence/Revenue blocked in dashboard and project reports.
 
 ## Current Formal Audit Position
 

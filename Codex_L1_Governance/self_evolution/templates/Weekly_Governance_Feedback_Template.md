@@ -37,6 +37,12 @@
 | --- | --- | --- | --- |
 |  |  |  |  |
 
+## Codex Improvement Suggestions
+
+| Source | Suggested action | Human confirmation | Boundary |
+| --- | --- | --- | --- |
+|  |  | true | Advisory only; no automatic gate, evidence, revenue, provider, payment, or production change |
+
 ## Codex Participation
 
 1. Codex reads the weekly health report and this feedback report.

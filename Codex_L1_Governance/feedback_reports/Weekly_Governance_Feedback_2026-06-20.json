@@ -1,6 +1,6 @@
 ﻿{
     "report_type":  "weekly_governance_feedback",
-    "generated_at":  "2026-06-20T12:10:09",
+    "generated_at":  "2026-06-20T16:25:35",
     "source_health_json":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\weekly_health_reports\\Weekly_Governance_Health_2026-06-20.json",
     "health_summary":  {
                            "status":  "pass",
@@ -101,6 +101,38 @@
                                             "requires_human_confirmation":  false
                                         }
                                     ],
+    "codex_improvement_suggestions":  [
+                                          {
+                                              "source":  "12D:2. Skill trigger fit",
+                                              "suggested_action":  "Promote only script-backed skills after verification.",
+                                              "requires_human_confirmation":  true,
+                                              "execution_boundary":  "Codex may draft a patch or report only; Human confirmation is required before durable changes."
+                                          },
+                                          {
+                                              "source":  "12D:3. Sub-agent boundaries",
+                                              "suggested_action":  "Keep Codex analysis manual until review prompts are stable.",
+                                              "requires_human_confirmation":  true,
+                                              "execution_boundary":  "Codex may draft a patch or report only; Human confirmation is required before durable changes."
+                                          },
+                                          {
+                                              "source":  "12D:4. Worker parallelism",
+                                              "suggested_action":  "Parallelize read-only scans only after report dependency graph is explicit.",
+                                              "requires_human_confirmation":  true,
+                                              "execution_boundary":  "Codex may draft a patch or report only; Human confirmation is required before durable changes."
+                                          },
+                                          {
+                                              "source":  "12D:8. Project map",
+                                              "suggested_action":  "Register each new project before it inherits L1 rules.",
+                                              "requires_human_confirmation":  true,
+                                              "execution_boundary":  "Codex may draft a patch or report only; Human confirmation is required before durable changes."
+                                          },
+                                          {
+                                              "source":  "12D:9. Business priority",
+                                              "suggested_action":  "Prioritize evidence unblock work over cosmetic governance changes.",
+                                              "requires_human_confirmation":  true,
+                                              "execution_boundary":  "Codex may draft a patch or report only; Human confirmation is required before durable changes."
+                                          }
+                                      ],
     "codex_improvement_flow":  {
                                    "step_1":  "Health Check generates Markdown and JSON.",
                                    "step_2":  "Feedback generator converts health data into 12D assessment and recommendations.",

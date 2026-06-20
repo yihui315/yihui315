@@ -312,4 +312,19 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - cost note: `L1_State.json` records caller-provided estimated cost only; it does not read or claim real API billing
 - Executor boundary: Executor is not triggered by workflow and may act only after Human confirmation plus `L1_State.json.should_stop=false`
 - decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, Evidence and Revenue remain blocked
+
+### 2026-06-20 L1 Audit Observability And Improve Loop v2.0
+
+- package_version: `gstack-audit-package-v2.0`
+- added Codex improvement script: `scripts/reflect-and-improve.ps1`
+- added observability dashboard script: `scripts/generate-l1-observability-dashboard.ps1`
+- added latest dashboard: `L1_Observability_Dashboard.md`
+- added generated reports: `improvement_reports/L1_Codex_Improvement_2026-06-20.md` and `observability_reports/L1_Observability_Dashboard_2026-06-20.md`
+- enhanced feedback reports with `codex_improvement_suggestions`
+- enhanced weekly health report with `L1_State.json` stop-state visibility
+- enhanced state updater with `repeated_failure_threshold` and manual `-ResetStop` recovery
+- updated gstack package: final audit brief, checklist, Q&A, maturity analysis, script manual, material list, and script snapshots
+- ai占卜.ai pilot update: added `AI_Divination_L1_Closed_Loop_Improvement_Report_2026-06-20.md` and evidence completion priorities
+- compliance boundary: all new scripts are report-only/read-only/state-only; no gate, evidence, revenue, provider, payment, production, or project readiness state changed
+- decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, Evidence and Revenue remain blocked
 - decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, Evidence and Revenue remain blocked

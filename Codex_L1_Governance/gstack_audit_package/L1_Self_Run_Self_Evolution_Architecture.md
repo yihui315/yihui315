@@ -22,12 +22,19 @@ flowchart TD
   I --> J["update-l1-loop-state.ps1"]
   J --> K{"L1_State should_stop?"}
   K -->|true| L["Human review of stop_reason"]
-  K -->|false| M["Human reviewer confirmation"]
-  M --> N["Executor applies approved improvement"]
-  M --> O["Rejected or deferred recommendation"]
-  N --> P["REVIEW_PACKET_Master.md and CHANGELOG.md"]
-  O --> P
-  L --> P
+  K -->|false| M["reflect-and-improve.ps1"]
+  M --> N["Codex improvement suggestions"]
+  N --> O["Human reviewer confirmation"]
+  O --> P["Executor applies approved improvement"]
+  O --> Q["Rejected or deferred recommendation"]
+  P --> R["REVIEW_PACKET_Master.md and CHANGELOG.md"]
+  Q --> R
+  L --> S["Optional manual reset after review"]
+  S --> R
+  D --> T["generate-l1-observability-dashboard.ps1"]
+  G --> T
+  I --> T
+  J --> T
 ```
 
 ## Layers
@@ -37,6 +44,8 @@ flowchart TD
 | Execution layer | GitHub Actions, `weekly-governance-health-check.ps1`, validation scripts | Run read-only or dry-run checks on a cadence | Does not change gates or evidence |
 | Monitoring and feedback layer | `weekly_health_reports/`, `feedback_reports/`, `reflection_reports/`, feedback templates | Convert check results into issues, 12D assessment, root cause, and recommendations | Advisory only |
 | State and stopping layer | `L1_State.json`, `update-l1-loop-state.ps1` | Track iteration, score, execution_go, estimated cost, no-progress count, and stop reason | Does not trigger Executor |
+| Improvement advisory layer | `reflect-and-improve.ps1`, `improvement_reports/` | Consolidate Codex improvement suggestions before Human review | Report-only |
+| Observability layer | `generate-l1-observability-dashboard.ps1`, `observability_reports/`, `L1_Observability_Dashboard.md` | Provide one read-only dashboard for audit and handoff | Does not change state |
 | Evolution layer | Codex review, Human reviewer, `.codex/agents/`, `AGENTS.md`, Skill registry, scripts | Propose and apply approved governance improvements | Human confirmation required for durable changes |
 
 ## Implementation Roadmap
@@ -46,7 +55,8 @@ flowchart TD
 | 1. Basic automation | Run weekly L1 health without manual command entry | Active GitHub Actions workflow runs health and feedback generation | Reports are generated and committed |
 | 2. Feedback loop | Convert health results into structured improvement recommendations | Markdown and JSON feedback reports exist | Human reviewer can approve or reject proposed changes |
 | 3. Reflect and stop | Analyze root cause and update loop stopping state | Reflector and state updater scripts exist | `L1_State.json` controls whether Executor may proceed |
-| 4. Intelligent evolution | Codex proposes targeted updates from recurring patterns | Sub-agent roles are documented; automatic mutation is prohibited | Repeated issues become approved rules, scripts, or failure cases |
+| 4. Improve and observe | Produce advisory Codex suggestions and a unified dashboard | `reflect-and-improve.ps1` and dashboard script exist | Human reviewer has one review packet before approving changes |
+| 5. Intelligent evolution | Codex proposes targeted updates from recurring patterns | Sub-agent roles are documented; automatic mutation is prohibited | Repeated issues become approved rules, scripts, or failure cases |
 
 ## Component Responsibilities
 
@@ -57,6 +67,8 @@ flowchart TD
 | `scripts/generate-weekly-feedback-report.ps1` | Converts weekly health JSON into Markdown and JSON feedback reports |
 | `scripts/reflect-l1-governance-loop.ps1` | Converts health, feedback, and state into root-cause reflection reports |
 | `scripts/update-l1-loop-state.ps1` | Applies stopping conditions and updates `L1_State.json` |
+| `scripts/reflect-and-improve.ps1` | Generates advisory Codex improvement suggestions from latest health, feedback, reflection, and state |
+| `scripts/generate-l1-observability-dashboard.ps1` | Generates the read-only L1 observability dashboard |
 | `L1_State.json` | Tracks iterations, score, execution_go trend, estimated cost, repeated failure category, and stop reason |
 | `.codex/agents/healthchecker.md` | Defines the health-only sub-agent role |
 | `.codex/agents/reflector.md` | Defines the advisory root-cause reflection sub-agent role |
@@ -87,6 +99,8 @@ These actions may run automatically:
 - generate feedback reports
 - generate reflection reports
 - update `L1_State.json` with stopping-condition fields
+- generate Codex improvement suggestion reports
+- generate observability dashboards
 - commit generated reports from the scheduled workflow
 - run read-only and dry-run validators
 - record advisory recommendations
@@ -98,9 +112,21 @@ The L1 loop must stop for Human review when any stopping condition is reached. P
 1. `cost_limit_reached`: estimated loop cost reaches `max_cost_usd`.
 2. `max_iterations_reached`: iteration count reaches `max_iterations`.
 3. `no_progress`: score does not improve and `execution_go` does not move from `false` to `true` for `no_progress_threshold` consecutive updates.
-4. `repeated_failure_category`: the same Reflector failure category repeats for two state updates.
+4. `repeated_failure_category`: the same Reflector failure category reaches `repeated_failure_threshold`; default is 2.
 
 `L1_State.json` records estimated cost only. It does not read or claim real API billing.
+
+## Stop Recovery
+
+When `should_stop=true`, Executor is blocked. A Human reviewer may reset the stop state only after reviewing the `stop_reason`.
+
+Allowed reset command:
+
+```powershell
+& .\Codex_L1_Governance\scripts\update-l1-loop-state.ps1 -ResetStop -ResetReason "Human reviewed stop reason and approved another observation loop." -Json
+```
+
+Resetting `should_stop` does not approve gate changes, evidence changes, revenue work, or Executor action. It only permits another observation loop.
 
 ## Human Confirmation Required
 
@@ -133,6 +159,9 @@ The system fails closed:
 | Structured feedback | implemented |
 | Reflector node | implemented |
 | Stopping conditions | implemented |
+| Stop recovery | implemented with Human-confirmed reset |
+| Codex improvement suggestions | implemented as report-only |
+| Observability dashboard | implemented |
 | Sub-agent role definitions | documented |
 | Codex improvement workflow | documented |
 | Human confirmation boundary | implemented in rules |

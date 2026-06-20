@@ -129,12 +129,39 @@ jobs:
           "LOOP_SHOULD_STOP=$($state.should_stop)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
           "LOOP_STOP_REASON=$($state.stop_reason)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 
+      - name: Generate Codex improvement suggestions
+        shell: pwsh
+        run: |
+          $output = @(& .\Codex_L1_Governance\scripts\reflect-and-improve.ps1 `
+            -WeeklyHealthJsonPath $env:HEALTH_JSON_PATH `
+            -FeedbackJsonPath $env:FEEDBACK_JSON_PATH `
+            -ReflectionJsonPath $env:REFLECTION_JSON_PATH `
+            -StatePath "Codex_L1_Governance/L1_State.json" `
+            -Json 2>&1)
+          $improveExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          Write-Host $outputText
+          if ($improveExitCode -ne 0) {
+            exit $improveExitCode
+          }
+
+      - name: Generate L1 observability dashboard
+        shell: pwsh
+        run: |
+          $output = @(& .\Codex_L1_Governance\scripts\generate-l1-observability-dashboard.ps1 -Json 2>&1)
+          $dashboardExitCode = $LASTEXITCODE
+          $outputText = ($output | Out-String).Trim()
+          Write-Host $outputText
+          if ($dashboardExitCode -ne 0) {
+            exit $dashboardExitCode
+          }
+
       - name: Commit generated governance reports
         shell: pwsh
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Codex_L1_Governance/weekly_health_reports Codex_L1_Governance/feedback_reports Codex_L1_Governance/reflection_reports Codex_L1_Governance/L1_State.json
+          git add Codex_L1_Governance/weekly_health_reports Codex_L1_Governance/feedback_reports Codex_L1_Governance/reflection_reports Codex_L1_Governance/improvement_reports Codex_L1_Governance/observability_reports Codex_L1_Governance/L1_Observability_Dashboard.md Codex_L1_Governance/L1_State.json
           if (git diff --cached --quiet) {
             Write-Host "No generated report changes to commit."
           } else {

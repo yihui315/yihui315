@@ -10,7 +10,7 @@ No. ai占卜.ai remains `no_go` with `execution_go=false`. Evidence and Revenue 
 
 ## 3. What is the current audit package version?
 
-The current target version is `gstack-audit-package-v1.9`.
+The current target version is `gstack-audit-package-v2.0`.
 
 ## 4. What is the latest L1 maturity estimate?
 
@@ -91,3 +91,19 @@ No. The workflow generates health, feedback, reflection, and state reports only.
 ## 23. What happens if the same failure category repeats?
 
 Reflector recommends lowering the next goal or pausing, and the state updater can set `should_stop=true` with `repeated_failure_category` unless a higher-priority stop reason applies.
+
+## 24. What does `reflect-and-improve.ps1` do?
+
+It consolidates health, feedback, reflection, and state into advisory Codex improvement suggestions. It does not call an external AI API and does not modify files, gates, evidence, revenue, or production state.
+
+## 25. How does L1 recover after `should_stop=true`?
+
+A Human reviewer must inspect `stop_reason`. Only then may `update-l1-loop-state.ps1 -ResetStop` be used. Resetting stop state only permits another observation loop; it does not approve Executor or project readiness.
+
+## 26. What is the observability dashboard?
+
+`L1_Observability_Dashboard.md` is a read-only dashboard summarizing latest weekly health, stop state, reflection, improvement suggestions, evidence intake, and ai占卜.ai pilot status.
+
+## 27. Does the dashboard mean ai占卜.ai is ready?
+
+No. The dashboard explicitly records ai占卜.ai as fail-closed while Human Operator evidence is missing. It is a visibility artifact, not a gate approval.

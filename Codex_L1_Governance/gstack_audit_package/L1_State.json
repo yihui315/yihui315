@@ -6,6 +6,7 @@
     "total_cost_usd":  0,
     "max_cost_usd":  3,
     "no_progress_threshold":  2,
+    "repeated_failure_threshold":  2,
     "last_score":  null,
     "current_score":  100,
     "last_execution_go":  false,

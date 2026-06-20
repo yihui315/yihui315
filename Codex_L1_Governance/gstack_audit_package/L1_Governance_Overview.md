@@ -19,6 +19,8 @@ Codex_L1_Governance
   -> Feedback and scoring
   -> Scripts and generated validation reports
   -> Self-run and self-evolution feedback reports
+  -> Codex improvement suggestion reports
+  -> Observability dashboard
   -> Project pilot records
 ```
 
@@ -32,6 +34,10 @@ Human Operator evidence
   -> round-closeout-validator
   -> weekly-governance-health-check
   -> generate-weekly-feedback-report
+  -> reflect-l1-governance-loop
+  -> update-l1-loop-state
+  -> reflect-and-improve
+  -> L1 observability dashboard
   -> REVIEW_PACKET_Master and CHANGELOG
 ```
 
@@ -50,8 +56,19 @@ Current readiness posture:
 
 - governance audit readiness: `ready_for_gstack_governance_audit`
 - project execution readiness: not claimed
-- latest package version: `gstack-audit-package-v1.8`
+- latest package version: `gstack-audit-package-v2.0`
 - latest known L1 maturity estimate: `8.6/10`
+
+## Self-Run And Observability
+
+L1 now produces four connected report families:
+
+| Report family | Purpose | Boundary |
+| --- | --- | --- |
+| Weekly Health | Confirms validator, hygiene, secret-shape, and stop-state status | Does not approve projects |
+| Feedback | Converts health into 12D recommendations and Codex suggestion candidates | Advisory only |
+| Reflection | Identifies root cause and failure category | Cannot trigger Executor |
+| Observability Dashboard | Summarizes health, stop state, evidence intake, and pilot status in one place | Read-only |
 
 ## Evidence Principle
 

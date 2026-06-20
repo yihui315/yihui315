@@ -31,7 +31,7 @@ Use this chain for reusable governance work:
 17. Weekly health check output must be recorded before claiming weekly L1 audit readiness.
 18. Webhook notifications must be disabled or dry-run by default; real delivery requires an explicit enable switch and a runtime URL from an external secret store.
 19. Schedule examples, GitHub Actions examples, or cron examples must not be treated as enabled automation until a maintainer explicitly installs them in the active scheduler location.
-20. The approved weekly governance workflow may commit generated reports only under `weekly_health_reports/` and `feedback_reports/`.
+20. The approved weekly governance workflow may commit generated reports only under `weekly_health_reports/`, `feedback_reports/`, `reflection_reports/`, and `L1_State.json`.
 21. Structured feedback reports are advisory; they cannot change gate decisions, evidence rows, Skill status, or project readiness.
 22. Codex may draft self-evolution improvements from feedback reports, but human confirmation is required before modifying L1 rules, scripts, project records, or active automation.
 23. Every weekly self-run loop must execute in this order: Health Check -> Feedback Report -> Reflector Report -> L1 State Update.
@@ -41,6 +41,9 @@ Use this chain for reusable governance work:
 27. Stopping conditions are evaluated in this priority order: `cost_limit_reached`, `max_iterations_reached`, `no_progress`, `repeated_failure_category`.
 28. Cost fields in `L1_State.json` are caller-provided estimates only and must never be described as real API billing data.
 29. If the same failure category repeats for two loop updates, lower the next goal or pause for Human review before further automation.
+30. `reflect-and-improve.ps1` may generate Codex improvement suggestions, but suggestions are not approvals and must not be executed without Human confirmation.
+31. `generate-l1-observability-dashboard.ps1` is read-only and may be run before audit or handoff to summarize health, stop state, evidence intake, and pilot status.
+32. `update-l1-loop-state.ps1 -ResetStop` may be used only after Human confirmation; resetting `should_stop` does not authorize Executor or project readiness.
 
 ## Weekly Health Check Trigger
 
@@ -66,6 +69,7 @@ Run a governance health check when any of these occur:
 
 - Weekly automation may run health checks and feedback generation.
 - Weekly automation may generate Reflector reports and update `L1_State.json` stopping fields.
+- Weekly or audit workflows may generate Codex improvement suggestion reports and observability dashboards as read-only artifacts.
 - Generated feedback must be reviewed before any governance rule or script is changed.
 - Generated reflection is advisory; Executor must not run automatically from GitHub Actions.
 - `.codex/agents/healthchecker.md`, `.codex/agents/reflector.md`, and `.codex/agents/executor.md` define role boundaries for loop work.

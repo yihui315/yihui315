@@ -76,6 +76,20 @@ As of 2026-06-20:
 - `verified_environment`
 - 10 evidence rows remain `present=no`
 
+## Evidence Completion Priority
+
+Use this priority order to avoid low-value evidence churn:
+
+| Priority | Item | Reason |
+| --- | --- | --- |
+| P0 | Fill real Human Operator fields | No evidence package can proceed while operator metadata remains `todo` |
+| P0 | Add one masked artifact for the most important user/revenue signal | Revenue and Evidence gates need real artifacts, not governance claims |
+| P1 | Add validator or screenshot evidence for the core flow | Helps decision refresh review without exposing secrets |
+| P1 | Add environment-specific verification scope | Prevents local/staging/production confusion |
+| P2 | Add remaining lower-priority rows | Only after P0/P1 artifacts exist |
+
+Rows must stay `present=no` until the corresponding masked artifact exists.
+
 ## Completion Checklist
 
 - [ ] Real Human Operator filled `submitted_by`.

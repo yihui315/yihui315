@@ -4,7 +4,7 @@
 
 | Check | Expected result | Status |
 | --- | --- | --- |
-| Audit package has a current version | `gstack-audit-package-v1.9` | pending auditor review |
+| Audit package has a current version | `gstack-audit-package-v2.0` | pending auditor review |
 | Package index lists all core materials | overview, scripts, checklist, Q&A, maturity, multi-project framework | pending auditor review |
 | L1 overview explains control-plane boundary | L1 does not grant project execution approval | pending auditor review |
 | Maturity analysis lists strengths and risks | 10/10 is not claimed | pending auditor review |
@@ -21,6 +21,8 @@
 | `generate-weekly-feedback-report.ps1` exists | structured feedback Markdown/JSON generation | verified locally |
 | `reflect-l1-governance-loop.ps1` exists | strict advisory reflection JSON/Markdown generation | verified locally |
 | `update-l1-loop-state.ps1` exists | stopping-condition state update for `L1_State.json` | verified locally |
+| `reflect-and-improve.ps1` exists | advisory Codex improvement suggestions | verified locally |
+| `generate-l1-observability-dashboard.ps1` exists | unified read-only observability dashboard | verified locally |
 | Weekly script supports notification | Slack/generic webhook, disabled or dry-run by default | verified locally |
 | Webhook secrets are not committed | only placeholders and host names are recorded | verified locally |
 
@@ -54,6 +56,8 @@
 | Notification support exists | real send requires explicit switch and URL at runtime | verified locally |
 | Automation output is recorded | `REVIEW_PACKET_Master.md` and generated reports | verified locally |
 | Reflector reports are generated | `reflection_reports/L1_Reflection_YYYY-MM-DD.md/.json` | verified locally |
+| Improvement reports are generated | `improvement_reports/L1_Codex_Improvement_YYYY-MM-DD.md/.json` | verified locally |
+| Observability dashboard exists | `L1_Observability_Dashboard.md` and `observability_reports/` | verified locally |
 | L1 state is controlled | `L1_State.json` tracks iterations, score, execution_go, estimated cost, and stop reason | verified locally |
 | Executor is not automatic | no workflow step triggers Executor after reflection | verified locally |
 
@@ -74,6 +78,17 @@
 | Max iteration stop exists | iteration `>= 5` triggers `max_iterations_reached` | verified locally |
 | No-progress stop exists | two consecutive non-improving loops trigger `no_progress` | verified locally |
 | Repeated failure category stop exists | two repeated failure categories trigger `repeated_failure_category` after higher-priority checks | verified locally |
+| Repeated failure threshold is configurable | `repeated_failure_threshold` exists in state/updater | verified locally |
+| Stop reset is manual-only | `update-l1-loop-state.ps1 -ResetStop` requires Human confirmation and does not approve Executor | verified locally |
+
+## Observability Checklist
+
+| Check | Expected result | Status |
+| --- | --- | --- |
+| Dashboard summarizes health | health status, score, secret hits | verified locally |
+| Dashboard summarizes stop state | `should_stop`, `stop_reason`, failure category | verified locally |
+| Dashboard summarizes evidence intake | `blocked`, `present_yes=0`, `present_no=10` while evidence is missing | verified locally |
+| Dashboard summarizes pilot status | ai占卜.ai remains `no_go`, `execution_go=false` | verified locally |
 
 ## Auditor Decision Prompt
 

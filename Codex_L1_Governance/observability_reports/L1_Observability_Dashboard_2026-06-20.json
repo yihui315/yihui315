@@ -1,0 +1,46 @@
+﻿{
+    "report_type":  "l1_observability_dashboard",
+    "generated_at":  "2026-06-20T16:25:35",
+    "health":  {
+                   "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\weekly_health_reports\\Weekly_Governance_Health_2026-06-20.json",
+                   "status":  "pass",
+                   "score":  100,
+                   "secret_shape_hits":  0,
+                   "env_like_files":  0
+               },
+    "loop_state":  {
+                       "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\L1_State.json",
+                       "iteration_count":  1,
+                       "should_stop":  false,
+                       "stop_reason":  "",
+                       "current_failure_category":  "prompt",
+                       "current_execution_go":  false
+                   },
+    "feedback":  {
+                     "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\feedback_reports\\Weekly_Governance_Feedback_2026-06-20.json",
+                     "recommendation_count":  2,
+                     "codex_suggestion_count":  5
+                 },
+    "reflection":  {
+                       "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\reflection_reports\\L1_Reflection_2026-06-20.json",
+                       "failure_category":  "prompt",
+                       "should_continue":  false
+                   },
+    "improvement":  {
+                        "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\improvement_reports\\L1_Codex_Improvement_2026-06-20.json",
+                        "suggestion_count":  7,
+                        "executor_allowed_now":  true
+                    },
+    "evidence_intake":  {
+                            "source":  null,
+                            "status":  "missing",
+                            "present_yes":  null,
+                            "present_no":  null
+                        },
+    "pilot":  {
+                  "project":  "ai鍗犲崪.ai",
+                  "no_go":  false,
+                  "execution_go_false":  false,
+                  "compliance_note":  "Pilot remains fail-closed unless real Human Operator evidence is submitted and reviewed."
+              }
+}

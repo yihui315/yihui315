@@ -16,6 +16,8 @@
 | `weekly-governance-feedback-report` | validation helper | active | 8/10 | `scripts/generate-weekly-feedback-report.ps1` | Codex | Converts weekly health JSON into Markdown/JSON feedback and 12D recommendations |
 | `l1-governance-reflector` | validation helper | active | 8/10 | `scripts/reflect-l1-governance-loop.ps1` | Codex | Converts health, feedback, and state into advisory reflection JSON/Markdown |
 | `l1-loop-state-updater` | validation helper | active | 8/10 | `scripts/update-l1-loop-state.ps1` | Codex | Applies loop stopping conditions to `L1_State.json`; uses estimated cost only |
+| `l1-reflect-and-improve` | validation helper | active | 8/10 | `scripts/reflect-and-improve.ps1` | Codex | Consolidates health, feedback, reflection, and state into advisory Codex improvement suggestions |
+| `l1-observability-dashboard` | observability helper | active | 8/10 | `scripts/generate-l1-observability-dashboard.ps1` | Codex | Generates read-only dashboard across health, feedback, reflection, state, evidence intake, and pilot status |
 | `HealthChecker` | sub-agent definition | documented | 7/10 | `.codex/agents/healthchecker.md` | Codex | Reads/runs L1 health checks and reports status; no gate mutation |
 | `Reflector` | sub-agent definition | documented | 7/10 | `.codex/agents/reflector.md` | Codex | Produces strict reflection JSON plus Markdown; advisory only |
 | `Executor` | sub-agent definition | documented | 7/10 | `.codex/agents/executor.md` | Codex | May execute only Human-confirmed recommendations and only when `should_stop=false` |

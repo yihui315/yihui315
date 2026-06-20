@@ -5,10 +5,10 @@
 | Field | Value |
 | --- | --- |
 | skill | governance-artifact-hygiene |
-| generated_at | `2026-06-20T12:10:09` |
+| generated_at | `2026-06-20T16:25:35` |
 | root_path | `C:\Users\Administrator\Documents\codex进化助手\Codex_L1_Governance` |
 | older_than_days | `90` |
-| cutoff | `2026-03-22T12:10:08` |
+| cutoff | `2026-03-22T16:25:35` |
 | dry_run | `True` |
 | status | `pass` |
 
