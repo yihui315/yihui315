@@ -94,6 +94,17 @@ function Get-FailureCategory {
   if ($Health.round_closeout.exit_code -ne $null -and [int]$Health.round_closeout.exit_code -ne 0) { return "tool" }
   if ($Health.artifact_hygiene.exit_code -ne $null -and [int]$Health.artifact_hygiene.exit_code -ne 0) { return "tool" }
   if ($Health.round_closeout.status -eq "blocked" -or $Health.artifact_hygiene.status -eq "blocked") { return "logic" }
+
+  $healthIssues = @($Health.issues | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) })
+  $onlyExistingLoopStop = $healthIssues.Count -gt 0 -and @($healthIssues | Where-Object { [string]$_ -ne "l1_loop_should_stop" }).Count -eq 0
+  $stateRecoverable = $State.latest_recoverable -eq $true -or ([string]$State.latest_recoverable).ToLowerInvariant() -eq "true"
+  if ($onlyExistingLoopStop -and $stateRecoverable) {
+    $pendingCategory = [string]$State.pending_reflection_failure_category
+    if ($pendingCategory -in @("prompt", "context", "tool")) {
+      return $pendingCategory
+    }
+  }
+
   if ($Health.status -eq "blocked" -or $Health.status -eq "conditional") { return "environment" }
 
   $conditionalDimensions = @(

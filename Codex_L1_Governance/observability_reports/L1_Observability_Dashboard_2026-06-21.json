@@ -1,0 +1,159 @@
+﻿{
+    "report_type":  "l1_observability_dashboard",
+    "generated_at":  "2026-06-21T06:32:24",
+    "trend_limit":  8,
+    "health":  {
+                   "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\weekly_health_reports\\Weekly_Governance_Health_2026-06-21.json",
+                   "status":  "pass",
+                   "score":  100,
+                   "secret_shape_hits":  0,
+                   "env_like_files":  0
+               },
+    "loop_state":  {
+                       "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\L1_State.json",
+                       "iteration_count":  4,
+                       "should_stop":  false,
+                       "stop_reason":  "",
+                       "current_failure_category":  "context",
+                       "current_execution_go":  false,
+                       "auto_retry_count":  0,
+                       "max_auto_retries":  2,
+                       "auto_recovery_status":  "not_needed",
+                       "last_soft_stop_reason":  ""
+                   },
+    "feedback":  {
+                     "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\feedback_reports\\Weekly_Governance_Feedback_2026-06-21.json",
+                     "recommendation_count":  2,
+                     "codex_suggestion_count":  5
+                 },
+    "reflection":  {
+                       "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\reflection_reports\\L1_Reflection_2026-06-21.json",
+                       "failure_category":  "context",
+                       "recoverable":  true,
+                       "recommended_strategy":  "add_context",
+                       "should_continue":  true
+                   },
+    "improvement":  {
+                        "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\improvement_reports\\L1_Codex_Improvement_2026-06-21.json",
+                        "suggestion_count":  8,
+                        "executor_allowed_now":  true
+                    },
+    "evidence_intake":  {
+                            "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\evidence_intake_reports\\Evidence_Intake_Report_2026-06-21.md",
+                            "status":  "blocked",
+                            "present_yes":  0,
+                            "present_no":  10,
+                            "total_rows":  10
+                        },
+    "pilot":  {
+                  "project":  "ai鍗犲崪.ai",
+                  "source":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\Projects\\ai占卜.ai\\当前状态\\当前_Gate_Decision_摘要.md",
+                  "no_go":  true,
+                  "execution_go_false":  true,
+                  "compliance_note":  "Pilot remains fail-closed unless real Human Operator evidence is submitted and reviewed."
+              },
+    "trends":  {
+                   "health_score_trend":  [
+                                              {
+                                                  "date":  "2026-06-20",
+                                                  "status":  "pass",
+                                                  "score":  100,
+                                                  "delta":  null
+                                              },
+                                              {
+                                                  "date":  "2026-06-21",
+                                                  "status":  "pass",
+                                                  "score":  100,
+                                                  "delta":  0
+                                              }
+                                          ],
+                   "loop_iteration_trend":  [
+                                                {
+                                                    "recorded_at":  "2026-06-20T20:57:53",
+                                                    "iteration_count":  2,
+                                                    "health_score":  100,
+                                                    "execution_go":  false,
+                                                    "failure_category":  "prompt",
+                                                    "recoverable":  false,
+                                                    "auto_retry_count":  0,
+                                                    "auto_recovery_status":  "",
+                                                    "stop_or_soft_reason":  "repeated_failure_category",
+                                                    "should_stop":  true
+                                                },
+                                                {
+                                                    "recorded_at":  "2026-06-21T06:27:13",
+                                                    "iteration_count":  3,
+                                                    "health_score":  80,
+                                                    "execution_go":  false,
+                                                    "failure_category":  "context",
+                                                    "recoverable":  true,
+                                                    "auto_retry_count":  1,
+                                                    "auto_recovery_status":  "retry_allowed",
+                                                    "stop_or_soft_reason":  "no_progress",
+                                                    "should_stop":  false
+                                                },
+                                                {
+                                                    "recorded_at":  "2026-06-21T06:28:53",
+                                                    "iteration_count":  4,
+                                                    "health_score":  100,
+                                                    "execution_go":  false,
+                                                    "failure_category":  "context",
+                                                    "recoverable":  true,
+                                                    "auto_retry_count":  0,
+                                                    "auto_recovery_status":  "not_needed",
+                                                    "stop_or_soft_reason":  "none",
+                                                    "should_stop":  false
+                                                }
+                                            ],
+                   "feedback_suggestion_trend":  [
+                                                     {
+                                                         "date":  "2026-06-20",
+                                                         "recommendation_count":  2,
+                                                         "codex_suggestion_count":  5
+                                                     },
+                                                     {
+                                                         "date":  "2026-06-21",
+                                                         "recommendation_count":  2,
+                                                         "codex_suggestion_count":  5
+                                                     }
+                                                 ],
+                   "improvement_suggestion_trend":  [
+                                                        {
+                                                            "date":  "2026-06-20",
+                                                            "suggestion_count":  8,
+                                                            "failure_category":  "context"
+                                                        },
+                                                        {
+                                                            "date":  "2026-06-21",
+                                                            "suggestion_count":  8,
+                                                            "failure_category":  "context"
+                                                        }
+                                                    ],
+                   "stop_reason_distribution":  [
+                                                    {
+                                                        "stop_reason":  "repeated_failure_category",
+                                                        "count":  1
+                                                    },
+                                                    {
+                                                        "stop_reason":  "none",
+                                                        "count":  2
+                                                    }
+                                                ]
+               },
+    "key_metrics":  {
+                        "improvement_suggestion_total":  16,
+                        "improvement_suggestion_adopted":  0,
+                        "improvement_adoption_rate_percent":  null,
+                        "improvement_adoption_note":  "not_tracked_until_suggestions_gain_status_fields",
+                        "average_iteration_count":  3,
+                        "repeated_failure_frequency_percent":  33.33
+                    },
+    "ai_divination_monitoring":  {
+                                     "execution_go_current":  false,
+                                     "execution_go_trend":  "stable_false",
+                                     "evidence_present_yes_current":  0,
+                                     "evidence_present_no_current":  10,
+                                     "evidence_status_current":  "blocked",
+                                     "status_note":  "No project gate upgrade is implied by dashboard generation."
+                                 }
+}

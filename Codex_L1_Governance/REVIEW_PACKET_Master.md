@@ -414,3 +414,19 @@ Use `07_模板库/Codex_Next_Stage_Prompt.md` to run a project-level scan agains
 - updated L1 tracking: `ai_divination_tracking.evidence_publication_sub_loop.status=designed`
 - compliance boundary: sub-loop may prepare/check/guide only; Human publication, attestation, screenshots, and candidate `present=yes` review remain Human-required
 - decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, `present_yes=0`, `present_no=10`
+
+### 2026-06-21 Recoverable Loop Verification And Detect + Prepare Run
+
+- loop run 1 health: `conditional`, score `80`, caused by the previously active L1 stop state
+- classification fix: existing `l1_loop_should_stop` feedback now preserves a prior recoverable `context/prompt/tool` category instead of forcing `environment`
+- loop run 1 state: `auto_retry_count=1`, `auto_recovery_status=retry_allowed`, `should_stop=false`, soft reason `no_progress`
+- loop run 2 health: `pass`, score `100`
+- loop run 2 state: progress reset `auto_retry_count=0`, `consecutive_no_progress=0`, `should_stop=false`
+- trend improvement: state updater now appends bounded `loop_history`; dashboard now reports iteration trend points
+- latest dashboard: `trend_points=3`, `health_file_trend_points=2`, pilot remains `no_go`
+- new script: `scripts/ai-divination-evidence-publication-sub-loop.ps1`
+- Detect result: missing Human Operator fields `4`, unresolved Evidence rows `10`
+- Prepare result: generated Human task list and prepared-material references under `Projects/ai占卜.ai/当前状态/sub_loop_reports/`
+- intake result: `blocked`, `secret_shape_hits=0`
+- state tracking: `ai_divination_tracking.evidence_publication_sub_loop.status=blocked_human_action_required`, phase `prepare`
+- decision impact: none; ai占卜.ai remains `no_go`, `execution_go=false`, `present_yes=0`, `present_no=10`

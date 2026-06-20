@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-06-21
+
+- Verified recoverable soft retry across two complete L1 loops: first retry cleared the previous stop, second loop restored health score to 100 and reset retry counters.
+- Fixed Reflector classification when the only health issue is an existing recoverable loop stop.
+- Added automatic bounded `loop_history` append and iteration-based Dashboard trend reporting.
+- Added and verified `ai-divination-evidence-publication-sub-loop.ps1` for Detect + Prepare report generation.
+- Generated ai占卜.ai missing-item and Human task reports while preserving `no_go`, `execution_go=false`, and blocked evidence.
+
 ## 2026-06-20
 
 - Optimized Reflector with expanded failure categories, recoverability, suggested auto action, and recommended strategy fields.

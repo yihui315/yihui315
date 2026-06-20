@@ -22,7 +22,7 @@
 | `Reflector` | sub-agent definition | documented | 7/10 | `.codex/agents/reflector.md` | Codex | Produces strict reflection JSON plus Markdown; advisory only |
 | `Executor` | sub-agent definition | documented | 8/10 | `.codex/agents/executor.md` | Codex | Classifies actions as safe_auto, human_required, or forbidden; low-risk governance docs/templates may be auto-applied when `should_stop=false` |
 | `human-evidence-intake-check` | L1 governance | active | 8/10 | `scripts/human-evidence-intake-check.ps1` | Codex | Read-only intake script verified; current ai占卜.ai evidence remains blocked |
-| `ai-divination-evidence-publication-sub-loop` | project sub-loop | documented | 7/10 | `Projects/ai占卜.ai/当前状态/AI_Divination_Evidence_Publication_Sub_Loop_Design_2026-06-20.md` | Codex + Human Operator | Detects missing evidence, prepares Human guidance, runs read-only intake validation, and escalates repeated Human-required blockers |
+| `ai-divination-evidence-publication-sub-loop` | project sub-loop | active | 8/10 | `scripts/ai-divination-evidence-publication-sub-loop.ps1` | Codex + Human Operator | Detect + Prepare script verified; Human publication and real evidence remain Human-required |
 | `orchestrator-decision-refresh` | L1 governance | proposed | 7/10 | no dedicated script | Codex | Auto-closeout rule documented |
 | `governance-artifact-hygiene` | L1 governance | active | 8/10 | `scripts/governance-artifact-hygiene.ps1` | Codex | Read-only dry-run script verified; no archive/delete execution by default |
 | `round-closeout-validator` | L1 governance | proposed | 8/10 | `scripts/round-closeout-validator.ps1` | Codex | Read-only script verified with `closeout_status=pass` |

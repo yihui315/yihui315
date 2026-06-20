@@ -31,7 +31,7 @@ This file summarizes the L1 Skill chain currently documented for audit. Status i
 | `l1-loop-state-updater` | active | 9/10 | `scripts/update-l1-loop-state.ps1` | Applies stopping conditions, preserves extended state, and allows bounded auto-retry for recoverable failures. |
 | `l1-reflect-and-improve` | active | 8/10 | `scripts/reflect-and-improve.ps1` | Produces advisory Codex improvement suggestions for Human review. |
 | `l1-observability-dashboard` | active | 8/10 | `scripts/generate-l1-observability-dashboard.ps1` | Produces read-only dashboard across health, stop state, evidence intake, and pilot status. |
-| `ai-divination-evidence-publication-sub-loop` | documented | 7/10 | project design document | Project-specific sub-loop for missing evidence detection, Human guidance, read-only intake validation, and escalation. |
+| `ai-divination-evidence-publication-sub-loop` | active | 8/10 | `scripts/ai-divination-evidence-publication-sub-loop.ps1` | Detect + Prepare script verified; Human publication and real evidence remain Human-required. |
 
 ## Supporting Reusable Skills
 
@@ -122,6 +122,7 @@ ai占卜.ai evidence sub-loop:
 | Recoverable Reflector fields | `reflector.md` and `宸查獙璇佽剼鏈?reflect-l1-governance-loop.ps1` | Implemented |
 | Bounded auto-retry state fields | `L1_State.json` and `宸查獙璇佽剼鏈?update-l1-loop-state.ps1` | Implemented with hard-stop priority preserved |
 | ai占卜.ai evidence/publication sub-loop | `../Projects/ai占卜.ai/当前状态/AI_Divination_Evidence_Publication_Sub_Loop_Design_2026-06-20.md` | Documented |
+| ai占卜.ai Detect + Prepare script | `宸查獙璇佽剼鏈?ai-divination-evidence-publication-sub-loop.ps1` | Verified; latest result remains blocked for Human action |
 
 ## Audit Boundaries
 

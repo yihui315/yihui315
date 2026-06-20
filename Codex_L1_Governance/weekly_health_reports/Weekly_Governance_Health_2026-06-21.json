@@ -1,0 +1,47 @@
+﻿{
+    "status":  "pass",
+    "score":  100,
+    "generated_at":  "2026-06-21T06:28:02",
+    "governance_root":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance",
+    "output_path":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\weekly_health_reports\\Weekly_Governance_Health_2026-06-21.md",
+    "round_closeout":  {
+                           "exit_code":  0,
+                           "status":  "pass"
+                       },
+    "artifact_hygiene":  {
+                             "exit_code":  0,
+                             "status":  "pass",
+                             "candidate_items":  0,
+                             "sensitive_shaped_path_hits":  0
+                         },
+    "secret_scan":  {
+                        "scanned_files":  136,
+                        "env_like_files":  0,
+                        "secret_shape_hits":  0,
+                        "hit_locations":  [
+
+                                          ]
+                    },
+    "loop_state":  {
+                       "present":  true,
+                       "path":  "C:\\Users\\Administrator\\Documents\\codex进化助手\\Codex_L1_Governance\\L1_State.json",
+                       "should_stop":  false,
+                       "stop_reason":  "",
+                       "iteration_count":  3,
+                       "current_score":  80,
+                       "current_execution_go":  false,
+                       "current_failure_category":  "context",
+                       "repeated_failure_count":  1
+                   },
+    "notification":  {
+                         "status":  "skipped_by_notify_mode",
+                         "webhook_host":  "",
+                         "dry_run":  true,
+                         "provider":  "generic",
+                         "enabled":  false
+                     },
+    "issues":  [
+
+               ],
+    "compliance_note":  "L1 governance-only. No gate decision changed."
+}

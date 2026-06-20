@@ -66,7 +66,7 @@ flowchart TD
 | `scripts/weekly-governance-health-check.ps1` | Orchestrates closeout, artifact hygiene, and secret-shape checks |
 | `scripts/generate-weekly-feedback-report.ps1` | Converts weekly health JSON into Markdown and JSON feedback reports |
 | `scripts/reflect-l1-governance-loop.ps1` | Converts health, feedback, and state into root-cause reflection reports |
-| `scripts/update-l1-loop-state.ps1` | Applies stopping conditions, preserves extended state, and allows bounded retry for recoverable failures |
+| `scripts/update-l1-loop-state.ps1` | Applies stopping conditions, preserves extended state, allows bounded retry, and appends bounded `loop_history` records |
 | `scripts/reflect-and-improve.ps1` | Generates advisory Codex improvement suggestions from latest health, feedback, reflection, and state |
 | `scripts/generate-l1-observability-dashboard.ps1` | Generates the read-only L1 observability dashboard |
 | `L1_State.json` | Tracks iterations, score, execution_go trend, estimated cost, repeated failure category, and stop reason |
@@ -101,6 +101,7 @@ These actions may run automatically:
 - update `L1_State.json` with stopping-condition fields
 - generate Codex improvement suggestion reports
 - generate observability dashboards
+- append bounded loop-history records for every state update
 - commit generated reports from the scheduled workflow
 - run read-only and dry-run validators
 - record advisory recommendations

@@ -207,6 +207,9 @@ $repeatedFailureCount = if (-not [string]::IsNullOrWhiteSpace($lastFailureCatego
 } else {
   1
 }
+if ($hasProgress) {
+  $repeatedFailureCount = 1
+}
 
 $recoverable = Convert-ToBool $reflection.recoverable
 $suggestedAutoAction = if ($reflection.suggested_auto_action -ne $null) { [string]$reflection.suggested_auto_action } else { "" }
@@ -284,6 +287,32 @@ foreach ($property in $state.PSObject.Properties) {
     $newState[$property.Name] = $property.Value
   }
 }
+
+$existingLoopHistory = @(if ($state.loop_history) { @($state.loop_history) } else { @() })
+$historyEntry = [PSCustomObject]@{
+  recorded_at = (Get-Date).ToString("s")
+  loop_label = "l1_loop_iteration_{0}" -f $iterationCount
+  iteration_count = $iterationCount
+  health_score = $currentScore
+  execution_go = $currentExecutionGo
+  should_stop = $shouldStop
+  stop_reason = $stopReason
+  soft_stop_reason = $softStopReason
+  failure_category = $currentFailureCategory
+  recoverable = $recoverable
+  repeated_failure_count = $repeatedFailureCount
+  repeated_failure_threshold = $effectiveRepeatedFailureThreshold
+  consecutive_no_progress = $consecutiveNoProgress
+  auto_retry_count = $autoRetryCount
+  max_auto_retries = $effectiveMaxAutoRetries
+  auto_recovery_status = $autoRecoveryStatus
+  health_report = $resolvedHealthPath
+  feedback_report = $resolvedFeedbackPath
+  reflection_report = $resolvedReflectionPath
+  compliance_note = "Loop history is observability metadata only. No gate state changed."
+}
+$newState["loop_history"] = @(@($existingLoopHistory) + @($historyEntry) | Select-Object -Last 20)
+$newState["loop_history_limit"] = 20
 
 $tempPath = $resolvedStatePath + ".tmp"
 $newState | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $tempPath -Encoding UTF8

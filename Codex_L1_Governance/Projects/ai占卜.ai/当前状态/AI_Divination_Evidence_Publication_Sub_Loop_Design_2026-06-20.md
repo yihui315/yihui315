@@ -212,6 +212,26 @@ Output:
 - Escalation request if needed
 ```
 
+## Implemented Detect + Prepare Script
+
+The initial repeatable implementation is:
+
+```powershell
+& .\Codex_L1_Governance\scripts\ai-divination-evidence-publication-sub-loop.ps1 `
+  -GovernanceRoot ".\Codex_L1_Governance" `
+  -Json
+```
+
+The script:
+
+- discovers the current sanitized Evidence Gate and Gate Decision files
+- detects missing Human Operator fields and unresolved EV rows
+- runs `human-evidence-intake-check.ps1` in read-only mode
+- generates a structured missing-item list and Human task checklist
+- writes Markdown and JSON reports under `当前状态/sub_loop_reports/`
+
+It does not update evidence rows or gate decisions.
+
 ## Main L1 Loop Integration
 
 - The main L1 loop may invoke this sub-loop when `ai_divination_tracking.status` is blocked but support templates exist.

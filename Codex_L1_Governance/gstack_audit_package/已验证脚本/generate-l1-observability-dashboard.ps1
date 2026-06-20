@@ -257,6 +257,24 @@ $adoptionRate = if ($allImprovementSuggestions.Count -gt 0 -and $acceptedSuggest
 }
 
 $loopHistory = if ($state -and $state.loop_history) { @($state.loop_history) } else { @() }
+$loopIterationTrend = New-Object System.Collections.Generic.List[object]
+foreach ($entry in @($loopHistory | Select-Object -Last $TrendLimit)) {
+  $reason = [string]$entry.stop_reason
+  if ([string]::IsNullOrWhiteSpace($reason)) { $reason = [string]$entry.soft_stop_reason }
+  if ([string]::IsNullOrWhiteSpace($reason)) { $reason = "none" }
+  $loopIterationTrend.Add([PSCustomObject]@{
+    recorded_at = $entry.recorded_at
+    iteration_count = $entry.iteration_count
+    health_score = $entry.health_score
+    execution_go = $entry.execution_go
+    failure_category = $entry.failure_category
+    recoverable = if ($entry.recoverable -ne $null) { [bool]$entry.recoverable } else { $false }
+    auto_retry_count = if ($entry.auto_retry_count -ne $null) { [int]$entry.auto_retry_count } else { 0 }
+    auto_recovery_status = if ($entry.auto_recovery_status -ne $null) { $entry.auto_recovery_status } else { "" }
+    stop_or_soft_reason = $reason
+    should_stop = $entry.should_stop
+  })
+}
 $averageIterationCount = if ($loopHistory.Count -gt 0) {
   [Math]::Round((($loopHistory | Measure-Object -Property iteration_count -Average).Average), 2)
 } elseif ($state -and $state.iteration_count -ne $null) {
@@ -323,6 +341,7 @@ $dashboard = [PSCustomObject]@{
   }
   trends = [PSCustomObject]@{
     health_score_trend = @($healthScoreTrend.ToArray())
+    loop_iteration_trend = @($loopIterationTrend.ToArray())
     feedback_suggestion_trend = @($feedbackSuggestionTrend.ToArray())
     improvement_suggestion_trend = @($improvementSuggestionTrend.ToArray())
     stop_reason_distribution = @($stopReasonDistribution)
@@ -374,9 +393,21 @@ Add-TableRow -Lines $lines -Cells @("evidence_present_yes", (Format-InlineCode $
 Add-TableRow -Lines $lines -Cells @("evidence_present_no", (Format-InlineCode $dashboard.evidence_intake.present_no))
 Add-TableRow -Lines $lines -Cells @("pilot_no_go", (Format-InlineCode $dashboard.pilot.no_go))
 Add-TableRow -Lines $lines -Cells @("pilot_execution_go_false", (Format-InlineCode $dashboard.pilot.execution_go_false))
+Add-TableRow -Lines $lines -Cells @("loop_trend_points", (Format-InlineCode $dashboard.trends.loop_iteration_trend.Count))
 
 $lines.Add("")
 $lines.Add("## Trend Analysis")
+$lines.Add("")
+$lines.Add("### Loop Iteration Trend")
+$lines.Add("")
+Add-TableRow -Lines $lines -Cells @("Recorded at", "Iteration", "Score", "Failure", "Recoverable", "Auto retry", "Recovery status", "Stop/soft reason", "Hard stop")
+Add-TableRow -Lines $lines -Cells @("---", "---", "---", "---", "---", "---", "---", "---", "---")
+foreach ($item in $dashboard.trends.loop_iteration_trend) {
+  Add-TableRow -Lines $lines -Cells @($item.recorded_at, (Format-InlineCode $item.iteration_count), (Format-InlineCode $item.health_score), (Format-InlineCode $item.failure_category), (Format-InlineCode $item.recoverable), (Format-InlineCode $item.auto_retry_count), (Format-InlineCode $item.auto_recovery_status), (Format-InlineCode $item.stop_or_soft_reason), (Format-InlineCode $item.should_stop))
+}
+if ($dashboard.trends.loop_iteration_trend.Count -eq 0) {
+  Add-TableRow -Lines $lines -Cells @("none", (Format-InlineCode ""), (Format-InlineCode ""), (Format-InlineCode ""), (Format-InlineCode ""), (Format-InlineCode ""), (Format-InlineCode ""), (Format-InlineCode ""), (Format-InlineCode ""))
+}
 $lines.Add("")
 $lines.Add("### Health Score Trend")
 $lines.Add("")
@@ -464,7 +495,8 @@ $result = [ordered]@{
   health_score = $dashboard.health.score
   should_stop = $dashboard.loop_state.should_stop
   pilot_no_go = $dashboard.pilot.no_go
-  trend_points = $dashboard.trends.health_score_trend.Count
+  trend_points = $dashboard.trends.loop_iteration_trend.Count
+  health_file_trend_points = $dashboard.trends.health_score_trend.Count
   compliance_note = "Read-only dashboard only. No gate state changed."
 }
 
